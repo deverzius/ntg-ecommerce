@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CommerceCore.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.IdentityServer.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : IdentityDbContext<ApplicationUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
     }
 }
