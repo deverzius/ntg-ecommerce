@@ -22,11 +22,12 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services
-            .AddDefaultIdentity<ApplicationUser>(options =>
+            .AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // options.SignIn.RequireConfirmedAccount = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddUserManager<UserManager<ApplicationUser>>()
             .AddDefaultTokenProviders()
             .AddDefaultUI();
 
