@@ -6,6 +6,7 @@ public static class WebApplicationExtensions
     {
         if (app.Environment.IsDevelopment())
         {
+            app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
         }
         else
@@ -20,12 +21,11 @@ public static class WebApplicationExtensions
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.MapControllers();
+        app.MapDefaultControllerRoute();
         app.MapRazorPages();
-
     }
 }
