@@ -18,4 +18,8 @@
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CommerceCore.Shared\CommerceCore.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
