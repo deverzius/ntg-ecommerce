@@ -3,102 +3,90 @@
 
 @{
     ViewData["Title"] = "Log in";
-    ViewData["CssFilePath"] = Url.Content("~/Login.cshtml.css");
 }
 
-<div class="form-wrapper rounded shadow border">
-    <div class="text-center my-3">
-        <img src="~/images/logo.svg" alt="logo" width="250" height="100" class="h-auto">
-    </div>
-
-    <section>
-        <form id="login-form" method="post">
-            <div class="d-grid gap-3 mt-4">
-                <div class="text-center">
-                    <span class="fw-bold mb-0 text-muted">Log in to continue</span>
-                </div>
-
-
-                <div class="alert alert-danger mb-0 pb-0" role="alert" asp-validation-summary="ModelOnly">
-                </div>
-                <div class="form-outline">
-                    <label class="form-label" asp-for="Input.Email">Email address</label>
-                    <input type="email" class="form-control py-2" placeholder="Enter your email"
-                        asp-for="Input.Email" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-
-                <div class="form-outline">
-                    <label class="form-label" asp-for="Input.Password">Password</label>
-                    <input type="password" class="form-control py-2" placeholder="Enter your password"
-                        asp-for="Input.Password" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" asp-for="Input.RememberMe" />
-                        <label class="form-check-label" asp-for="Input.RememberMe"> Remember me </label>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+<section>
+    <form id="login-form" method="post">
+        <div class="d-grid gap-3 mt-4">
+            <div class="text-center">
+                <span class="fw-bold mb-0 text-muted">Log in to continue</span>
             </div>
 
-            <div class="d-grid gap-3 mt-4">
-                <div class="text-center">
-                    <span class="fw-bold mb-0 text-muted">Or continue with:</span>
-                </div>
 
-                @* <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
-                    <span class="fw-bold text-dark">
-                        <i class="bi bi-google"></i> Continue with Google
-                    </span>
-                </a>
-                <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
-                    <span class="fw-bold text-dark">
-                        <i class="bi bi-facebook"></i> Continue with Facebook
-                    </span>
-                </a>
-
-                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
-                    method="post" class="form-horizontal">
-                    <div>
-                        <p>
-                            @foreach (var provider in Model.ExternalLogins!)
-                            {
-                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
-                                    title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                            }
-                        </p>
-                    </div>
-                </form> *@
+            <div class="alert alert-danger mb-0 pb-0" role="alert" asp-validation-summary="ModelOnly">
+            </div>
+            <div class="form-outline">
+                <label class="form-label" asp-for="Input.Email">Email address</label>
+                <input type="email" class="form-control py-2" placeholder="Enter your email"
+                    asp-for="Input.Email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
-            <div class="mt-4">
-                <div class="d-flex justify-content-center align-items-center">
-                    <span>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
-                    </span>
-                    <span>
-                        <i class="bi bi-dot fs-5"></i>
-                    </span>
-                    <span>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create an account</a>
-                    </span>
-                    @* <span>
-                        <i class="bi bi-dot fs-5"></i>
-                    </span>
-                    <span>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </span> *@
+            <div class="form-outline">
+                <label class="form-label" asp-for="Input.Password">Password</label>
+                <input type="password" class="form-control py-2" placeholder="Enter your password"
+                    asp-for="Input.Password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" asp-for="Input.RememberMe" />
+                    <label class="form-check-label" asp-for="Input.RememberMe"> Remember me </label>
                 </div>
             </div>
-        </form>
-    </section>
-</div>
 
+            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+        <div class="d-grid gap-3 mt-4">
+            <div class="text-center">
+                <span class="fw-bold mb-0 text-muted">Or continue with:</span>
+            </div>
+
+            @* <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
+                <span class="fw-bold text-dark">
+                    <i class="bi bi-google"></i> Continue with Google
+                </span>
+            </a>
+            <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
+                <span class="fw-bold text-dark">
+                    <i class="bi bi-facebook"></i> Continue with Facebook
+                </span>
+            </a>
+
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
+                method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
+                                title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                        }
+                    </p>
+                </div>
+            </form> *@
+        </div>
+
+        <div class="mt-4">
+            <div class="d-flex justify-content-center align-items-center">
+                <span>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
+                </span>
+                <span>
+                    <i class="bi bi-dot fs-5"></i>
+                </span>
+                <span>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create an account</a>
+                </span>
+                @* <span>
+                    <i class="bi bi-dot fs-5"></i>
+                </span>
+                <span>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                </span> *@
+            </div>
+        </div>
+    </form>
+</section>
