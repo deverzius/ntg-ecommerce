@@ -31,6 +31,11 @@ public static class WebApplicationBuilderExtensions
             .AddDefaultTokenProviders()
             .AddDefaultUI();
 
+        // builder.Services.ConfigureApplicationCookie(options =>
+        // {
+        //     options.LoginPath = "/authentication/login";
+        // });
+
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddRazorPages();
