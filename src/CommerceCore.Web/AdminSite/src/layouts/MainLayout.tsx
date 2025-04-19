@@ -9,7 +9,7 @@ export default function MainLayout() {
       <HeaderTabs />
       <Flex direction="row" flex={1}>
         <AppNavbar />
-        <Box flex={1} bg="gray.0">
+        <Box flex={1} bg="gray.0" p="md">
           <Outlet />
         </Box>
       </Flex>

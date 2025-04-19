@@ -1,4 +1,4 @@
-import { CustomersPage } from "@/pages/customers.page";
+import { CustomersPage } from "@/pages/customers";
 import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
