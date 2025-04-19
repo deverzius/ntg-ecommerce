@@ -1,4 +1,4 @@
-import { HomePage } from "@/pages/HomePage";
+import { CustomersPage } from "@/pages/customers.page";
 import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
@@ -8,6 +8,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  return <HomePage />;
+export default function Page() {
+  return <CustomersPage />;
 }
