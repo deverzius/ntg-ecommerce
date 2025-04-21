@@ -1,0 +1,64 @@
+@using System.Diagnostics
+@model CustomersSite.Models.SvgIconViewModel
+
+<svg width="@Model.Width" height="@Model.Height" stroke-width="@Model.StrokeWidth" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+    class="icon icon-tabler icons-tabler-outline icon-tabler-@Model.Name" stroke-linecap="round"
+    stroke-linejoin="round">
+    @switch (Model.Name)
+    {
+        case "heart":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            break;
+
+        case "user-circle":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+            <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+            <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+            break;
+
+        case "shopping-bag":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+                d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" />
+            <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
+            break;
+
+        case "chevron-down":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 9l6 6l6 -6" />
+            break;
+
+        case "chevron-right":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 6l6 6l-6 6" />
+            break;
+
+        case "chevron-left":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M15 6l-6 6l6 6" />
+            break;
+
+        case "brand-facebook":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+            break;
+
+        case "brand-google":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M20.945 11a9 9 0 1 1 -3.284 -5.997l-2.655 2.392a5.5 5.5 0 1 0 2.119 6.605h-4.125v-3h7.945z" />
+            break;
+
+        case "brand-instagram":
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
+            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+            <path d="M16.5 7.5v.01" />
+            break;
+
+        default:
+            break;
+    }
+</svg>
