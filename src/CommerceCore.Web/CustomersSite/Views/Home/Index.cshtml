@@ -1,8 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="flex flex-col py-4">
+    <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
+        <div class="col-span-12">
+            @await Html.PartialAsync("Partials/_CarouselSection")
+        </div>
+    </div>
 </div>
