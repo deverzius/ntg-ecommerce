@@ -13,3 +13,16 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
