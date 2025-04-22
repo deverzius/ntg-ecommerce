@@ -3,10 +3,6 @@
 }
 
 <div class="flex flex-col items-center py-4 gap-y-9">
-    <div class="px-3 w-6xl">
-        @await Html.PartialAsync("Partials/_CarouselSection")
-    </div>
-    <div class="px-3 w-6xl">
-        @await Html.PartialAsync("Partials/_BrandsSection")
-    </div>
+    @await Html.PartialAsync("Partials/_CarouselSection")
+    @await Html.PartialAsync("Partials/_BrandsSection")
 </div>
