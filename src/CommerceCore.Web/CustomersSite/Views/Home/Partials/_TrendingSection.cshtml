@@ -1,0 +1,14 @@
+<div class="px-3 w-6xl">
+    <div class="text-center overflow-hidden">
+        <h2 class="text-3xl font-semibold mb-4">Trending Now</h2>
+
+        <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-full mx-auto">
+            @for (var i = 0; i < 8; i++)
+            {
+                <div class="col-span-3">
+                    @await Component.InvokeAsync("ProductCard", new { })
+                </div>
+            }
+        </div>
+    </div>
+</div>
