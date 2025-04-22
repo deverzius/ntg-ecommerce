@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using CustomersSite.Models;
+using CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomersSite.Controllers

@@ -1,4 +1,4 @@
-namespace CustomersSite.Models;
+namespace CustomersSite.ViewModels;
 
 public class SvgIconViewModel
 {
