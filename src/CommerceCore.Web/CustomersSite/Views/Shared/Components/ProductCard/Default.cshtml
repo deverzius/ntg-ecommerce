@@ -1,10 +1,13 @@
 ﻿@model CustomersSite.Models.ProductCardViewModel
 
-<div class="hover:cursor-pointer border border-gray-200">
-    <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BA/1BA457/2CYSF0032/1BA457_2CYS_F0032_V_YO0_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
-        alt="product" class="w-full object-cover" />
+<a href="#" class="group">
+    <div class="relative w-full h-[300px] overflow-hidden align-middle">
+        <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BA/1BA457/2CYSF0032/1BA457_2CYS_F0032_V_YO0_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
+            alt="product"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+    </div>
 
-    <div class="my-4">
+    <div class="px-4 mt-2 mb-4">
         <div class="text-left mb-4">
             <h3 class="font-semibold text-gray-900">
                 Product ABC
@@ -23,4 +26,4 @@
             </div>
         </div>
     </div>
-</div>
+</a>
