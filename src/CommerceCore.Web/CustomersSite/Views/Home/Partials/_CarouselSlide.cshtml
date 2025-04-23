@@ -1,0 +1,23 @@
+@model CarouselSlideViewModel
+
+@{
+    var captionPositionClass = Model.CaptionPosition == "left" ? "left-0" : "right-0";
+    var textColorClass = Model.IsDarkText ? "text-white" : "text-black";
+}
+
+<div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+    <img src="@Model.ImgSrc" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+        alt="carousel-item" style="backdrop-filter: contrast(50%);" />
+
+    <div class="absolute z-10 -translate-y-1/2 top-1/2 px-20 max-w-sm space-y-4 @textColorClass @captionPositionClass">
+        <h2 class="text-lg font-semibold">@Model.Title</h2>
+        <div class="text-sm @textColorClass">
+            @Model.Content
+        </div>
+        <a href="@Model.CtaUrl"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-black rounded hover:bg-gray-800 transition">
+            Explore more
+            @await Component.InvokeAsync("SvgIcon", new { name = "chevron-right", size = 20 })
+        </a>
+    </div>
+</div>
