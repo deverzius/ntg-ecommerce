@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\CommerceCore.Domain.csproj" />
+    <ProjectReference Include="..\CommerceCore.Domain\CommerceCore.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
