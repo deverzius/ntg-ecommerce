@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomersSite.Controllers;
+namespace CommerceCore.Web.CustomersSite.Controllers;
 
 [Route("[controller]/[action]")]
 public class ProductsController(ILogger<ProductsController> logger) : Controller

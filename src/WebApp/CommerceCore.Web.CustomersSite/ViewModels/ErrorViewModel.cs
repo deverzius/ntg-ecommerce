@@ -1,4 +1,4 @@
-namespace CustomersSite.ViewModels
+namespace CommerceCore.Web.CustomersSite.ViewModels
 {
     public class ErrorViewModel
     {

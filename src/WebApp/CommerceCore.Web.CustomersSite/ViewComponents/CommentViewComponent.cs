@@ -1,7 +1,6 @@
-using CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomersSite.ViewComponents;
+namespace CommerceCore.Web.CustomersSite.ViewComponents;
 
 public class CommentViewComponent : ViewComponent
 {

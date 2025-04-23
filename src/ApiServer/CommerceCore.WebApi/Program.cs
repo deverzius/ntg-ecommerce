@@ -1,5 +1,4 @@
-
-namespace API
+namespace CommerceCore.WebApi
 {
     public class Program
     {

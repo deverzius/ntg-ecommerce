@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using CustomersSite.ViewModels;
+using CommerceCore.Web.CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomersSite.Controllers
+namespace CommerceCore.Web.CustomersSite.Controllers
 {
     public class HomeController : Controller
     {

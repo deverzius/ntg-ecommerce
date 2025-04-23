@@ -1,4 +1,4 @@
-namespace CustomersSite
+namespace CommerceCore.Web.CustomersSite
 {
     public class Program
     {
