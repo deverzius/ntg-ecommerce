@@ -1,6 +1,7 @@
 ﻿@model CustomersSite.ViewModels.ProductCardViewModel
 
-<a href="#" class="group">
+@* TODO use route-id from ViewModel *@
+<a asp-controller="Products" asp-action="Details" asp-route-id="abc" class="group">
     <div class="relative w-full h-[300px] overflow-hidden align-middle">
         <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BA/1BA457/2CYSF0032/1BA457_2CYS_F0032_V_YO0_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
             alt="product"
