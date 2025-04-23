@@ -1,0 +1,59 @@
+<div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
+    <div class="col-span-10 col-start-2">
+        <div class="border-b border-gray-300">
+            <h3 class="text-xl font-semibold mb-2">Product Ratings</h3>
+        </div>
+    </div>
+
+    <div class="col-span-10 col-start-2">
+        <div class="flex flex-col md:flex-row justify-between">
+            <div class="space-y-2">
+                <div class="flex items-center gap-2 text-3xl font-bold">
+                    <span>★ 4.9</span>
+                </div>
+                <p class="text-sm text-gray-500">(35 Evaluate)</p>
+                <p class="text-sm text-gray-600">69% of customers recommend this product</p>
+                <button
+                    class="border border-gray-700 text-sm py-2 px-6 font-medium hover:bg-gray-100 transition">Evaluate</button>
+            </div>
+
+            <div class="space-y-2 w-full max-w-md">
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-sm">5 ★</span>
+                    <div class="flex-1 h-2 bg-gray-200 rounded-full">
+                        <div class="h-full bg-gray-800 rounded-full"></div>
+                    </div>
+                    <span class="w-6 text-sm text-right">34</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-sm">4 ★</span>
+                    <div class="flex-1 h-2 bg-gray-200 rounded-full"></div>
+                    <span class="w-6 text-sm text-right">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-sm">3 ★</span>
+                    <div class="flex-1 h-2 bg-gray-200 rounded-full"></div>
+                    <span class="w-6 text-sm text-right">0</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-sm">2 ★</span>
+                    <div class="flex-1 h-2 bg-gray-200 rounded-full">
+                        <div class="h-full bg-gray-800 rounded-full" style="width: 3%;"></div>
+                    </div>
+                    <span class="w-6 text-sm text-right">1</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-sm">1 ★</span>
+                    <div class="flex-1 h-2 bg-gray-200 rounded-full"></div>
+                    <span class="w-6 text-sm text-right">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="col-span-10 col-start-2 border-t border-gray-300">
+
+    <div class="col-span-12">
+        @await Component.InvokeAsync("CommentList", new { })
+    </div>
+</h>
