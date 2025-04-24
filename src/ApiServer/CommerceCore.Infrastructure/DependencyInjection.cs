@@ -1,8 +1,8 @@
 using Ardalis.GuardClauses;
-using CommerceCore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using CommerceCore.Infrastructure.Data;
 
 namespace CommerceCore.Infrastructure;
 
@@ -18,7 +18,7 @@ public static class DependencyInjection
             connectionString,
             message: "Connection string is not found or is white space.");
 
-        services.AddDbContext<CommerceCoreDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
         return services;
     }
