@@ -1,3 +1,4 @@
+using CommerceCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommerceCore.WebApi;
@@ -19,6 +20,8 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddInfrastructureServices(builder.Configuration);
 
         var app = builder.Build();
 
