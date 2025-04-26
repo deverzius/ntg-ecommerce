@@ -90,38 +90,40 @@ public class Category
 public class Product
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Required]
     [StringLength(500)]
-    public string Description { get; set; }
+    public required string Description { get; set; }
 
     [Required]
-    public decimal Price { get; set; }
+    public required decimal Price { get; set; }
 
     [Required]
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
     [Required]
-    public DateTime UpdatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
 
-    public Guid BrandId { get; set; }
+    [Required]
+    public required Guid BrandId { get; set; }
 
 
     [ForeignKey("BrandId")]
     public virtual Brand Brand { get; set; }
 
-    public virtual ICollection<ProductImage> Images { get; set; }
+    public virtual ICollection<ProductImage> Images { get; set; } = [];
 
-    public virtual ICollection<ProductVariant> ProductVariants { get; set; }
+    public virtual ICollection<ProductVariant> Variants { get; set; } = [];
 
-    public virtual ICollection<Category> Categories { get; set; }
+    public virtual ICollection<Category> Categories { get; set; } = [];
 
-    public virtual ICollection<Review> Reviews { get; set; }
+    public virtual ICollection<Review> Reviews { get; set; } = [];
 }
 
 public class ProductImage
