@@ -18,7 +18,7 @@ public static class DependencyInjection
             connectionString,
             message: "Connection string is not found or is white space.");
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<DbContext, ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
         return services;
     }

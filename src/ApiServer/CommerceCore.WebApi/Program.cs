@@ -1,3 +1,4 @@
+using CommerceCore.Application;
 using CommerceCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.AddApplicationServices();
 
         var app = builder.Build();
 
