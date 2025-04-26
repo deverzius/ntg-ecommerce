@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CommerceCore.Domain.Entities;
 using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Dtos.ProductDto;
 
 namespace CommerceCore.WebApi.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class ProductsController(ISingleModelService<Product, Guid> productService) : ControllerBase
+    public class ProductsController(IProductService productService) : ControllerBase
     {
-        private readonly ISingleModelService<Product, Guid> _productService = productService;
+        private readonly IProductService _productService = productService;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts()
         {
             return Ok(await _productService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(Guid id)
+        public async Task<ActionResult<ProductResponseDto>> GetProduct(Guid id)
         {
             var product = await _productService.GetByIdAsync(id);
 
@@ -27,11 +27,11 @@ namespace CommerceCore.WebApi.Controllers.v1
                 return NotFound();
             }
 
-            return product;
+            return Ok(product);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(Guid id, Product product)
+        public async Task<IActionResult> PutProduct(Guid id, UpdateProductRequestDto product)
         {
             var updatedProduct = await _productService.UpdateAsync(id, product);
 
@@ -44,11 +44,16 @@ namespace CommerceCore.WebApi.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<ProductResponseDto>> PostProduct(CreateProductRequestDto productDto)
         {
-            var createdProduct = await _productService.CreateAsync(product);
+            var createdProductDto = await _productService.CreateAsync(productDto);
 
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, createdProduct);
+            if (createdProductDto == null)
+            {
+                return BadRequest();
+            }
+
+            return CreatedAtAction(nameof(GetProduct), new { id = createdProductDto.Id }, createdProductDto);
         }
 
         [HttpDelete("{id}")]
@@ -61,7 +66,7 @@ namespace CommerceCore.WebApi.Controllers.v1
                 return BadRequest();
             }
 
-            return NoContent();
+            return Ok();
         }
     }
 }

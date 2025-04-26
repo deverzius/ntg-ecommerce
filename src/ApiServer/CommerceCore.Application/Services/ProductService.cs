@@ -1,37 +1,40 @@
 using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Dtos.ProductDto;
 using CommerceCore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CommerceCore.Application.Services;
 
-public class ProductService(DbContext context, ILogger<ProductService> logger) : ISingleModelService<Product, Guid>
+public class ProductService(DbContext context, ILogger<ProductService> logger) : IProductService
 {
     private readonly DbContext _context = context;
     private readonly DbSet<Product> _productRepository = context.Set<Product>();
     private readonly ILogger<ProductService> _logger = logger;
 
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<IEnumerable<ProductResponseDto>> GetAllAsync()
     {
         try
         {
-            return await _productRepository.ToListAsync();
+            return await _productRepository.Select(x => new ProductResponseDto(x)).ToListAsync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform ${nameof(GetAllAsync)} method.");
+            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(GetAllAsync)} method.");
             return [];
         }
     }
 
-    public async Task<Product?> GetByIdAsync(Guid id)
+    public async Task<ProductResponseDto?> GetByIdAsync(Guid id)
     {
-        return await _productRepository.FindAsync(id);
+        return await _productRepository
+            .FirstOrDefaultAsync(x => x.Id == id)
+            .ContinueWith(x => x.Result == null ? null : new ProductResponseDto(x.Result));
     }
 
-    public async Task<Product?> CreateAsync(Product product)
+    public async Task<ProductResponseDto?> CreateAsync(CreateProductRequestDto productDto)
     {
-        _productRepository.Add(product);
+        var result = _productRepository.Add(productDto.ToModelInstance());
 
         try
         {
@@ -39,22 +42,23 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform ${nameof(CreateAsync)} method.");
+            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(CreateAsync)} method.");
             return null;
         }
 
-        return product;
+        return new ProductResponseDto(result.Entity);
     }
 
-    public async Task<Product?> UpdateAsync(Guid id, Product product)
+    public async Task<ProductResponseDto?> UpdateAsync(Guid id, UpdateProductRequestDto productDto)
     {
-        if (id != product.Id)
+        if (id != productDto.Id)
         {
-            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform ${nameof(UpdateAsync)} method due to Id mismatch.");
+            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform {nameof(UpdateAsync)} method due to Id mismatch.");
             return null;
         }
 
-        _productRepository.Update(product);
+        var product = productDto.ToModelInstance();
+        var result = _productRepository.Update(product);
 
         try
         {
@@ -62,11 +66,11 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform ${nameof(UpdateAsync)} method.");
+            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(UpdateAsync)} method.");
             return null;
         }
 
-        return product;
+        return new ProductResponseDto(result.Entity);
     }
 
     public async Task<bool> DeleteAsync(Guid id)
@@ -75,7 +79,7 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
 
         if (product == null)
         {
-            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform ${nameof(DeleteAsync)} method due to product not found.");
+            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform {nameof(DeleteAsync)} method due to product not found.");
             return false;
         }
 
@@ -87,7 +91,7 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform ${nameof(UpdateAsync)} method.");
+            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(UpdateAsync)} method.");
             return false;
         }
 
