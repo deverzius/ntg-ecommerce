@@ -7,30 +7,31 @@ namespace CommerceCore.Domain.Entities;
 public class Brand
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
+    [Required]
     [StringLength(500)]
-    public string Description { get; set; }
+    public required string Description { get; set; }
 
-
-    public virtual ICollection<Product> Products { get; set; }
+    public virtual ICollection<Product> Products { get; set; } = [];
 }
 
 public class ProductVariant
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    public Guid ProductId { get; set; }
+    public required Guid ProductId { get; set; }
 
-    public Guid ColorId { get; set; }
+    public required Guid ColorId { get; set; }
 
-    public Guid SizeId { get; set; }
-
+    public required Guid SizeId { get; set; }
 
     [ForeignKey("ProductId")]
     public virtual Product Product { get; set; }
@@ -45,38 +46,49 @@ public class ProductVariant
 public class ProductColor
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Required]
     [StringLength(10)]
-    public string HexCode { get; set; }
+    public required string HexCode { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public required string Description { get; set; }
 }
 
 public class ProductSize
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public required string Description { get; set; }
 }
 
 public class ProductImage
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [MaxLength(255)]
-    public string Url { get; set; }
+    public required string Url { get; set; }
 
-    public Guid ProductId { get; set; }
-
+    [Required]
+    public required Guid ProductId { get; set; }
 
     [ForeignKey("ProductId")]
     public virtual Product Product { get; set; }
@@ -85,27 +97,32 @@ public class ProductImage
 public class ShoppingCart
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    public Guid UserId { get; set; }
+    [Required]
+    public required Guid UserId { get; set; }
 
-    public virtual ICollection<ShoppingCartItem> Items { get; set; }
+    public virtual ICollection<ShoppingCartItem> Items { get; set; } = [];
 }
 
 public class ShoppingCartItem
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    public Guid ProductVariantId { get; set; }
+    [Required]
+    public required Guid ProductVariantId { get; set; }
 
-    public int Quantity { get; set; }
+    [Required]
+    public required int Quantity { get; set; }
 
-    public Guid ShoppingCartId { get; set; }
-
+    [Required]
+    public required Guid ShoppingCartId { get; set; }
 
     [ForeignKey("ShoppingCartId")]
-    public ShoppingCart ShoppingCart { get; set; }
+    public virtual ShoppingCart ShoppingCart { get; set; }
 
     [ForeignKey("ProductVariantId")]
     public virtual ProductVariant ProductVariant { get; set; }
@@ -114,35 +131,40 @@ public class ShoppingCartItem
 public class Order
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     public Guid? UserId { get; set; }
 
     [Required]
-    public decimal TotalPrice { get; set; }
+    public required decimal TotalPrice { get; set; }
 
-    public DateTime OrderDate { get; set; }
+    [Required]
+    public required DateTime OrderDate { get; set; }
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; }
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = [];
 }
 
 public class OrderItem
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    public Guid ProductVariantId { get; set; }
-
-    public int Quantity { get; set; }
+    [Required]
+    public required Guid ProductVariantId { get; set; }
 
     [Required]
-    public decimal Price { get; set; }
+    public required int Quantity { get; set; }
 
-    public Guid OrderId { get; set; }
+    [Required]
+    public required decimal Price { get; set; }
+
+    [Required]
+    public required Guid OrderId { get; set; }
 
     [ForeignKey("ProductVariantId")]
     public virtual ProductVariant ProductVariant { get; set; }
-
 
     [ForeignKey("OrderId")]
     public virtual Order Order { get; set; }
@@ -151,24 +173,26 @@ public class OrderItem
 public class Review
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
     [Range(1, 5)]
-    public int Rating { get; set; }
+    public required int Rating { get; set; }
 
     [Required]
     [StringLength(200)]
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
     [Required]
     [StringLength(500)]
-    public string Comment { get; set; }
+    public required string Comment { get; set; }
 
     [Required]
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
-    public Guid ProductId { get; set; }
+    [Required]
+    public required Guid ProductId { get; set; }
 
     public Guid? UserId { get; set; }
 
@@ -182,23 +206,24 @@ public class Review
     [EmailAddress]
     public string? Email { get; set; }
 
-
     [ForeignKey("ProductId")]
     public virtual Product Product { get; set; }
 
-    public virtual ICollection<ReviewImage> Images { get; set; }
+    public virtual ICollection<ReviewImage> Images { get; set; } = [];
 }
 
 public class ReviewImage
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
     [Required]
-    public string Url { get; set; }
+    [MaxLength(255)]
+    public required string Url { get; set; }
 
-    public Guid ReviewId { get; set; }
-
+    [Required]
+    public required Guid ReviewId { get; set; }
 
     [ForeignKey("ReviewId")]
     public virtual Review Review { get; set; }
