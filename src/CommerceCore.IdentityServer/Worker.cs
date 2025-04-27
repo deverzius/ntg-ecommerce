@@ -25,6 +25,8 @@ public class Worker : IHostedService
             // TODO: update seeding data
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
+                DisplayName = "ECommerce Client",
+                ConsentType = ConsentTypes.Implicit,
                 ClientId = "commerce",
                 ClientSecret = "secret",
                 RedirectUris =
