@@ -19,8 +19,7 @@ public class Category
 
     public Guid? ParentCategoryId { get; set; }
 
-
     [ForeignKey("ParentCategoryId")]
-    public virtual Category ParentCategory { get; set; }
+    public virtual Category? ParentCategory { get; set; }
     public virtual ICollection<Product> Products { get; set; } = [];
 }

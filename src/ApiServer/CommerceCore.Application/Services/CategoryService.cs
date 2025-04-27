@@ -57,6 +57,14 @@ public class CategoryService(DbContext context, ILogger<CategoryService> logger)
             return null;
         }
 
+        if (categoryDto.ParentCategoryId != null && id == categoryDto.ParentCategoryId)
+        {
+            _logger.LogWarning(
+                $"{nameof(CategoryService)} warning: Failed to perform {nameof(UpdateAsync)} method due to {nameof(categoryDto.Id)} == {nameof(categoryDto.ParentCategoryId)}."
+            );
+            return null;
+        }
+
         var category = categoryDto.ToModelInstance();
         var categoryEntry = _context.Entry(category);
         categoryEntry.State = EntityState.Modified;
