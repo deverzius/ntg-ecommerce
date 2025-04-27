@@ -58,7 +58,11 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
         }
 
         var product = productDto.ToModelInstance();
-        var result = _productRepository.Update(product);
+        var productEntry = _context.Entry(product);
+        productEntry.State = EntityState.Modified;
+
+        // Avoid modifying the CreatedDate property during update
+        productEntry.Property(x => x.CreatedDate).IsModified = false;
 
         try
         {
@@ -70,7 +74,7 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
             return null;
         }
 
-        return new ProductResponseDto(result.Entity);
+        return new ProductResponseDto(productEntry.Entity);
     }
 
     public async Task<bool> DeleteAsync(Guid id)

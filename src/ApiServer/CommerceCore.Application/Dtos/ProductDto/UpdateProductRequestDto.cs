@@ -9,8 +9,6 @@ public class UpdateProductRequestDto() : IRequestDto<Product>
     public required string Name { get; set; }
     public required string Description { get; set; }
     public required decimal Price { get; set; }
-    public required DateTime CreatedDate { get; set; }
-    public required DateTime UpdatedDate { get; set; }
     public required Guid BrandId { get; set; }
 
     public Product ToModelInstance()
@@ -21,8 +19,7 @@ public class UpdateProductRequestDto() : IRequestDto<Product>
             Name = Name,
             Description = Description,
             Price = Price,
-            CreatedDate = CreatedDate,
-            UpdatedDate = UpdatedDate,
+            UpdatedDate = DateTime.UtcNow,
             BrandId = BrandId,
         };
     }
