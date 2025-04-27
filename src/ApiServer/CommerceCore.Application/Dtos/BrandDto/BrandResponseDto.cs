@@ -1,0 +1,14 @@
+using CommerceCore.Domain.Entities;
+
+namespace CommerceCore.Application.Dtos.BrandDto;
+
+public class BrandResponseDto(Brand brand)
+{
+    private readonly Brand _brand = brand;
+
+    public Guid Id => _brand.Id;
+    public string Name => _brand.Name;
+    public string Description => _brand.Description;
+    public virtual ICollection<Product> Products => _brand.Products;
+}
+
