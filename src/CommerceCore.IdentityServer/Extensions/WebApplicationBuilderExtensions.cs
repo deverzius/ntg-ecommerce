@@ -51,8 +51,6 @@ public static class WebApplicationBuilderExtensions
             {
                 options.AllowAuthorizationCodeFlow();
 
-                // Register the signing and encryption credentials used to protect
-                // sensitive data like the state tokens produced by OpenIddict.
                 options.AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate();
 
@@ -61,13 +59,13 @@ public static class WebApplicationBuilderExtensions
                        .EnableRedirectionEndpointPassthrough();
 
                 options.UseSystemNetHttp();
+
                 options.SetRedirectionEndpointUris("connect/redirect");
             })
             .AddServer(options =>
             {
                 options.AllowAuthorizationCodeFlow();
 
-                // Enable endpoints.
                 options.SetAuthorizationEndpointUris("connect/authorize")
                        .SetEndSessionEndpointUris("connect/logout")
                        .SetTokenEndpointUris("connect/token")
@@ -75,7 +73,6 @@ public static class WebApplicationBuilderExtensions
 
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
 
-                // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate();
 
@@ -94,14 +91,11 @@ public static class WebApplicationBuilderExtensions
             })
             .AddValidation(options =>
             {
-                // Import the configuration from the local OpenIddict server instance.
                 options.UseLocalServer();
 
                 options.UseAspNetCore();
             });
 
-        // Register the worker responsible for seeding the database.
-        // Note: in a real world application, this step should be part of a setup script.
         builder.Services.AddHostedService<Worker>();
     }
 }
