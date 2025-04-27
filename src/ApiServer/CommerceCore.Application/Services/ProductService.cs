@@ -83,7 +83,7 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
 
         if (product == null)
         {
-            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform {nameof(DeleteAsync)} method due to product not found.");
+            _logger.LogWarning($"{nameof(ProductService)} warning: Failed to perform {nameof(DeleteAsync)} method due to {nameof(Product)} not found.");
             return false;
         }
 
@@ -95,7 +95,7 @@ public class ProductService(DbContext context, ILogger<ProductService> logger) :
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(UpdateAsync)} method.");
+            _logger.LogError(ex, $"{nameof(ProductService)} error: Failed to perform {nameof(DeleteAsync)} method.");
             return false;
         }
 

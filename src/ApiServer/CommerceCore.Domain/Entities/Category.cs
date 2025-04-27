@@ -21,6 +21,6 @@ public class Category
 
 
     [ForeignKey("ParentCategoryId")]
-    public virtual Category? ParentCategory { get; set; }
+    public virtual Category ParentCategory { get; set; }
     public virtual ICollection<Product> Products { get; set; } = [];
 }
