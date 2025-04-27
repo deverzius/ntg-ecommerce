@@ -66,27 +66,6 @@ public class ProductSize
     public string Name { get; set; }
 }
 
-public class Category
-{
-    [Key]
-    public Guid Id { get; set; }
-
-    [Required]
-    [StringLength(100)]
-    public string Name { get; set; }
-
-    [StringLength(500)]
-    public string Description { get; set; }
-
-    public Guid? ParentCategoryId { get; set; }
-
-
-    [ForeignKey("ParentCategoryId")]
-    public virtual Category ParentCategory { get; set; }
-
-    public virtual ICollection<Product> Products { get; set; }
-}
-
 public class ProductImage
 {
     [Key]
