@@ -31,9 +31,9 @@ public class ProductsController(IProductService productService) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProduct(Guid id, UpdateProductRequestDto product)
+    public async Task<IActionResult> PutProduct(Guid id, UpdateProductRequestDto productDto)
     {
-        var updatedProduct = await _productService.UpdateAsync(id, product);
+        var updatedProduct = await _productService.UpdateAsync(id, productDto);
 
         if (updatedProduct == null)
         {
