@@ -18,6 +18,7 @@ public class Product
     public required string Description { get; set; }
 
     [Required]
+    [Column(TypeName = "decimal(18,2)")]
     public required decimal Price { get; set; }
 
     [Required]
