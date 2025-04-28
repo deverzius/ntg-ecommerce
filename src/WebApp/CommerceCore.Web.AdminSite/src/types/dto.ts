@@ -1,10 +1,16 @@
 export type ProductDto = {
   id: string;
   name: string;
-  categoryId: string;
-  description?: string;
+  description: string;
   price: number;
-  images: string[];
   createdDate: string;
-  updatedDate?: string;
+  updatedDate: string;
+  brandId: string;
+
+  // TODO: update types
+  brand: any;
+  images: any[];
+  variants: any[];
+  categories: any[];
+  reviews: any[];
 };
