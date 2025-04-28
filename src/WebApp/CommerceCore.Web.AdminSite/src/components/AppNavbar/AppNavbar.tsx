@@ -1,8 +1,10 @@
-import { IconCategory, IconPackage, IconUsers } from "@tabler/icons-react";
 import { Text, Box, NavLink } from "@mantine/core";
 import classes from "./AppNavbar.module.css";
 import { FontWeight } from "@/types/enum";
 import { useLocation } from "react-router";
+import { IconUsers } from "@/shared/icons/IconUsers";
+import { IconPackage } from "@/shared/icons/IconPackage";
+import { IconCategory } from "@/shared/icons/IconCategory";
 
 const data = [
   { link: "/", label: "Customers", icon: IconUsers },
@@ -19,7 +21,7 @@ export function AppNavbar() {
       data-active={location.pathname === item.link || undefined}
       href={item.link}
       key={item.label}
-      leftSection={<item.icon className={classes.linkIcon} stroke={1.5} />}
+      leftSection={<item.icon className={classes.linkIcon} />}
       label={<Text fw={FontWeight.Medium}>{item.label}</Text>}
     />
   ));

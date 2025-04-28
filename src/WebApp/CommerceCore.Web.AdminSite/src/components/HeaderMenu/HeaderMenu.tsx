@@ -1,13 +1,5 @@
 import { useState } from "react";
 import {
-  IconChevronDown,
-  IconLogout,
-  IconSearch,
-  IconSettings,
-  IconSwitchHorizontal,
-  IconTrash,
-} from "@tabler/icons-react";
-import {
   Autocomplete,
   Avatar,
   Box,
@@ -19,8 +11,14 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import classes from "./HeaderTabs.module.css";
+import classes from "./HeaderMenu.module.css";
 import { AppLogo } from "../AppLogo/AppLogo";
+import { IconSearch } from "@/shared/icons/IconSearch";
+import { IconChevronDown } from "@/shared/icons/IconChevronDown";
+import { IconSettings } from "@/shared/icons/IconSettings";
+import { IconSwitchHorizontal } from "@/shared/icons/IconSwitchHorizontal";
+import { IconLogout } from "@/shared/icons/IconLogout";
+import { IconTrash } from "@/shared/icons/IconTrash";
 
 const user = {
   name: "Jane Spoonfighter",
@@ -29,7 +27,7 @@ const user = {
     "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-5.png",
 };
 
-export function HeaderTabs() {
+export function HeaderMenu() {
   const theme = useMantineTheme();
   const [opened, { toggle }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
@@ -43,7 +41,7 @@ export function HeaderTabs() {
           <Autocomplete
             placeholder="Search"
             w={400}
-            leftSection={<IconSearch size={16} stroke={1.5} />}
+            leftSection={<IconSearch size={16} />}
             data={[
               "React",
               "Angular",
@@ -79,32 +77,25 @@ export function HeaderTabs() {
                 <Text fw={500} size="sm" lh={1} mr={3}>
                   {user.name}
                 </Text>
-                <IconChevronDown size={12} stroke={1.5} />
+                <IconChevronDown size={12} />
               </Group>
             </UnstyledButton>
           </Menu.Target>
 
           <Menu.Dropdown>
             <Menu.Label>Settings</Menu.Label>
-            <Menu.Item leftSection={<IconSettings size={16} stroke={1.5} />}>
+            <Menu.Item leftSection={<IconSettings size={16} />}>
               Account settings
             </Menu.Item>
-            <Menu.Item
-              leftSection={<IconSwitchHorizontal size={16} stroke={1.5} />}
-            >
+            <Menu.Item leftSection={<IconSwitchHorizontal size={16} />}>
               Change account
             </Menu.Item>
-            <Menu.Item leftSection={<IconLogout size={16} stroke={1.5} />}>
-              Logout
-            </Menu.Item>
+            <Menu.Item leftSection={<IconLogout size={16} />}>Logout</Menu.Item>
 
             <Menu.Divider />
 
             <Menu.Label>Danger zone</Menu.Label>
-            <Menu.Item
-              color="red"
-              leftSection={<IconTrash size={16} stroke={1.5} />}
-            >
+            <Menu.Item color="red" leftSection={<IconTrash size={16} />}>
               Delete account
             </Menu.Item>
           </Menu.Dropdown>
