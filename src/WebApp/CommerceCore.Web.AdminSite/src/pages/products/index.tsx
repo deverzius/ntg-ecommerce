@@ -1,5 +1,5 @@
 import { Box } from "@mantine/core";
-import { ProductsTable } from "./ProductsTable";
+import { ProductsTable } from "./components/ProductsTable";
 
 export function ProductsPage() {
   return (
