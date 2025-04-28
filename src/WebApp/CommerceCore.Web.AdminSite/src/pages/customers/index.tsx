@@ -1,7 +1,7 @@
-import { Box, Paper, Stack, Title } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { CustomersTable } from "./components/CustomersTable";
 
-export function CustomersPage() {
+export default function Page() {
   return (
     <Box>
       <CustomersTable />
