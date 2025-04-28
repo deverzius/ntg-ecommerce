@@ -49,7 +49,8 @@ public static class WebApplicationBuilderExtensions
             })
             .AddClient(options =>
             {
-                options.AllowAuthorizationCodeFlow();
+                options.AllowAuthorizationCodeFlow()
+                       .AllowRefreshTokenFlow();
 
                 options.AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate();
@@ -64,14 +65,18 @@ public static class WebApplicationBuilderExtensions
             })
             .AddServer(options =>
             {
-                options.AllowAuthorizationCodeFlow();
+                options.AllowAuthorizationCodeFlow()
+                       .AllowRefreshTokenFlow()
+                       .SetAccessTokenLifetime(TimeSpan.FromMinutes(30))
+                       .SetIdentityTokenLifetime(TimeSpan.FromMinutes(30))
+                       .SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
                 options.SetAuthorizationEndpointUris("connect/authorize")
                        .SetEndSessionEndpointUris("connect/logout")
                        .SetTokenEndpointUris("connect/token")
                        .SetUserInfoEndpointUris("connect/userinfo");
 
-                options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
+                options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, Scopes.OfflineAccess);
 
                 options.AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate();

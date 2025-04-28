@@ -43,11 +43,15 @@ public class Worker : IHostedService
                     Permissions.Endpoints.Authorization,
                     Permissions.Endpoints.EndSession,
                     Permissions.Endpoints.Token,
+
                     Permissions.GrantTypes.AuthorizationCode,
+                    Permissions.GrantTypes.RefreshToken,
+
                     Permissions.ResponseTypes.Code,
+
                     Permissions.Scopes.Email,
                     Permissions.Scopes.Profile,
-                    Permissions.Scopes.Roles
+                    Permissions.Scopes.Roles,
                 }
             });
         }
