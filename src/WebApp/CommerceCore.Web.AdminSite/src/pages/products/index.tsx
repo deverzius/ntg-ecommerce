@@ -1,7 +1,7 @@
 import { Box } from "@mantine/core";
 import { ProductsTable } from "./components/ProductsTable";
 
-export function ProductsPage() {
+export default function Page() {
   return (
     <Box>
       <ProductsTable />
