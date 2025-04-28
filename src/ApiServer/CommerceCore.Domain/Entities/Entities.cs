@@ -120,6 +120,7 @@ public class Order
     public Guid? UserId { get; set; }
 
     [Required]
+    [Column(TypeName = "decimal(18,4)")]
     public required decimal TotalPrice { get; set; }
 
     [Required]
@@ -141,6 +142,7 @@ public class OrderItem
     public required int Quantity { get; set; }
 
     [Required]
+    [Column(TypeName = "decimal(18,2)")]
     public required decimal Price { get; set; }
 
     [Required]
