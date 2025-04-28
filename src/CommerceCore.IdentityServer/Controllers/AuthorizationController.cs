@@ -122,7 +122,6 @@ public class AuthorizationController : Controller
 
         var userId = result?.Principal?.GetClaim(Claims.Subject);
 
-
         if (userId is null)
         {
             return Forbid(
