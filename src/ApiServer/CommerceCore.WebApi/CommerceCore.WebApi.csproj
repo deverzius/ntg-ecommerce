@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CommerceCore.SharedViewModels\CommerceCore.SharedViewModels.csproj" />
     <ProjectReference Include="..\CommerceCore.Application\CommerceCore.Application.csproj" />
     <ProjectReference Include="..\CommerceCore.Infrastructure\CommerceCore.Infrastructure.csproj" />
   </ItemGroup>
