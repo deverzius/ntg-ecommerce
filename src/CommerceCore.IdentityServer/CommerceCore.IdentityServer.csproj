@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommerceCore.Shared\CommerceCore.Shared.csproj" />
+    <ProjectReference Include="..\CommerceCore.SharedViewModels\CommerceCore.SharedViewModels.csproj" />
   </ItemGroup>
 
 </Project>

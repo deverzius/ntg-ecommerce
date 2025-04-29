@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CommerceCore.Shared.ViewModels;
+namespace CommerceCore.SharedViewModels;
 
 public class LoginViewModel
 {
