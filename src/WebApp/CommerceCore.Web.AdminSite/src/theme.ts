@@ -4,7 +4,7 @@ import { FontWeight } from "./types/enum";
 export const theme = createTheme({
   fontSizes: {
     xs: rem(10),
-    sm: rem(12),
+    sm: rem(13),
     md: rem(14),
     lg: rem(16),
     xl: rem(20),
@@ -43,6 +43,51 @@ export const theme = createTheme({
     Title: {
       defaultProps: {
         size: "h3",
+      },
+    },
+    Modal: {
+      defaultProps: {
+        overlayProps: {
+          backgroundOpacity: 0.3,
+        },
+        closeOnClickOutside: false,
+        withCloseButton: false,
+      },
+      styles: (theme: MantineTheme) => ({
+        content: {
+          borderRadius: theme.radius.sm,
+        },
+        title: {
+          fontSize: theme.fontSizes.xl,
+          fontWeight: FontWeight.Bold,
+        },
+      }),
+    },
+    TextInput: {
+      defaultProps: {
+        size: "md",
+        mb: "sm",
+        labelProps: {
+          mb: 4,
+        },
+      },
+    },
+    NumberInput: {
+      defaultProps: {
+        size: "md",
+        mb: "sm",
+        labelProps: {
+          mb: 4,
+        },
+      },
+    },
+    Select: {
+      defaultProps: {
+        size: "md",
+        mb: "sm",
+        labelProps: {
+          mb: 4,
+        },
       },
     },
   },
