@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Web.CustomersS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.SharedViewModels", "src\CommerceCore.SharedViewModels\CommerceCore.SharedViewModels.csproj", "{3814A089-D17B-CDED-A3F2-889B3BC87F4F}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CommerceCore.Web.AdminSite", "src\WebApp\CommerceCore.Web.AdminSite\CommerceCore.Web.AdminSite.esproj", "{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,12 @@ Global
 		{3814A089-D17B-CDED-A3F2-889B3BC87F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3814A089-D17B-CDED-A3F2-889B3BC87F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3814A089-D17B-CDED-A3F2-889B3BC87F4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +72,7 @@ Global
 		{E9642F35-F21F-51CE-569A-EED1854AFD8D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{0602FAA7-6D5F-9876-20F9-32F502C70791} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8797FE7A-FFA6-4DE5-F20F-5149DD9CEC85} = {D889AC62-EE7C-43E0-8585-9260B2F11AF4}
+		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9} = {D889AC62-EE7C-43E0-8585-9260B2F11AF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC4CBECC-571E-4B1B-ADD3-B38252E54449}
