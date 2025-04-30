@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.2191419">
+    <PropertyGroup>
+        <StartupCommand>pnpm run dev</StartupCommand>
+        <BuildCommand>pnpm run build</BuildCommand>
+        <JavaScriptTestRoot>src\</JavaScriptTestRoot>
+        <JavaScriptTestFramework>Vitest</JavaScriptTestFramework>
+        <ShouldRunBuildScript>true</ShouldRunBuildScript>
+        <ShouldRunNpmInstall>false</ShouldRunNpmInstall>
+        <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
+    </PropertyGroup>
+
+    <Target Name="Install" BeforeTargets="BeforeRestore">
+        <Exec Command="pnpm install" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    </Target>
+</Project>
