@@ -1,4 +1,4 @@
-import type { SvgProps } from "@/types/svgProps";
+import type { SvgProps } from "@/types/SvgProps";
 
 export function SvgIconWrapper({
   children,
