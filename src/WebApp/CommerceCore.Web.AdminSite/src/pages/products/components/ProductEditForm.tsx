@@ -1,11 +1,4 @@
-import {
-  Button,
-  TextInput,
-  Group,
-  Select,
-  NumberInput,
-  Alert,
-} from "@mantine/core";
+import { Button, TextInput, Group, Select, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { productLabels } from "@/constants/product";
 import { formatDate } from "@/utils/formatDate";
@@ -16,7 +9,6 @@ import type { BrandResponseDto } from "@/types/dtos/brand/response";
 import { useUpdateProductMutation } from "@/hooks/product/useUpdateProductMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/utils/getQueryKey";
-import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 
 interface ProductEditFormProps {
@@ -52,22 +44,28 @@ export function ProductEditForm({
     mutateAsync({
       id: product.id,
       productDto: data,
-    })
-      .then(() => {
-        queryClient.invalidateQueries({
-          queryKey: getQueryKey("getProducts"),
-        });
-        queryClient.invalidateQueries({
-          queryKey: getQueryKey("getProductById", { id: product.id }),
-        });
-      })
-      .then(() => {
+    }).then((result) => {
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey("getProducts"),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey("getProductById", { id: product.id }),
+      });
+
+      if (result) {
         notifications.show({
           color: "green",
           title: "Success",
           message: "Product updated successfully.",
         });
+        return;
+      }
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: "Failed to update product.",
       });
+    });
   }
 
   return (

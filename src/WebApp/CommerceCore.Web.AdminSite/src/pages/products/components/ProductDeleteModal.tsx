@@ -2,6 +2,7 @@ import { Button, Group, Modal, Text } from "@mantine/core";
 import { useDeleteProductMutation } from "@/hooks/product/useDeleteProductMutation";
 import { getQueryKey } from "@/utils/getQueryKey";
 import { useQueryClient } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
 interface ProductDeleteModalProps {
   productId: string;
@@ -18,8 +19,22 @@ export function ProductDeleteModal({
   const { mutateAsync, isPending } = useDeleteProductMutation();
 
   function handleDelete() {
-    mutateAsync({ id: productId }).then(() => {
-      queryClient.invalidateQueries({ queryKey: getQueryKey("getProducts") });
+    mutateAsync({ id: productId }).then((result) => {
+      if (result) {
+        notifications.show({
+          color: "green",
+          title: "Success",
+          message: "Product deleted successfully.",
+        });
+        queryClient.invalidateQueries({ queryKey: getQueryKey("getProducts") });
+        closeFn();
+        return;
+      }
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: "Failed to delete product.",
+      });
       closeFn();
     });
   }
@@ -31,7 +46,7 @@ export function ProductDeleteModal({
         <Button loading={isPending} flex={1} color="red" onClick={handleDelete}>
           Delete
         </Button>
-        <Button flex={1} variant="outline" onClick={closeFn}>
+        <Button flex={1} variant="outline" color="gray" onClick={closeFn}>
           Cancel
         </Button>
       </Group>

@@ -1,10 +1,10 @@
 import { Box } from "@mantine/core";
-import { ProductsTable } from "./components/ProductsTable";
+import { ProductTable } from "./components/ProductTable";
 
 export default function Page() {
   return (
     <Box>
-      <ProductsTable />
+      <ProductTable />
     </Box>
   );
 }

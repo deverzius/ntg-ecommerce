@@ -23,7 +23,7 @@ import { IconPlus } from "@/shared/icons/IconPlus";
 import { ProductCreateModal } from "./ProductCreateModal";
 import { ProductDeleteModal } from "./ProductDeleteModal";
 
-export function ProductsTable() {
+export function ProductTable() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data, refetch } = useGetProductsQuery(searchParams);
 
