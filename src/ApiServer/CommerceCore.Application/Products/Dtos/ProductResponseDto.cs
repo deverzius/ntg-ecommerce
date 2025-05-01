@@ -15,9 +15,11 @@ public class ProductResponseDto(Product product)
     public Guid BrandId => _product.BrandId;
     public DateTime CreatedDate => _product.CreatedDate;
     public DateTime UpdatedDate => _product.UpdatedDate;
-    public virtual BrandResponseDto Brand => new(_product.Brand);
-    public virtual ICollection<ProductImage> Images => _product.Images;
-    public virtual ICollection<ProductVariant> Variants => _product.Variants;
-    public virtual ICollection<Category> Categories => _product.Categories;
-    public virtual ICollection<Review> Reviews => _product.Reviews;
+
+    // When firstly created, _product.Brand is null
+    public BrandResponseDto? Brand => _product.Brand == null ? null : new(_product.Brand);
+    public ICollection<ProductImage> Images => _product.Images;
+    public ICollection<ProductVariant> Variants => _product.Variants;
+    public ICollection<Category> Categories => _product.Categories;
+    public ICollection<Review> Reviews => _product.Reviews;
 }
