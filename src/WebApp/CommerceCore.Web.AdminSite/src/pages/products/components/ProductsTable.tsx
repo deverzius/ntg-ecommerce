@@ -1,7 +1,6 @@
 import { useGetProductsQuery } from "@/hooks/product/useGetProductsQuery";
 import { IconEdit } from "@/shared/icons/IconEdit";
 import { IconTrash } from "@/shared/icons/IconTrash";
-import { FontWeight } from "@/types/enum";
 import {
   Text,
   Button,
@@ -13,7 +12,6 @@ import {
   Stack,
   Table,
   Title,
-  Box,
 } from "@mantine/core";
 import { ProductEditModal } from "./ProductEditModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -23,10 +21,12 @@ import { useSearchParams } from "react-router";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { IconPlus } from "@/shared/icons/IconPlus";
 import { ProductCreateModal } from "./ProductCreateModal";
+import { ProductDeleteModal } from "./ProductDeleteModal";
 
 export function ProductsTable() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data, refetch } = useGetProductsQuery(searchParams);
+
   const [selectedId, setSelectedId] = useState<string | undefined>();
   const [editModalOpened, { open: openEditModal, close: closeEditModal }] =
     useDisclosure(false);
@@ -34,10 +34,19 @@ export function ProductsTable() {
     createModalOpened,
     { open: openCreateModal, close: closeCreateModal },
   ] = useDisclosure(false);
+  const [
+    deleteModalOpened,
+    { open: openDeleteModal, close: closeDeleteModal },
+  ] = useDisclosure(false);
 
   function handleEdit(id: string) {
     setSelectedId(id);
     openEditModal();
+  }
+
+  function handleDelete(id: string) {
+    setSelectedId(id);
+    openDeleteModal();
   }
 
   function handlePaginate(page: number) {
@@ -62,6 +71,14 @@ export function ProductsTable() {
         />
       )}
 
+      {selectedId && (
+        <ProductDeleteModal
+          productId={selectedId}
+          opened={deleteModalOpened}
+          closeFn={closeDeleteModal}
+        />
+      )}
+
       <Stack>
         <Group justify="space-between">
           <Title>Products</Title>
@@ -79,14 +96,14 @@ export function ProductsTable() {
           <Table>
             <Table.Thead>
               <Table.Tr>
-                <Table.Td>{productLabels.id}</Table.Td>
-                <Table.Td>{productLabels.name}</Table.Td>
-                <Table.Td>{productLabels.description}</Table.Td>
-                <Table.Td>{productLabels.price}</Table.Td>
-                <Table.Td>{productLabels.createdDate}</Table.Td>
-                <Table.Td>{productLabels.updatedDate}</Table.Td>
-                <Table.Td>{productLabels.brand}</Table.Td>
-                <Table.Th fw={FontWeight.Medium}>Actions</Table.Th>
+                <Table.Th>{productLabels.id}</Table.Th>
+                <Table.Th>{productLabels.name}</Table.Th>
+                <Table.Th>{productLabels.description}</Table.Th>
+                <Table.Th>{productLabels.price}</Table.Th>
+                <Table.Th>{productLabels.createdDate}</Table.Th>
+                <Table.Th>{productLabels.updatedDate}</Table.Th>
+                <Table.Th>{productLabels.brand}</Table.Th>
+                <Table.Th>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
 
@@ -109,7 +126,12 @@ export function ProductsTable() {
                       >
                         <IconEdit size={20} />
                       </Button>
-                      <Button variant="outline" color="red.7" px="sm">
+                      <Button
+                        variant="outline"
+                        color="red.7"
+                        px="sm"
+                        onClick={() => handleDelete(product.id)}
+                      >
                         <IconTrash size={20} />
                       </Button>
                     </Flex>
