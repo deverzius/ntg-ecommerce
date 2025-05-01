@@ -7,7 +7,9 @@ export async function getBrands(): Promise<BrandResponseDto[]> {
     headers: {
       Accept: "application/json",
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then((res) => res.items);
 }
 
 export async function getBrandById(id: string): Promise<BrandResponseDto> {
