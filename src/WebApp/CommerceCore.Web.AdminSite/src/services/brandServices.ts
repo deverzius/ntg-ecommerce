@@ -1,7 +1,8 @@
 import { dotenv } from "@/constants/dotenv";
 import type { BrandResponseDto } from "@/types/dtos/brand/response";
+import type { PaginatedList } from "@/types/PaginatedList";
 
-export async function getBrands(): Promise<BrandResponseDto[]> {
+export async function getBrands(): Promise<PaginatedList<BrandResponseDto>> {
   return await fetch(`${dotenv.API_URL}/v1/brands`, {
     method: "GET",
     headers: {
@@ -9,7 +10,7 @@ export async function getBrands(): Promise<BrandResponseDto[]> {
     },
   })
     .then((res) => res.json())
-    .then((res) => res.items);
+    .then((res) => res);
 }
 
 export async function getBrandById(id: string): Promise<BrandResponseDto> {

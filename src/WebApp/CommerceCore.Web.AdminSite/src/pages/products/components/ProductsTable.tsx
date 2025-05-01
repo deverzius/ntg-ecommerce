@@ -15,15 +15,25 @@ import { ProductEditModal } from "./ProductEditModal";
 import { useDisclosure } from "@mantine/hooks";
 import { productLabels } from "@/constants/product";
 import { useState } from "react";
+import { useSearchParams } from "react-router";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 
 export function ProductsTable() {
-  const { data } = useGetProductsQuery();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { data, refetch } = useGetProductsQuery(searchParams);
   const [selectedId, setSelectedId] = useState<string | undefined>();
   const [opened, { open, close }] = useDisclosure(false);
 
   function handleEdit(id: string) {
     setSelectedId(id);
     open();
+  }
+
+  function handlePaginate(page: number) {
+    searchParams.set("PageNumber", page.toString());
+    searchParams.set("PageSize", DEFAULT_PAGE_SIZE.toString());
+    setSearchParams(searchParams);
+    refetch();
   }
 
   return (
@@ -49,13 +59,13 @@ export function ProductsTable() {
                 <Table.Td>{productLabels.price}</Table.Td>
                 <Table.Td>{productLabels.createdDate}</Table.Td>
                 <Table.Td>{productLabels.updatedDate}</Table.Td>
-                <Table.Td>{productLabels.brandId}</Table.Td>
+                <Table.Td>{productLabels.brand}</Table.Td>
                 <Table.Th fw={FontWeight.Medium}>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
 
             <Table.Tbody>
-              {data?.map((product) => (
+              {data?.items?.map((product) => (
                 <Table.Tr key={product.id}>
                   <Table.Td>{product.id}</Table.Td>
                   <Table.Td>{product.name}</Table.Td>
@@ -63,7 +73,7 @@ export function ProductsTable() {
                   <Table.Td>{product.price}</Table.Td>
                   <Table.Td>{product.createdDate}</Table.Td>
                   <Table.Td>{product.updatedDate}</Table.Td>
-                  <Table.Td>{product.brandId}</Table.Td>
+                  <Table.Td>{product.brand.name}</Table.Td>
                   <Table.Td>
                     <Flex gap="xs">
                       <Button
@@ -85,7 +95,13 @@ export function ProductsTable() {
         </Paper>
 
         <Flex justify="flex-end">
-          <Pagination total={10} withEdges />
+          {data?.totalPages && (
+            <Pagination
+              total={data?.totalPages}
+              withEdges
+              onChange={handlePaginate}
+            />
+          )}
         </Flex>
       </Stack>
     </Paper>

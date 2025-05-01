@@ -8,7 +8,7 @@ interface UseGetProductByIdQueryProps {
 
 export function useGetProductByIdQuery({ id }: UseGetProductByIdQueryProps) {
   return useQuery({
-    queryKey: getQueryKey(useGetProductByIdQuery.name, id),
+    queryKey: getQueryKey(useGetProductByIdQuery.name, { id }),
     queryFn: () => getProductById(id),
   });
 }

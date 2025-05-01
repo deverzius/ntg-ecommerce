@@ -23,7 +23,7 @@ export function ProductEditModal({
       {product.data ? (
         <ProductEditForm
           product={product.data}
-          brands={brands.data || []}
+          brands={brands.data?.items || []}
           closeFn={closeFn}
         />
       ) : (
