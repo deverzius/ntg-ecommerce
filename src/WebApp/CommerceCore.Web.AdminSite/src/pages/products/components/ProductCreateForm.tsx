@@ -1,32 +1,20 @@
-import {
-  Button,
-  TextInput,
-  Group,
-  Select,
-  NumberInput,
-  Alert,
-} from "@mantine/core";
+import { Button, TextInput, Group, Select, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { productLabels } from "@/constants/product";
-import { formatDate } from "@/utils/formatDate";
 import { mapSelectOptions } from "@/utils/mapSelectOptions";
-import type {
-  CreateProductRequestDto,
-  UpdateProductRequestDto,
-} from "@/types/dtos/product/request";
+import type { CreateProductRequestDto } from "@/types/dtos/product/request";
 import type { BrandResponseDto } from "@/types/dtos/brand/response";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/utils/getQueryKey";
-import { useDisclosure } from "@mantine/hooks";
 import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";
 import { notifications } from "@mantine/notifications";
 
-interface ProductEditFormProps {
+interface ProductCreateFormProps {
   brands: BrandResponseDto[];
   closeFn: () => void;
 }
 
-export function ProductCreateForm({ brands, closeFn }: ProductEditFormProps) {
+export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useCreateProductMutation();
 
