@@ -9,5 +9,4 @@ public class BrandResponseDto(Brand brand)
     public Guid Id => _brand.Id;
     public string Name => _brand.Name;
     public string Description => _brand.Description;
-    public virtual ICollection<Product> Products => _brand.Products;
 }

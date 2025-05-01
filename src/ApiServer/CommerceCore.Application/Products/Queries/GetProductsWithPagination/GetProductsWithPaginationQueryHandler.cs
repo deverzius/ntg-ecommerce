@@ -2,6 +2,7 @@ using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Application.Common.Models;
 using CommerceCore.Application.Products.Dtos;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Products.Queries.GetProductsWithPagination;
 
@@ -16,7 +17,8 @@ public class GetProductsWithPaginationQueryHandler(IApplicationDbContext context
     )
     {
         return await _context
-            .Products.Select(p => new ProductResponseDto(p))
+            .Products.Include(p => p.Brand)
+            .Select(p => new ProductResponseDto(p))
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }
