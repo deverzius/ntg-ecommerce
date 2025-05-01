@@ -1,5 +1,8 @@
 import { dotenv } from "@/constants/dotenv";
-import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
+import type {
+  CreateProductRequestDto,
+  UpdateProductRequestDto,
+} from "@/types/dtos/product/request";
 import type { ProductResponseDto } from "@/types/dtos/product/response";
 import type { PaginatedList } from "@/types/PaginatedList";
 
@@ -27,7 +30,18 @@ export async function getProductById(id: string): Promise<ProductResponseDto> {
   }).then((res) => res.json());
 }
 
-export function createProduct() {}
+export async function createProduct(
+  productDto: CreateProductRequestDto
+): Promise<ProductResponseDto> {
+  return await fetch(`${dotenv.API_URL}/v1/products`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(productDto),
+  }).then((res) => res.json());
+}
 
 export async function updateProduct(
   id: string,

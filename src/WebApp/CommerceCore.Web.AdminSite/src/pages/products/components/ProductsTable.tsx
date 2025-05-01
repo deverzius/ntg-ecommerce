@@ -5,6 +5,7 @@ import { FontWeight } from "@/types/enum";
 import {
   Button,
   Flex,
+  Group,
   Pagination,
   Paper,
   Stack,
@@ -17,16 +18,23 @@ import { productLabels } from "@/constants/product";
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
+import { IconPlus } from "@/shared/icons/IconPlus";
+import { ProductCreateModal } from "./ProductCreateModal";
 
 export function ProductsTable() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data, refetch } = useGetProductsQuery(searchParams);
   const [selectedId, setSelectedId] = useState<string | undefined>();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [editModalOpened, { open: openEditModal, close: closeEditModal }] =
+    useDisclosure(false);
+  const [
+    createModalOpened,
+    { open: openCreateModal, close: closeCreateModal },
+  ] = useDisclosure(false);
 
   function handleEdit(id: string) {
     setSelectedId(id);
-    open();
+    openEditModal();
   }
 
   function handlePaginate(page: number) {
@@ -38,16 +46,31 @@ export function ProductsTable() {
 
   return (
     <Paper withBorder radius="lg" p="lg">
+      <ProductCreateModal
+        opened={createModalOpened}
+        closeFn={closeCreateModal}
+      />
+
       {selectedId && (
         <ProductEditModal
           productId={selectedId}
-          opened={opened}
-          closeFn={close}
+          opened={editModalOpened}
+          closeFn={closeEditModal}
         />
       )}
 
       <Stack>
-        <Title>Products</Title>
+        <Group justify="space-between">
+          <Title>Products</Title>
+          <Button
+            variant="outline"
+            px="sm"
+            leftSection={<IconPlus />}
+            onClick={openCreateModal}
+          >
+            Add product
+          </Button>
+        </Group>
 
         <Paper withBorder radius="md">
           <Table>
@@ -73,7 +96,7 @@ export function ProductsTable() {
                   <Table.Td>{product.price}</Table.Td>
                   <Table.Td>{product.createdDate}</Table.Td>
                   <Table.Td>{product.updatedDate}</Table.Td>
-                  <Table.Td>{product.brand.name}</Table.Td>
+                  <Table.Td>{product.brand?.name}</Table.Td>
                   <Table.Td>
                     <Flex gap="xs">
                       <Button
