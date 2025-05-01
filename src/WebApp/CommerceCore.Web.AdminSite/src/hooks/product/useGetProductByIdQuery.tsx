@@ -1,5 +1,5 @@
 import { getQueryKey } from "@/utils/getQueryKey";
-import { getProductById } from "@/services/product-services";
+import { getProductById } from "@/services/productServices";
 import { useQuery } from "@tanstack/react-query";
 
 interface UseGetProductByIdQueryProps {
