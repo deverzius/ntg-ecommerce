@@ -32,7 +32,7 @@ export function ProductsTable() {
         <ProductEditModal
           productId={selectedId}
           opened={opened}
-          close={close}
+          closeFn={close}
         />
       )}
 
