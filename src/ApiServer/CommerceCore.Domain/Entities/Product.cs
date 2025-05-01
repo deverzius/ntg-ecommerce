@@ -11,6 +11,7 @@ public class Product
 
     [Required]
     [StringLength(100)]
+    [MinLength(10)]
     public required string Name { get; set; }
 
     [Required]
@@ -19,6 +20,7 @@ public class Product
 
     [Required]
     [Column(TypeName = "decimal(18,2)")]
+    [Range(double.MinValue, double.MaxValue)]
     public required decimal Price { get; set; }
 
     [Required]

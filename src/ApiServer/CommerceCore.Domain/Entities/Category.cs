@@ -11,6 +11,7 @@ public class Category
 
     [Required]
     [StringLength(100)]
+    [MinLength(10)]
     public required string Name { get; set; }
 
     [Required]
