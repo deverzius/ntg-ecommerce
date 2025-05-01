@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : DbContext(options),
+        IApplicationDbContext
 {
     public DbSet<Brand> Brands { get; set; }
     public DbSet<ProductVariant> ProductVariants { get; set; }
