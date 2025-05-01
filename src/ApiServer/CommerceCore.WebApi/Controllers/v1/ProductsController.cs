@@ -1,72 +1,80 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Dtos.ProductDto;
+﻿using CommerceCore.Application.Common.Models;
+using CommerceCore.Application.Products.Commands.CreateProduct;
+using CommerceCore.Application.Products.Commands.DeleteProduct;
+using CommerceCore.Application.Products.Commands.UpdateProduct;
+using CommerceCore.Application.Products.Dtos;
+using CommerceCore.Application.Products.Queries.GetProduct;
+using CommerceCore.Application.Products.Queries.GetProductsWithPagination;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CommerceCore.WebApi.Controllers.v1;
 
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class ProductsController(IProductService productService) : ControllerBase
+public class ProductsController() : ControllerBase
 {
-    private readonly IProductService _productService = productService;
-
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts()
+    [ProducesResponseType(typeof(Ok<PaginatedList<ProductResponseDto>>), StatusCodes.Status200OK)]
+    public async Task<Ok<PaginatedList<ProductResponseDto>>> GetProductsWithPagination(
+        ISender sender,
+        [FromQuery] GetProductsWithPaginationQuery query
+    )
     {
-        return Ok(await _productService.GetAllAsync());
+        var result = await sender.Send(query);
+
+        return TypedResults.Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductResponseDto>> GetProduct(Guid id)
+    [ProducesResponseType(typeof(Ok<ProductResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<Ok<ProductResponseDto>, NotFound>> GetProduct(ISender sender, Guid id)
     {
-        var product = await _productService.GetByIdAsync(id);
+        var result = await sender.Send(new GetProductQuery(id));
 
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(product);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutProduct(Guid id, UpdateProductRequestDto productDto)
-    {
-        var updatedProduct = await _productService.UpdateAsync(id, productDto);
-
-        if (updatedProduct == null)
-        {
-            return BadRequest();
-        }
-
-        return Ok(updatedProduct);
+        return result == null ? TypedResults.NotFound() : TypedResults.Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProductResponseDto>> PostProduct(CreateProductRequestDto productDto)
+    [ProducesResponseType(typeof(Created<ProductResponseDto>), StatusCodes.Status201Created)]
+    public async Task<Created<ProductResponseDto>> PostProduct(
+        ISender sender,
+        CreateProductCommand command
+    )
     {
-        var createdProductDto = await _productService.CreateAsync(productDto);
+        var result = await sender.Send(command);
 
-        if (createdProductDto == null)
-        {
-            return BadRequest();
-        }
+        return TypedResults.Created(nameof(GetProduct), result);
+    }
 
-        return CreatedAtAction(nameof(GetProduct), new { id = createdProductDto.Id }, createdProductDto);
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<NoContent, BadRequest, NotFound>> PutProduct(
+        ISender sender,
+        Guid id,
+        UpdateProductCommand command
+    )
+    {
+        if (id != command.Id)
+            return TypedResults.BadRequest();
+
+        var result = await sender.Send(command);
+
+        return result ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<NoContent, NotFound>> DeleteProduct(ISender sender, Guid id)
     {
-        var isDeleted = await _productService.DeleteAsync(id);
+        var result = await sender.Send(new DeleteProductCommand(id));
 
-        if (!isDeleted)
-        {
-            return BadRequest();
-        }
-
-        return Ok();
+        return result ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }
-
