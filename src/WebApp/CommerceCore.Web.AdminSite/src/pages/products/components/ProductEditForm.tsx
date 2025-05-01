@@ -16,9 +16,7 @@ import type { BrandResponseDto } from "@/types/dtos/brand/response";
 import { useUpdateProductMutation } from "@/hooks/product/useUpdateProductMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/utils/getQueryKey";
-import { useGetProductByIdQuery } from "@/hooks/product/useGetProductByIdQuery";
 import { useDisclosure } from "@mantine/hooks";
-import { useGetProductsQuery } from "@/hooks/product/useGetProductsQuery";
 
 interface ProductEditFormProps {
   product: ProductResponseDto;
@@ -62,10 +60,10 @@ export function ProductEditForm({
     })
       .then(() => {
         queryClient.invalidateQueries({
-          queryKey: getQueryKey(useGetProductsQuery.name),
+          queryKey: getQueryKey("getProducts"),
         });
         queryClient.invalidateQueries({
-          queryKey: getQueryKey(useGetProductByIdQuery.name, product.id),
+          queryKey: getQueryKey("getProductById", { id: product.id }),
         });
       })
       .then(() => {
