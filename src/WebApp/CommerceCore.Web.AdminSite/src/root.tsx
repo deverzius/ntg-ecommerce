@@ -18,6 +18,8 @@ import type { Route } from "./+types/root";
 import { theme } from "./theme";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/queryClient";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -54,6 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <MantineProvider theme={theme}>
+      <Notifications />
       <QueryClientProvider client={queryClient}>
         <Outlet />
       </QueryClientProvider>
