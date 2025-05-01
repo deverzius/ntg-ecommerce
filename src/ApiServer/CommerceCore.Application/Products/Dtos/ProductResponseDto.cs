@@ -1,3 +1,4 @@
+using CommerceCore.Application.Brands.Dtos;
 using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Application.Products.Dtos;
@@ -14,7 +15,7 @@ public class ProductResponseDto(Product product)
     public Guid BrandId => _product.BrandId;
     public DateTime CreatedDate => _product.CreatedDate;
     public DateTime UpdatedDate => _product.UpdatedDate;
-    public virtual Brand Brand => _product.Brand;
+    public virtual BrandResponseDto Brand => new(_product.Brand);
     public virtual ICollection<ProductImage> Images => _product.Images;
     public virtual ICollection<ProductVariant> Variants => _product.Variants;
     public virtual ICollection<Category> Categories => _product.Categories;
