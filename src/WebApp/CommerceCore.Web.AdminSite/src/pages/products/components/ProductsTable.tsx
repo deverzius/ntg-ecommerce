@@ -3,7 +3,9 @@ import { IconEdit } from "@/shared/icons/IconEdit";
 import { IconTrash } from "@/shared/icons/IconTrash";
 import { FontWeight } from "@/types/enum";
 import {
+  Text,
   Button,
+  Center,
   Flex,
   Group,
   Pagination,
@@ -11,6 +13,7 @@ import {
   Stack,
   Table,
   Title,
+  Box,
 } from "@mantine/core";
 import { ProductEditModal } from "./ProductEditModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -115,6 +118,12 @@ export function ProductsTable() {
               ))}
             </Table.Tbody>
           </Table>
+
+          {!data?.items && (
+            <Center my="md">
+              <Text fz="md">No products found</Text>
+            </Center>
+          )}
         </Paper>
 
         <Flex justify="flex-end">
