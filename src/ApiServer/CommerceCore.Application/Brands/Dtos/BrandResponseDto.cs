@@ -1,6 +1,6 @@
 using CommerceCore.Domain.Entities;
 
-namespace CommerceCore.Application.Dtos.BrandDto;
+namespace CommerceCore.Application.Brands.Dtos;
 
 public class BrandResponseDto(Brand brand)
 {
@@ -11,4 +11,3 @@ public class BrandResponseDto(Brand brand)
     public string Description => _brand.Description;
     public virtual ICollection<Product> Products => _brand.Products;
 }
-
