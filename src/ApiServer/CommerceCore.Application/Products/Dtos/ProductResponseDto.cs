@@ -1,6 +1,6 @@
 using CommerceCore.Domain.Entities;
 
-namespace CommerceCore.Application.Dtos.ProductDto;
+namespace CommerceCore.Application.Products.Dtos;
 
 // Composition approach to create ProductResponseDto
 public class ProductResponseDto(Product product)

@@ -1,4 +1,4 @@
-using CommerceCore.Application.Dtos.ProductDto;
+using CommerceCore.Application.Products.Dtos;
 
 namespace CommerceCore.Application.Common.Interfaces;
 
