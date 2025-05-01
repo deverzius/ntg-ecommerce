@@ -1,9 +1,7 @@
 import { getQueryKey } from "@/utils/getQueryKey";
 import { getProductById } from "@/services/productServices";
-import { useQueries, type UseQueryResult } from "@tanstack/react-query";
-import { useGetProductByIdQuery } from "./useGetProductByIdQuery";
+import { useQueries } from "@tanstack/react-query";
 import { getBrands } from "@/services/brandServices";
-import { useGetBrandsQuery } from "../brand/useGetBrandsQuery";
 
 interface UseGetProductByIdQueryProps {
   id: string;
@@ -15,11 +13,11 @@ export function useGetProductForFormDataQuery({
   return useQueries({
     queries: [
       {
-        queryKey: getQueryKey(useGetProductByIdQuery.name, id),
+        queryKey: getQueryKey("getProductById", { id }),
         queryFn: () => getProductById(id),
       },
       {
-        queryKey: getQueryKey(useGetBrandsQuery.name),
+        queryKey: getQueryKey("getBrands"),
         queryFn: () => getBrands(),
       },
     ],

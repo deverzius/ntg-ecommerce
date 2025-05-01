@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useGetProductsQuery(urlParams?: URLSearchParams) {
   return useQuery({
-    queryKey: getQueryKey(useGetProductsQuery.name, urlParams),
+    queryKey: getQueryKey("getProducts", urlParams),
     queryFn: () => getProducts(urlParams),
   });
 }

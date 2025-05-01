@@ -4,7 +4,7 @@ import { getBrands } from "@/services/brandServices";
 
 export function useGetBrandsQuery() {
   return useQuery({
-    queryKey: getQueryKey(useGetBrandsQuery.name),
+    queryKey: getQueryKey("getBrands"),
     queryFn: getBrands,
   });
 }
