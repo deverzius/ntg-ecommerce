@@ -1,16 +1,21 @@
 import { dotenv } from "@/constants/dotenv";
 import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
 import type { ProductResponseDto } from "@/types/dtos/product/response";
+import type { PaginatedList } from "@/types/PaginatedList";
 
-export async function getProducts(): Promise<ProductResponseDto[]> {
-  return await fetch(`${dotenv.API_URL}/v1/products`, {
+export async function getProducts(
+  urlParams?: URLSearchParams
+): Promise<PaginatedList<ProductResponseDto>> {
+  const stringParams = urlParams ? urlParams.toString() : "";
+
+  return await fetch(`${dotenv.API_URL}/v1/products?${stringParams}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
     },
   })
     .then((res) => res.json())
-    .then((res) => res.items);
+    .then((res) => res);
 }
 
 export async function getProductById(id: string): Promise<ProductResponseDto> {

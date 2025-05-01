@@ -1,3 +1,5 @@
+import type { BrandResponseDto } from "../brand/response";
+
 export type ProductResponseDto = {
   id: string;
   name: string;
@@ -7,8 +9,9 @@ export type ProductResponseDto = {
   updatedDate: string;
   brandId: string;
 
+  brand: BrandResponseDto;
+
   // TODO: update types
-  brand: any;
   images: any[];
   variants: any[];
   categories: any[];

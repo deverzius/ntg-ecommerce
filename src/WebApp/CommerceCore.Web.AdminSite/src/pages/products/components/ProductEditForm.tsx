@@ -51,6 +51,7 @@ export function ProductEditForm({
     },
     validate: {
       name: (value) => (value.length > 0 ? null : "Name is required."),
+      price: (value) => (value > 0 ? null : "Price must be greater than 0."),
     },
   });
 

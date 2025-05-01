@@ -2,14 +2,14 @@ import { updateProduct } from "@/services/productServices";
 import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
 import { useMutation } from "@tanstack/react-query";
 
-type mutationFnType = {
+type MutationFn = {
   id: string;
   productDto: UpdateProductRequestDto;
 };
 
 export function useUpdateProductMutation() {
   return useMutation({
-    mutationFn: ({ id, productDto }: mutationFnType) =>
+    mutationFn: ({ id, productDto }: MutationFn) =>
       updateProduct(id, productDto),
   });
 }
