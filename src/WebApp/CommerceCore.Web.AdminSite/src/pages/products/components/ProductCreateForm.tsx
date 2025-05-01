@@ -10,74 +10,62 @@ import { useForm } from "@mantine/form";
 import { productLabels } from "@/constants/product";
 import { formatDate } from "@/utils/formatDate";
 import { mapSelectOptions } from "@/utils/mapSelectOptions";
-import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
-import type { ProductResponseDto } from "@/types/dtos/product/response";
+import type {
+  CreateProductRequestDto,
+  UpdateProductRequestDto,
+} from "@/types/dtos/product/request";
 import type { BrandResponseDto } from "@/types/dtos/brand/response";
-import { useUpdateProductMutation } from "@/hooks/product/useUpdateProductMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/utils/getQueryKey";
 import { useDisclosure } from "@mantine/hooks";
+import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";
 import { notifications } from "@mantine/notifications";
 
 interface ProductEditFormProps {
-  product: ProductResponseDto;
   brands: BrandResponseDto[];
   closeFn: () => void;
 }
 
-export function ProductEditForm({
-  product,
-  brands,
-  closeFn,
-}: ProductEditFormProps) {
+export function ProductCreateForm({ brands, closeFn }: ProductEditFormProps) {
   const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useUpdateProductMutation();
+  const { mutateAsync, isPending } = useCreateProductMutation();
 
-  const form = useForm<UpdateProductRequestDto>({
+  const form = useForm<CreateProductRequestDto>({
     mode: "uncontrolled",
     initialValues: {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-      brandId: product.brandId,
+      name: "",
+      price: 0,
+      description: "",
+      brandId: "",
     },
     validate: {
-      name: (value) => (value.length > 0 ? null : "Name is required."),
+      name: (value) => (value?.length > 0 ? null : "Name is required."),
       price: (value) => (value > 0 ? null : "Price must be greater than 0."),
+      brandId: (value) => (value ? null : "Brand is required."),
     },
   });
 
-  function handleSubmit(data: UpdateProductRequestDto) {
+  function handleSubmit(data: CreateProductRequestDto) {
     mutateAsync({
-      id: product.id,
       productDto: data,
     })
       .then(() => {
         queryClient.invalidateQueries({
           queryKey: getQueryKey("getProducts"),
         });
-        queryClient.invalidateQueries({
-          queryKey: getQueryKey("getProductById", { id: product.id }),
-        });
       })
       .then(() => {
         notifications.show({
           color: "green",
           title: "Success",
-          message: "Product updated successfully.",
+          message: "Product created successfully.",
         });
+        closeFn();
       });
   }
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <TextInput
-        label={productLabels.id}
-        value={form.getValues().id}
-        disabled
-      />
-
       <Group gap="xs" align="top">
         <TextInput
           label={productLabels.name}
@@ -97,30 +85,15 @@ export function ProductEditForm({
         {...form.getInputProps("description")}
       />
 
-      <Group gap="xs" align="top">
-        <TextInput
-          label={productLabels.createdDate}
-          value={formatDate(product.createdDate)}
-          disabled
-        />
-        <TextInput
-          label={productLabels.updatedDate}
-          value={formatDate(product.updatedDate)}
-          disabled
-        />
-      </Group>
-
-      {product.brandId && (
-        <Select
-          label={productLabels.brand}
-          data={mapSelectOptions(brands || [], "name", "id")}
-          key={form.key("brandId")}
-          {...form.getInputProps("brandId")}
-          onChange={(value) => {
-            value && form.setFieldValue("brandId", value);
-          }}
-        />
-      )}
+      <Select
+        label={productLabels.brand}
+        data={mapSelectOptions(brands || [], "name", "id")}
+        key={form.key("brandId")}
+        {...form.getInputProps("brandId")}
+        onChange={(value) => {
+          value && form.setFieldValue("brandId", value);
+        }}
+      />
 
       <Group mt={24} gap="xs">
         <Button loading={isPending} flex={1} type="submit">

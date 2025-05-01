@@ -9,7 +9,7 @@ export type ProductResponseDto = {
   updatedDate: string;
   brandId: string;
 
-  brand: BrandResponseDto;
+  brand?: BrandResponseDto;
 
   // TODO: update types
   images: any[];
