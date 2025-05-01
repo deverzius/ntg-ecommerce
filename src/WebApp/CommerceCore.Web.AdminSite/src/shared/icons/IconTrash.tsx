@@ -1,4 +1,4 @@
-import type { SvgProps } from "@/types/svg-props";
+import type { SvgProps } from "@/types/svgProps";
 import { SvgIconWrapper } from "./SvgIconWrapper";
 
 export function IconTrash(props: SvgProps) {
