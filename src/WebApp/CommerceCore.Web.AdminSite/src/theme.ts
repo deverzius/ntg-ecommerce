@@ -42,7 +42,7 @@ export const theme = createTheme({
     },
     Title: {
       defaultProps: {
-        size: "h3",
+        size: "h2",
       },
     },
     Modal: {
