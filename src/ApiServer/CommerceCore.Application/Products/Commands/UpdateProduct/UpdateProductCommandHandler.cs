@@ -22,6 +22,7 @@ public class UpdateProductCommandHandler(IApplicationDbContext context)
             Price = request.Price,
             UpdatedDate = DateTime.UtcNow,
             BrandId = request.BrandId,
+            CategoryId = request.CategoryId,
         };
         var productEntry = _context.Products.Entry(product);
         productEntry.State = EntityState.Modified;
