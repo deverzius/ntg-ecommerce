@@ -1,4 +1,4 @@
-import { getQueryKey } from "@/utils/getQueryKey";
+import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useQuery } from "@tanstack/react-query";
 import { getBrands } from "@/services/brandServices";
 
