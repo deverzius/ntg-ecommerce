@@ -1,11 +1,11 @@
 import { Button, TextInput, Group, Select, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { productLabels } from "@/constants/product";
-import { mapSelectOptions } from "@/utils/mapSelectOptions";
+import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
 import type { CreateProductRequestDto } from "@/types/dtos/product/request";
 import type { BrandResponseDto } from "@/types/dtos/brand/response";
 import { useQueryClient } from "@tanstack/react-query";
-import { getQueryKey } from "@/utils/getQueryKey";
+import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";
 import { notifications } from "@mantine/notifications";
 

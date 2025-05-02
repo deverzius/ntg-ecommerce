@@ -1,6 +1,6 @@
 import { Button, Group, Modal, Text } from "@mantine/core";
 import { useDeleteProductMutation } from "@/hooks/product/useDeleteProductMutation";
-import { getQueryKey } from "@/utils/getQueryKey";
+import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 

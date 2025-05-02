@@ -1,14 +1,14 @@
 import { Button, TextInput, Group, Select, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { productLabels } from "@/constants/product";
-import { formatDate } from "@/utils/formatDate";
-import { mapSelectOptions } from "@/utils/mapSelectOptions";
+import { formatDate } from "@/shared/utils/formatDate";
+import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
 import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
 import type { ProductResponseDto } from "@/types/dtos/product/response";
 import type { BrandResponseDto } from "@/types/dtos/brand/response";
 import { useUpdateProductMutation } from "@/hooks/product/useUpdateProductMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { getQueryKey } from "@/utils/getQueryKey";
+import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { notifications } from "@mantine/notifications";
 
 interface ProductEditFormProps {
