@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { default as Page } from "@/pages/categories";
 import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
@@ -9,5 +9,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Route() {
-  return <Box />;
+  return <Page />;
 }

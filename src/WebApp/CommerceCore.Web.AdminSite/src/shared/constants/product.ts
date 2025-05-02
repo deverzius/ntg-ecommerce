@@ -1,4 +1,14 @@
-export const productLabels: Record<string, string> = {
+type ProductLabelKey =
+  | "id"
+  | "name"
+  | "description"
+  | "price"
+  | "createdDate"
+  | "updatedDate"
+  | "brandId"
+  | "brand";
+
+export const productLabels: Record<ProductLabelKey, string> = {
   id: "Id",
   name: "Name",
   description: "Description",
