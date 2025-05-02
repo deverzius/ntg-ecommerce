@@ -35,7 +35,7 @@ export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
 
   function handleSubmit(data: CreateProductRequestDto) {
     mutateAsync({
-      productDto: data,
+      categoryDto: data,
     })
       .then(() => {
         queryClient.invalidateQueries({

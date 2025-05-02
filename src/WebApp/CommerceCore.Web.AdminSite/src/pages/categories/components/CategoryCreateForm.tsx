@@ -1,0 +1,92 @@
+import { Button, TextInput, Group, Select } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
+import { useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from "@/shared/utils/getQueryKey";
+import { notifications } from "@mantine/notifications";
+import type { CreateCategoryRequestDto } from "@/shared/types/dtos/category/request";
+import { useCreateCategoryMutation } from "@/hooks/category/useCreateCategoryMutation";
+import { categoryLabels } from "@/shared/constants/category";
+import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+
+interface CategoryCreateFormProps {
+  categories: CategoryResponseDto[];
+  closeFn: () => void;
+}
+
+export function CategoryCreateForm({
+  categories,
+  closeFn,
+}: CategoryCreateFormProps) {
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending } = useCreateCategoryMutation();
+
+  const form = useForm<CreateCategoryRequestDto>({
+    mode: "uncontrolled",
+    initialValues: {
+      name: "",
+      description: "",
+    },
+    validate: {
+      name: (value) =>
+        value.length >= 10 ? null : "Name must be at least 10 characters long.",
+    },
+  });
+
+  function handleSubmit(data: CreateCategoryRequestDto) {
+    mutateAsync({
+      categoryDto: data,
+    })
+      .then(() => {
+        queryClient.invalidateQueries({
+          queryKey: getQueryKey("getCategories"),
+        });
+      })
+      .then(() => {
+        notifications.show({
+          color: "green",
+          title: "Success",
+          message: "Category created successfully.",
+        });
+        closeFn();
+      });
+  }
+
+  return (
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+      <TextInput
+        label={categoryLabels.name}
+        key={form.key("name")}
+        {...form.getInputProps("name")}
+      />
+
+      <TextInput
+        label={categoryLabels.description}
+        key={form.key("description")}
+        {...form.getInputProps("description")}
+      />
+
+      {categories && (
+        <Select
+          label={categoryLabels.parentCategory}
+          clearable
+          data={mapSelectOptions(categories, "name", "id")}
+          key={form.key("parentCategoryId")}
+          {...form.getInputProps("parentCategoryId")}
+          onChange={(value) => {
+            value && form.setFieldValue("parentCategoryId", value);
+          }}
+        />
+      )}
+
+      <Group mt={24} gap="xs">
+        <Button loading={isPending} flex={1} type="submit">
+          Save
+        </Button>
+        <Button flex={1} variant="outline" onClick={closeFn}>
+          Cancel
+        </Button>
+      </Group>
+    </form>
+  );
+}

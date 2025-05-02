@@ -89,6 +89,7 @@ export const theme = createTheme({
         labelProps: {
           mb: 4,
         },
+        checkIconPosition: "right",
       },
     },
   },
