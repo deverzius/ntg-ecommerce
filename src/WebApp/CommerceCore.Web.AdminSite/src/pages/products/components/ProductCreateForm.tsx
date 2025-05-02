@@ -8,13 +8,19 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";
 import { notifications } from "@mantine/notifications";
+import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
 
 interface ProductCreateFormProps {
   brands: BrandResponseDto[];
+  categories: CategoryResponseDto[];
   closeFn: () => void;
 }
 
-export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
+export function ProductCreateForm({
+  brands,
+  categories,
+  closeFn,
+}: ProductCreateFormProps) {
   const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useCreateProductMutation();
 
@@ -25,11 +31,13 @@ export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
       price: 0,
       description: "",
       brandId: "",
+      categoryId: "",
     },
     validate: {
       name: (value) => (value.length > 0 ? null : "Name is required."),
       price: (value) => (value > 0 ? null : "Price must be greater than 0."),
       brandId: (value) => (value ? null : "Brand is required."),
+      categoryId: (value) => (value ? null : "Category is required."),
     },
   });
 
@@ -56,11 +64,13 @@ export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Group gap="xs" align="top">
         <TextInput
+          withAsterisk
           label={productLabels.name}
           key={form.key("name")}
           {...form.getInputProps("name")}
         />
         <NumberInput
+          withAsterisk
           label={productLabels.price}
           key={form.key("price")}
           {...form.getInputProps("price")}
@@ -74,12 +84,26 @@ export function ProductCreateForm({ brands, closeFn }: ProductCreateFormProps) {
       />
 
       <Select
+        withAsterisk
+        allowDeselect={false}
         label={productLabels.brand}
         data={mapSelectOptions(brands || [], "name", "id")}
         key={form.key("brandId")}
         {...form.getInputProps("brandId")}
         onChange={(value) => {
           value && form.setFieldValue("brandId", value);
+        }}
+      />
+
+      <Select
+        withAsterisk
+        allowDeselect={false}
+        label={productLabels.category}
+        data={mapSelectOptions(categories || [], "name", "id")}
+        key={form.key("categoryId")}
+        {...form.getInputProps("categoryId")}
+        onChange={(value) => {
+          value && form.setFieldValue("categoryId", value);
         }}
       />
 

@@ -6,3 +6,9 @@ export type BrandResponseDto = {
   description: string;
   products: ProductResponseDto[];
 };
+
+export type SimpleBrandResponseDto = {
+  id: string;
+  name: string;
+  description: string;
+};

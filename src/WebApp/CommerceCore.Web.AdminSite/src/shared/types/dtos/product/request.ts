@@ -3,6 +3,7 @@ export type CreateProductRequestDto = {
   description: string;
   price: number;
   brandId: string;
+  categoryId: string;
 };
 
 export type UpdateProductRequestDto = {
@@ -11,4 +12,5 @@ export type UpdateProductRequestDto = {
   description: string;
   price: number;
   brandId: string;
+  categoryId: string;
 };
