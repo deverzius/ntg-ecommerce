@@ -2,6 +2,7 @@ import { Modal, Center } from "@mantine/core";
 import { useGetProductForFormDataQuery } from "@/hooks/product/useGetProductForFormDataQuery";
 import { LoadingIndicator } from "@/shared/components/LoadingIndicator/LoadingIndicator";
 import { ProductEditForm } from "./ProductEditForm";
+import { useGetCategoriesQuery } from "@/hooks/category/useGetCategoriesQuery";
 
 interface ProductEditModalProps {
   productId: string;
@@ -17,12 +18,14 @@ export function ProductEditModal({
   const { product, brands } = useGetProductForFormDataQuery({
     id: productId,
   });
+  const { data: categories } = useGetCategoriesQuery();
 
   return (
     <Modal opened={opened} onClose={close} title="Edit Product">
       {product.data ? (
         <ProductEditForm
           product={product.data}
+          categories={categories?.items || []}
           brands={brands.data?.items || []}
           closeFn={closeFn}
         />

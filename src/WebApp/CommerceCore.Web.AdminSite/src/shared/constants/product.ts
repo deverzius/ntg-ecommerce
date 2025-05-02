@@ -6,7 +6,8 @@ type ProductLabelKey =
   | "createdDate"
   | "updatedDate"
   | "brandId"
-  | "brand";
+  | "brand"
+  | "category";
 
 export const productLabels: Record<ProductLabelKey, string> = {
   id: "Id",
@@ -17,4 +18,5 @@ export const productLabels: Record<ProductLabelKey, string> = {
   updatedDate: "Updated Date",
   brandId: "Brand Id",
   brand: "Brand",
+  category: "Category",
 };

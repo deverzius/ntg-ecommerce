@@ -1,4 +1,5 @@
-import type { BrandResponseDto } from "../brand/response";
+import type { SimpleBrandResponseDto } from "../brand/response";
+import type { SimpleCategoryResponseDto } from "../category/response";
 
 export type ProductResponseDto = {
   id: string;
@@ -8,12 +9,13 @@ export type ProductResponseDto = {
   createdDate: string;
   updatedDate: string;
   brandId: string;
+  categoryId: string;
 
-  brand?: BrandResponseDto;
+  brand?: SimpleBrandResponseDto;
+  category?: SimpleCategoryResponseDto;
 
   // TODO: update types
   images: any[];
   variants: any[];
-  categories: any[];
   reviews: any[];
 };

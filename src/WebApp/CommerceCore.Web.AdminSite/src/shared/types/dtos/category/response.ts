@@ -6,3 +6,10 @@ export type CategoryResponseDto = {
   parentCategory?: CategoryResponseDto;
   products: CategoryResponseDto[];
 };
+
+export type SimpleCategoryResponseDto = {
+  id: string;
+  name: string;
+  description: string;
+  parentCategoryId?: string;
+};

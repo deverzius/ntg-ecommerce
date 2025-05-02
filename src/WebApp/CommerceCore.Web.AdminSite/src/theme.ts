@@ -90,6 +90,7 @@ export const theme = createTheme({
           mb: 4,
         },
         checkIconPosition: "right",
+        allowDeselect: false,
       },
     },
   },
