@@ -74,6 +74,7 @@ export function CategoryEditForm({
       />
 
       <TextInput
+        withAsterisk
         label={categoryLabels.name}
         key={form.key("name")}
         {...form.getInputProps("name")}
@@ -85,23 +86,21 @@ export function CategoryEditForm({
         {...form.getInputProps("description")}
       />
 
-      {categories?.items && (
-        <Select
-          label={categoryLabels.parentCategory}
-          clearable
-          data={mapSelectOptions(
-            categories?.items,
-            "name",
-            "id",
-            (item) => item.id !== form.values.id // Avoid selecting the current category as parent category
-          )}
-          key={form.key("parentCategoryId")}
-          {...form.getInputProps("parentCategoryId")}
-          onChange={(value) => {
-            value && form.setFieldValue("parentCategoryId", value);
-          }}
-        />
-      )}
+      <Select
+        label={categoryLabels.parentCategory}
+        clearable
+        data={mapSelectOptions(
+          categories?.items || [],
+          "name",
+          "id",
+          (item) => item.id !== form.values.id // Avoid selecting the current category as parent category
+        )}
+        key={form.key("parentCategoryId")}
+        {...form.getInputProps("parentCategoryId")}
+        onChange={(value) => {
+          value && form.setFieldValue("parentCategoryId", value);
+        }}
+      />
 
       <Group mt={24} gap="xs">
         <Button loading={isPending} flex={1} type="submit">

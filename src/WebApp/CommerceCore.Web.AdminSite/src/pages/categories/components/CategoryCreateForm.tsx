@@ -54,6 +54,7 @@ export function CategoryCreateForm({
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <TextInput
+        withAsterisk
         label={categoryLabels.name}
         key={form.key("name")}
         {...form.getInputProps("name")}
@@ -65,18 +66,16 @@ export function CategoryCreateForm({
         {...form.getInputProps("description")}
       />
 
-      {categories && (
-        <Select
-          label={categoryLabels.parentCategory}
-          clearable
-          data={mapSelectOptions(categories, "name", "id")}
-          key={form.key("parentCategoryId")}
-          {...form.getInputProps("parentCategoryId")}
-          onChange={(value) => {
-            value && form.setFieldValue("parentCategoryId", value);
-          }}
-        />
-      )}
+      <Select
+        label={categoryLabels.parentCategory}
+        clearable
+        data={mapSelectOptions(categories, "name", "id")}
+        key={form.key("parentCategoryId")}
+        {...form.getInputProps("parentCategoryId")}
+        onChange={(value) => {
+          value && form.setFieldValue("parentCategoryId", value);
+        }}
+      />
 
       <Group mt={24} gap="xs">
         <Button loading={isPending} flex={1} type="submit">
