@@ -14,6 +14,17 @@ public class UpdateCategoryCommandHandler(IApplicationDbContext context)
         CancellationToken cancellationToken
     )
     {
+        // Avoid circular dependency
+        var circularCategories = await _context
+            .Categories.Where(c =>
+                c.ParentCategoryId == request.Id && c.Id == request.ParentCategoryId
+            )
+            .ToListAsync(cancellationToken);
+        if (circularCategories.Count > 0)
+        {
+            return false;
+        }
+
         var category = new Category
         {
             Id = request.Id,
