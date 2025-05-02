@@ -1,4 +1,5 @@
 using CommerceCore.Application.Brands.Dtos;
+using CommerceCore.Application.Categories.Dtos;
 using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Application.Products.Dtos;
@@ -13,13 +14,15 @@ public class ProductResponseDto(Product product)
     public string Description => _product.Description;
     public decimal Price => _product.Price;
     public Guid BrandId => _product.BrandId;
+    public Guid CategoryId => _product.CategoryId;
     public DateTime CreatedDate => _product.CreatedDate;
     public DateTime UpdatedDate => _product.UpdatedDate;
 
-    // When firstly created, _product.Brand is null
+    // When firstly created, _product.Brand and _product.Category are null
     public BrandResponseDto? Brand => _product.Brand == null ? null : new(_product.Brand);
+    public CategoryResponseDto? Category =>
+        _product.Category == null ? null : new(_product.Category);
     public ICollection<ProductImage> Images => _product.Images;
     public ICollection<ProductVariant> Variants => _product.Variants;
-    public ICollection<Category> Categories => _product.Categories;
     public ICollection<Review> Reviews => _product.Reviews;
 }

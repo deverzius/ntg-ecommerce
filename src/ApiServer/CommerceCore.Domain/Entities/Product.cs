@@ -32,10 +32,15 @@ public class Product
     [Required]
     public required Guid BrandId { get; set; }
 
+    [Required]
+    public required Guid CategoryId { get; set; }
+
     [ForeignKey("BrandId")]
     public virtual Brand Brand { get; set; }
+
+    [ForeignKey("CategoryId")]
+    public virtual Category Category { get; set; }
     public virtual ICollection<ProductImage> Images { get; set; } = [];
     public virtual ICollection<ProductVariant> Variants { get; set; } = [];
-    public virtual ICollection<Category> Categories { get; set; } = [];
     public virtual ICollection<Review> Reviews { get; set; } = [];
 }

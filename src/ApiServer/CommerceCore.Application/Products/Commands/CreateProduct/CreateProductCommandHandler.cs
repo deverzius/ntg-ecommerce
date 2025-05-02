@@ -20,6 +20,7 @@ public class CreateProductCommandHandler(IApplicationDbContext context)
             Description = request.Description,
             Price = request.Price,
             BrandId = request.BrandId,
+            CategoryId = request.CategoryId,
         };
 
         _context.Products.Add(product);
