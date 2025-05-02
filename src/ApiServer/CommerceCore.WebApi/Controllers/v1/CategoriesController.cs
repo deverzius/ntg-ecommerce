@@ -56,8 +56,7 @@ public class CategoriesController() : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<Results<NoContent, BadRequest, NotFound>> PutCategory(
+    public async Task<Results<NoContent, BadRequest>> PutCategory(
         ISender sender,
         Guid id,
         UpdateCategoryCommand command
@@ -71,16 +70,16 @@ public class CategoriesController() : ControllerBase
 
         var result = await sender.Send(command);
 
-        return result ? TypedResults.NoContent() : TypedResults.NotFound();
+        return result ? TypedResults.NoContent() : TypedResults.BadRequest();
     }
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<Results<NoContent, NotFound>> DeleteCategory(ISender sender, Guid id)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<Results<NoContent, BadRequest>> DeleteCategory(ISender sender, Guid id)
     {
         var result = await sender.Send(new DeleteCategoryCommand(id));
 
-        return result ? TypedResults.NoContent() : TypedResults.NotFound();
+        return result ? TypedResults.NoContent() : TypedResults.BadRequest();
     }
 }

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Categories.Commands.DeleteCategory;
 
@@ -14,6 +15,21 @@ public class DeleteCategoryCommandHandler(IApplicationDbContext context)
     {
         var category = await _context.Categories.FindAsync([request.Id], cancellationToken);
         if (category == null)
+        {
+            return false;
+        }
+
+        var isParentCategory = await _context.Categories.AnyAsync(
+            c => c.ParentCategoryId == category.Id,
+            cancellationToken
+        );
+        if (isParentCategory)
+        {
+            return false;
+        }
+
+        var areSomeProductsInCategory = category.Products.Count > 0;
+        if (areSomeProductsInCategory)
         {
             return false;
         }
