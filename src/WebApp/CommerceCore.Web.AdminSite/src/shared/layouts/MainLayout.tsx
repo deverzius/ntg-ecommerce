@@ -1,5 +1,5 @@
-import { AppNavbar } from "@/components/AppNavbar/AppNavbar";
-import { HeaderMenu } from "@/components/HeaderMenu/HeaderMenu";
+import { AppNavbar } from "@/shared/components/AppNavbar/AppNavbar";
+import { HeaderMenu } from "@/shared/components/HeaderMenu/HeaderMenu";
 import { Box, Flex } from "@mantine/core";
 import { Outlet } from "react-router";
 

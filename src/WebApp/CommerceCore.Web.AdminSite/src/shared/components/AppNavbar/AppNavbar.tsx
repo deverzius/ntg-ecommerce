@@ -1,6 +1,6 @@
 import { Text, Box, NavLink } from "@mantine/core";
 import classes from "./AppNavbar.module.css";
-import { FontWeight } from "@/types/enum";
+import { FontWeight } from "@/shared/types/enum";
 import { useLocation } from "react-router";
 import { IconUsers } from "@/shared/icons/IconUsers";
 import { IconPackage } from "@/shared/icons/IconPackage";

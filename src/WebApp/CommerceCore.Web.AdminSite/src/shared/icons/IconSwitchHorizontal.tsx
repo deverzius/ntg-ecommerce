@@ -1,4 +1,4 @@
-import type { SvgProps } from "@/types/SvgProps";
+import type { SvgProps } from "@/shared/types/SvgProps";
 import { SvgIconWrapper } from "./SvgIconWrapper";
 
 export function IconSwitchHorizontal(props: SvgProps) {

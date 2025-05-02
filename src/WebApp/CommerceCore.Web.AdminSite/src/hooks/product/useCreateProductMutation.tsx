@@ -1,5 +1,5 @@
 import { createProduct } from "@/services/productServices";
-import type { CreateProductRequestDto } from "@/types/dtos/product/request";
+import type { CreateProductRequestDto } from "@/shared/types/dtos/product/request";
 import { useMutation } from "@tanstack/react-query";
 
 type MutationFn = {

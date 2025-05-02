@@ -1,5 +1,5 @@
 import { updateProduct } from "@/services/productServices";
-import type { UpdateProductRequestDto } from "@/types/dtos/product/request";
+import type { UpdateProductRequestDto } from "@/shared/types/dtos/product/request";
 import { useMutation } from "@tanstack/react-query";
 
 type MutationFn = {

@@ -1,6 +1,6 @@
-import { dotenv } from "@/constants/dotenv";
-import type { BrandResponseDto } from "@/types/dtos/brand/response";
-import type { PaginatedList } from "@/types/PaginatedList";
+import { dotenv } from "@/shared/constants/dotenv";
+import type { BrandResponseDto } from "@/shared/types/dtos/brand/response";
+import type { PaginatedList } from "@/shared/types/PaginatedList";
 
 export async function getBrands(): Promise<PaginatedList<BrandResponseDto>> {
   return await fetch(`${dotenv.API_URL}/v1/brands`, {
