@@ -11,7 +11,7 @@ public class Product
 
     [Required]
     [StringLength(100)]
-    [MinLength(10)]
+    [MinLength(1)]
     public required string Name { get; set; }
 
     [Required]
