@@ -19,8 +19,8 @@ public class ProductResponseDto(Product product)
     public DateTime UpdatedDate => _product.UpdatedDate;
 
     // When firstly created, _product.Brand and _product.Category are null
-    public BrandResponseDto? Brand => _product.Brand == null ? null : new(_product.Brand);
-    public CategoryResponseDto? Category =>
+    public SimpleBrandResponseDto? Brand => _product.Brand == null ? null : new(_product.Brand);
+    public SimpleCategoryResponseDto? Category =>
         _product.Category == null ? null : new(_product.Category);
     public ICollection<ProductImage> Images => _product.Images;
     public ICollection<ProductVariant> Variants => _product.Variants;

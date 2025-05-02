@@ -18,6 +18,7 @@ public class GetProductsWithPaginationQueryHandler(IApplicationDbContext context
     {
         return await _context
             .Products.Include(p => p.Brand)
+            .Include(p => p.Category)
             .Select(p => new ProductResponseDto(p))
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
