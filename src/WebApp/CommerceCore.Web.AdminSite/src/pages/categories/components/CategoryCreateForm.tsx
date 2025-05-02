@@ -28,8 +28,7 @@ export function CategoryCreateForm({
       description: "",
     },
     validate: {
-      name: (value) =>
-        value.length >= 10 ? null : "Name must be at least 10 characters long.",
+      name: (value) => (value.length > 0 ? null : "Name is required."),
     },
   });
 
