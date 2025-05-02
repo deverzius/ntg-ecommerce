@@ -15,10 +15,10 @@ import {
 } from "@mantine/core";
 import { ProductEditModal } from "./ProductEditModal";
 import { useDisclosure } from "@mantine/hooks";
-import { productLabels } from "@/constants/product";
+import { productLabels } from "@/shared/constants/product";
 import { useState } from "react";
 import { useSearchParams } from "react-router";
-import { DEFAULT_PAGE_SIZE } from "@/constants/common";
+import { DEFAULT_PAGE_SIZE } from "@/shared/constants/common";
 import { IconPlus } from "@/shared/icons/IconPlus";
 import { ProductCreateModal } from "./ProductCreateModal";
 import { ProductDeleteModal } from "./ProductDeleteModal";

@@ -1,4 +1,4 @@
-import { FontWeight } from "@/types/enum";
+import { FontWeight } from "@/shared/types/enum";
 import { Flex, Pagination, Paper, Stack, Table, Title } from "@mantine/core";
 
 const data = [

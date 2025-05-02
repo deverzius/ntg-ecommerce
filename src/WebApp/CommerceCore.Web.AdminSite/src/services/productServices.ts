@@ -1,10 +1,10 @@
-import { dotenv } from "@/constants/dotenv";
+import { dotenv } from "@/shared/constants/dotenv";
 import type {
   CreateProductRequestDto,
   UpdateProductRequestDto,
-} from "@/types/dtos/product/request";
-import type { ProductResponseDto } from "@/types/dtos/product/response";
-import type { PaginatedList } from "@/types/PaginatedList";
+} from "@/shared/types/dtos/product/request";
+import type { ProductResponseDto } from "@/shared/types/dtos/product/response";
+import type { PaginatedList } from "@/shared/types/PaginatedList";
 
 export async function getProducts(
   urlParams?: URLSearchParams

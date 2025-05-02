@@ -1,5 +1,5 @@
 import { Flex, Pagination, Paper, Stack, Table, Title } from "@mantine/core";
-import { FontWeight } from "@/types/enum";
+import { FontWeight } from "@/shared/types/enum";
 
 type DataTableRow = { id: string } & object;
 

@@ -1,5 +1,5 @@
 import { createTheme, rem, type MantineTheme } from "@mantine/core";
-import { FontWeight } from "./types/enum";
+import { FontWeight } from "./shared/types/enum";
 
 export const theme = createTheme({
   fontSizes: {

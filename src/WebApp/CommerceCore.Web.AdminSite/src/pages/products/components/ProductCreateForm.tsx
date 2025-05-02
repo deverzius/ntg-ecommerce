@@ -1,9 +1,9 @@
 import { Button, TextInput, Group, Select, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { productLabels } from "@/constants/product";
+import { productLabels } from "@/shared/constants/product";
 import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
-import type { CreateProductRequestDto } from "@/types/dtos/product/request";
-import type { BrandResponseDto } from "@/types/dtos/brand/response";
+import type { CreateProductRequestDto } from "@/shared/types/dtos/product/request";
+import type { BrandResponseDto } from "@/shared/types/dtos/brand/response";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";

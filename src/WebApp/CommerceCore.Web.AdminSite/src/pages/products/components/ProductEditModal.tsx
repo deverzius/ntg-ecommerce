@@ -1,6 +1,6 @@
 import { Modal, Center } from "@mantine/core";
 import { useGetProductForFormDataQuery } from "@/hooks/product/useGetProductForFormDataQuery";
-import { LoadingIndicator } from "@/components/LoadingIndicator/LoadingIndicator";
+import { LoadingIndicator } from "@/shared/components/LoadingIndicator/LoadingIndicator";
 import { ProductEditForm } from "./ProductEditForm";
 
 interface ProductEditModalProps {
