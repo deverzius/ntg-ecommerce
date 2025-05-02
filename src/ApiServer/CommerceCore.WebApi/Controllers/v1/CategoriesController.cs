@@ -66,6 +66,9 @@ public class CategoriesController() : ControllerBase
         if (id != command.Id)
             return TypedResults.BadRequest();
 
+        if (id == command.ParentCategoryId)
+            return TypedResults.BadRequest();
+
         var result = await sender.Send(command);
 
         return result ? TypedResults.NoContent() : TypedResults.NotFound();
