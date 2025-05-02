@@ -1,71 +1,83 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Dtos.CategoryDto;
+﻿using CommerceCore.Application.Categories.Commands.CreateCategory;
+using CommerceCore.Application.Categories.Commands.DeleteCategory;
+using CommerceCore.Application.Categories.Commands.UpdateCategory;
+using CommerceCore.Application.Categories.Dtos;
+using CommerceCore.Application.Categories.Queries.GetCategoriesWithPagination;
+using CommerceCore.Application.Categories.Queries.GetCategory;
+using CommerceCore.Application.Common.Models;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CommerceCore.WebApi.Controllers.v1;
 
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class CategoriesController(ICategoryService categoryService) : ControllerBase
+public class CategoriesController() : ControllerBase
 {
-    private readonly ICategoryService _categoryService = categoryService;
-
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryResponseDto>>> GetCategories()
+    [ProducesResponseType(typeof(Ok<PaginatedList<CategoryResponseDto>>), StatusCodes.Status200OK)]
+    public async Task<Ok<PaginatedList<CategoryResponseDto>>> GetCategoriesWithPagination(
+        ISender sender,
+        [FromQuery] GetCategoriesWithPaginationQuery query
+    )
     {
-        return Ok(await _categoryService.GetAllAsync());
+        var result = await sender.Send(query);
+
+        return TypedResults.Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CategoryResponseDto>> GetCategory(Guid id)
+    [ProducesResponseType(typeof(Ok<CategoryResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<Ok<CategoryResponseDto>, NotFound>> GetCategory(
+        ISender sender,
+        Guid id
+    )
     {
-        var category = await _categoryService.GetByIdAsync(id);
+        var result = await sender.Send(new GetCategoryQuery(id));
 
-        if (category == null)
-        {
-            return NotFound();
-        }
-
-        return category;
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutCategory(Guid id, UpdateCategoryRequestDto categoryDto)
-    {
-        var updatedCategory = await _categoryService.UpdateAsync(id, categoryDto);
-
-        if (updatedCategory == null)
-        {
-            return BadRequest();
-        }
-
-        return Ok(updatedCategory);
+        return result == null ? TypedResults.NotFound() : TypedResults.Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<CategoryResponseDto>> PostCategory(CreateCategoryRequestDto categoryDto)
+    [ProducesResponseType(typeof(Created<CategoryResponseDto>), StatusCodes.Status201Created)]
+    public async Task<Created<CategoryResponseDto>> PostCategory(
+        ISender sender,
+        CreateCategoryCommand command
+    )
     {
-        var createdCategoryDto = await _categoryService.CreateAsync(categoryDto);
+        var result = await sender.Send(command);
 
-        if (createdCategoryDto == null)
-        {
-            return BadRequest();
-        }
+        return TypedResults.Created(nameof(GetCategory), result);
+    }
 
-        return CreatedAtAction(nameof(GetCategory), new { id = createdCategoryDto.Id }, createdCategoryDto);
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<NoContent, BadRequest, NotFound>> PutCategory(
+        ISender sender,
+        Guid id,
+        UpdateCategoryCommand command
+    )
+    {
+        if (id != command.Id)
+            return TypedResults.BadRequest();
+
+        var result = await sender.Send(command);
+
+        return result ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategory(Guid id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<NoContent, NotFound>> DeleteCategory(ISender sender, Guid id)
     {
-        var isDeleted = await _categoryService.DeleteAsync(id);
+        var result = await sender.Send(new DeleteCategoryCommand(id));
 
-        if (!isDeleted)
-        {
-            return BadRequest();
-        }
-
-        return Ok();
+        return result ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 }
