@@ -11,65 +11,61 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace CommerceCore.IdentityServer.Controllers;
 
-public class AuthorizationController : Controller
+public class AuthorizationController(
+    IOpenIddictApplicationManager applicationManager,
+    IOpenIddictAuthorizationManager authorizationManager,
+    UserManager<ApplicationUser> userManager,
+    ILogger<AuthorizationController> logger
+) : Controller
 {
-    private readonly IOpenIddictApplicationManager _applicationManager;
-    private readonly IOpenIddictAuthorizationManager _authorizationManager;
-    private readonly IOpenIddictScopeManager _scopeManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ILogger<AuthorizationController> _logger;
-
-    public AuthorizationController(
-        IOpenIddictApplicationManager applicationManager,
-        IOpenIddictAuthorizationManager authorizationManager,
-        IOpenIddictScopeManager scopeManager,
-        SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager,
-        ILogger<AuthorizationController> logger)
-    {
-        _applicationManager = applicationManager;
-        _authorizationManager = authorizationManager;
-        _scopeManager = scopeManager;
-        _signInManager = signInManager;
-        _userManager = userManager;
-        _logger = logger;
-    }
+    private readonly IOpenIddictApplicationManager _applicationManager = applicationManager;
+    private readonly IOpenIddictAuthorizationManager _authorizationManager = authorizationManager;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
 
     [HttpGet("~/connect/authorize")]
     [HttpPost("~/connect/authorize")]
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Authorize()
     {
-        var request = HttpContext.GetOpenIddictServerRequest()
-            ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+        var request =
+            HttpContext.GetOpenIddictServerRequest()
+            ?? throw new InvalidOperationException(
+                "The OpenID Connect request cannot be retrieved."
+            );
 
         var result = await HttpContext.AuthenticateAsync();
 
         if (!result.Succeeded)
         {
-            _logger.LogInformation("User is not authenticated. Redirecting to login page.");
-
-            return Challenge(new AuthenticationProperties
-            {
-                RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                    Request.HasFormContentType ? Request.Form : Request.Query)
-            });
+            return Challenge(
+                new AuthenticationProperties
+                {
+                    RedirectUri =
+                        Request.PathBase
+                        + Request.Path
+                        + QueryString.Create(
+                            Request.HasFormContentType ? Request.Form : Request.Query
+                        ),
+                }
+            );
         }
 
-        var user = await _userManager.GetUserAsync(result.Principal)
+        var user =
+            await _userManager.GetUserAsync(result.Principal)
             ?? throw new InvalidOperationException("The user details cannot be retrieved.");
 
-        var application = await _applicationManager.FindByClientIdAsync(request.ClientId)
+        var application =
+            await _applicationManager.FindByClientIdAsync(request.ClientId)
             ?? throw new InvalidOperationException("The application details cannot be retrieved.");
 
-        var authorizations = _authorizationManager.FindAsync(
-            subject: user.Id,
-            client: request.ClientId,
-            status: Statuses.Valid,
-            type: AuthorizationTypes.AdHoc,
-            scopes: request.GetScopes()
-        )
+        var authorizations = _authorizationManager
+            .FindAsync(
+                subject: user.Id,
+                client: request.ClientId,
+                status: Statuses.Valid,
+                type: AuthorizationTypes.AdHoc,
+                scopes: request.GetScopes()
+            )
             .ToBlockingEnumerable()
             .ToList();
 
@@ -79,16 +75,14 @@ public class AuthorizationController : Controller
             roleType: Claims.Role
         );
 
-        identity.SetClaim(Claims.Subject, user.Id)
-                .SetClaim(Claims.Email, user.Email)
-                .SetClaim(Claims.Name, user.UserName)
-                .SetClaims(Claims.Role, [.. await _userManager.GetRolesAsync(user)]);
+        identity
+            .SetClaim(Claims.Subject, user.Id)
+            .SetClaim(Claims.Email, user.Email)
+            .SetClaim(Claims.Name, user.UserName)
+            .SetClaims(Claims.Role, [.. await _userManager.GetRolesAsync(user)]);
 
         identity.SetScopes(request.GetScopes());
-        // TODO: research later
-        // identity.SetResources(_scopeManager.ListResourcesAsync(identity.GetScopes()).ToBlockingEnumerable().ToList());
 
-        // TODO: config refresh token authorization
         var authorization = authorizations.LastOrDefault();
         authorization ??= await _authorizationManager.CreateAsync(
             identity: identity,
@@ -101,7 +95,10 @@ public class AuthorizationController : Controller
         identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));
         identity.SetDestinations(GetDestinations);
 
-        return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        return SignIn(
+            new ClaimsPrincipal(identity),
+            OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
+        );
     }
 
     [HttpPost("~/connect/token")]
@@ -109,29 +106,26 @@ public class AuthorizationController : Controller
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Exchange()
     {
-        var request = HttpContext.GetOpenIddictServerRequest() ??
-            throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+        var request =
+            HttpContext.GetOpenIddictServerRequest()
+            ?? throw new InvalidOperationException(
+                "The OpenID Connect request cannot be retrieved."
+            );
 
         if (!request.IsAuthorizationCodeGrantType() && !request.IsRefreshTokenGrantType())
         {
             throw new InvalidOperationException("The specified grant type is not supported.");
         }
 
-        // Retrieve the claims principal stored in the authorization code/refresh token.
-        var result = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        var result = await HttpContext.AuthenticateAsync(
+            OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
+        );
 
         var userId = result?.Principal?.GetClaim(Claims.Subject);
 
         if (userId is null)
         {
-            return Forbid(
-                authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-                properties: new AuthenticationProperties(new Dictionary<string, string?>
-                {
-                    [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                    [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The token is no longer valid."
-                })
-            );
+            return Forbid();
         }
 
         var user = await _userManager.FindByIdAsync(userId);
@@ -144,14 +138,18 @@ public class AuthorizationController : Controller
         );
 
         // Override the user claims present in the principal
-        identity.SetClaim(Claims.Subject, user.Id)
-                .SetClaim(Claims.Email, user.Email)
-                .SetClaim(Claims.Name, user.UserName)
-                .SetClaims(Claims.Role, [.. await _userManager.GetRolesAsync(user)]);
+        identity
+            .SetClaim(Claims.Subject, user.Id)
+            .SetClaim(Claims.Email, user.Email)
+            .SetClaim(Claims.Name, user.UserName)
+            .SetClaims(Claims.Role, [.. await _userManager.GetRolesAsync(user)]);
 
         identity.SetDestinations(GetDestinations);
 
-        return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        return SignIn(
+            new ClaimsPrincipal(identity),
+            OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
+        );
     }
 
     private static IEnumerable<string> GetDestinations(Claim claim)
@@ -181,5 +179,33 @@ public class AuthorizationController : Controller
             default:
                 yield break;
         }
+    }
+
+    [HttpGet("~/connect/userinfo")]
+    [IgnoreAntiforgeryToken]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var result = await HttpContext.AuthenticateAsync(
+            OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
+        );
+
+        var userId = result?.Principal?.GetClaim(Claims.Subject);
+
+        if (userId is null)
+        {
+            return Forbid();
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+
+        return Ok(user);
+    }
+
+    [HttpGet("~/connect/logout")]
+    [IgnoreAntiforgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        Response.Cookies.Delete("access_token");
+        return Ok();
     }
 }

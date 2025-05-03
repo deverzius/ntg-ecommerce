@@ -1,5 +1,6 @@
 using CommerceCore.IdentityServer.Data;
 using CommerceCore.IdentityServer.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -10,8 +11,11 @@ public static class WebApplicationBuilderExtensions
 {
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        var connectionString =
+            builder.Configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException(
+                "Connection string 'DefaultConnection' not found."
+            );
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -19,10 +23,19 @@ public static class WebApplicationBuilderExtensions
             options.UseOpenIddict();
         });
 
+        builder
+            .Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.HttpOnly = false;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder.Services
-            .AddIdentity<ApplicationUser, IdentityRole>(options =>
+        builder
+            .Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // options.SignIn.RequireConfirmedAccount = true;
             })
@@ -36,28 +49,37 @@ public static class WebApplicationBuilderExtensions
         //     options.LoginPath = "/authentication/login";
         // });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("https://localhost:5173");
+                policy.WithMethods("GET", "POST");
+                policy.AllowCredentials();
+                policy.AllowAnyHeader();
+            });
+        });
+
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddRazorPages();
 
-        builder.Services
-            .AddOpenIddict()
+        builder
+            .Services.AddOpenIddict()
             .AddCore(options =>
             {
-                options.UseEntityFrameworkCore()
-                       .UseDbContext<ApplicationDbContext>();
+                options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
             })
             .AddClient(options =>
             {
-                options.AllowAuthorizationCodeFlow()
-                       .AllowRefreshTokenFlow();
+                options.AllowAuthorizationCodeFlow().AllowRefreshTokenFlow();
 
-                options.AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate();
+                options.AddDevelopmentEncryptionCertificate().AddDevelopmentSigningCertificate();
 
-                options.UseAspNetCore()
-                       .EnableStatusCodePagesIntegration()
-                       .EnableRedirectionEndpointPassthrough();
+                options
+                    .UseAspNetCore()
+                    .EnableStatusCodePagesIntegration()
+                    .EnableRedirectionEndpointPassthrough();
 
                 options.UseSystemNetHttp();
 
@@ -65,34 +87,35 @@ public static class WebApplicationBuilderExtensions
             })
             .AddServer(options =>
             {
-                options.AllowAuthorizationCodeFlow()
-                       .AllowRefreshTokenFlow()
-                       .SetAccessTokenLifetime(TimeSpan.FromMinutes(30))
-                       .SetIdentityTokenLifetime(TimeSpan.FromMinutes(30))
-                       .SetRefreshTokenLifetime(TimeSpan.FromDays(30));
+                options
+                    .AllowAuthorizationCodeFlow()
+                    .AllowRefreshTokenFlow()
+                    .SetAccessTokenLifetime(TimeSpan.FromMinutes(6))
+                    .SetIdentityTokenLifetime(TimeSpan.FromMinutes(6))
+                    .SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
-                options.SetAuthorizationEndpointUris("connect/authorize")
-                       .SetEndSessionEndpointUris("connect/logout")
-                       .SetTokenEndpointUris("connect/token")
-                       .SetUserInfoEndpointUris("connect/userinfo");
+                options
+                    .SetAuthorizationEndpointUris("connect/authorize")
+                    .SetEndSessionEndpointUris("connect/logout")
+                    .SetTokenEndpointUris("connect/token")
+                    .SetUserInfoEndpointUris("connect/userinfo");
 
-                options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, Scopes.OfflineAccess);
+                options.RegisterScopes(
+                    Scopes.Email,
+                    Scopes.Profile,
+                    Scopes.Roles,
+                    Scopes.OfflineAccess
+                );
 
-                options.AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate();
+                options.AddDevelopmentEncryptionCertificate().AddDevelopmentSigningCertificate();
 
-                options.UseAspNetCore()
-                       .EnableAuthorizationEndpointPassthrough()
-                       .EnableEndSessionEndpointPassthrough()
-                       .EnableTokenEndpointPassthrough()
-                       .EnableUserInfoEndpointPassthrough()
-                       .EnableStatusCodePagesIntegration();
-
-                // Disable HTTPS only requests for development purposes.
-                if (builder.Environment.IsDevelopment())
-                {
-                    options.UseAspNetCore().DisableTransportSecurityRequirement();
-                }
+                options
+                    .UseAspNetCore()
+                    .EnableAuthorizationEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough()
+                    .EnableTokenEndpointPassthrough()
+                    .EnableUserInfoEndpointPassthrough()
+                    .EnableStatusCodePagesIntegration();
             })
             .AddValidation(options =>
             {

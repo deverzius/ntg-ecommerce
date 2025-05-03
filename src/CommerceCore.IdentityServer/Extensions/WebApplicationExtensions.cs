@@ -1,3 +1,5 @@
+using CommerceCore.IdentityServer.Middlewares;
+
 namespace CommerceCore.IdentityServer.Extensions;
 
 public static class WebApplicationExtensions
@@ -17,15 +19,25 @@ public static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
+
+        app.UseForwardedHeaders();
+
+        app.UseCors();
+
         app.UseStaticFiles();
 
         app.UseRouting();
 
+        app.UseMiddleware<CookieTokenMiddleware>();
+
         app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapControllers();
+
         app.MapDefaultControllerRoute();
+
         app.MapRazorPages();
     }
 }
