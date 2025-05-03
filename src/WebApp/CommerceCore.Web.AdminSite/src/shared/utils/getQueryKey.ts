@@ -3,7 +3,8 @@ type FnName =
   | "getProductById"
   | "getBrands"
   | "getCategories"
-  | "getCategoryById";
+  | "getCategoryById"
+  | "getUserInfo";
 
 export function getQueryKey(fnName: FnName, data?: object) {
   const optionalData = data ? Object.values(data) : [];
@@ -21,6 +22,9 @@ export function getQueryKey(fnName: FnName, data?: object) {
       return ["categories", ...optionalData];
     case "getCategoryById":
       return ["category", ...optionalData];
+
+    case "getUserInfo":
+      return ["userInfo", ...optionalData];
 
     default:
       throw new Error(`Invalid function name: ${fnName}`);

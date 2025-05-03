@@ -6,6 +6,7 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
+  route("callback", "routes/callback.tsx"),
   layout("shared/layouts/MainLayout.tsx", [
     index("routes/customers.tsx"),
     route("products", "routes/products.tsx"),
