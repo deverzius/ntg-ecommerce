@@ -17,8 +17,7 @@
             </div>
             <div class="form-outline">
                 <label class="form-label" asp-for="Input.Email">Email address</label>
-                <input type="email" class="form-control py-2" placeholder="Enter your email"
-                    asp-for="Input.Email" />
+                <input type="email" class="form-control py-2" placeholder="Enter your email" asp-for="Input.Email" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
@@ -29,22 +28,22 @@
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
+            @* <div class="d-flex justify-content-between align-items-center">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" asp-for="Input.RememberMe" />
                     <label class="form-check-label" asp-for="Input.RememberMe"> Remember me </label>
                 </div>
-            </div>
+            </div> *@
 
-            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Sign in</button>
         </div>
 
-        <div class="d-grid gap-3 mt-4">
+        @* <div class="d-grid gap-3 mt-4">
             <div class="text-center">
                 <span class="fw-bold mb-0 text-muted">Or continue with:</span>
             </div>
 
-            @* <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
+            <a class="btn btn-outline-secondary btn-block py-2" href="#!" role="button">
                 <span class="fw-bold text-dark">
                     <i class="bi bi-google"></i> Continue with Google
                 </span>
@@ -55,8 +54,8 @@
                 </span>
             </a>
 
-            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
-                method="post" class="form-horizontal">
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post"
+                class="form-horizontal">
                 <div>
                     <p>
                         @foreach (var provider in Model.ExternalLogins!)
@@ -66,17 +65,17 @@
                         }
                     </p>
                 </div>
-            </form> *@
-        </div>
+            </form>
+        </div> *@
 
         <div class="mt-4">
             <div class="d-flex justify-content-center align-items-center">
-                <span>
+                @* <span>
                     <a id="forgot-password" asp-page="./ForgotPassword">Forgot password?</a>
                 </span>
                 <span>
                     <i class="bi bi-dot fs-5"></i>
-                </span>
+                </span> *@
                 <span>
                     <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create an account</a>
                 </span>

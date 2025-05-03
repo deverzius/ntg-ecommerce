@@ -17,7 +17,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-        if (await manager.FindByClientIdAsync("commerce", cancellationToken) is null)
+        if (await manager.FindByClientIdAsync("ecommerce-client", cancellationToken) is null)
         {
             // TODO: update seeding data
             await manager.CreateAsync(
@@ -25,18 +25,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 {
                     DisplayName = "ECommerce Client",
                     ConsentType = ConsentTypes.Explicit,
-                    ClientId = "commerce",
+                    ClientId = "ecommerce-client",
                     ClientSecret = "secret",
                     RedirectUris =
                     {
-                        new Uri("http://localhost:5256/connect/redirect"),
                         new Uri("https://oauth.pstmn.io/v1/callback"),
                         new Uri("https://localhost:5173"),
                     },
-                    PostLogoutRedirectUris =
-                    {
-                        new Uri("http://localhost:5256/callback/login/local"),
-                    },
+                    PostLogoutRedirectUris = { new Uri("https://localhost:5173") },
                     Permissions =
                     {
                         Permissions.Endpoints.Authorization,

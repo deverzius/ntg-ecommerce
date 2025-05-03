@@ -1,4 +1,4 @@
-using CommerceCore.IdentityServer.Extensions;
+using CommerceCore.IdentityServer.Configs;
 
 namespace CommerceCore.IdentityServer;
 
@@ -7,10 +7,10 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.ConfigureServices();
+        builder.Services.AddServices(builder.Configuration);
 
         var app = builder.Build();
-        app.ConfigureMiddlewares();
+        app.Configure();
         app.Run();
     }
 }

@@ -1,10 +1,10 @@
 using CommerceCore.IdentityServer.Middlewares;
 
-namespace CommerceCore.IdentityServer.Extensions;
+namespace CommerceCore.IdentityServer.Configs;
 
-public static class WebApplicationExtensions
+public static class AppConfig
 {
-    public static void ConfigureMiddlewares(this WebApplication app)
+    public static void Configure(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {

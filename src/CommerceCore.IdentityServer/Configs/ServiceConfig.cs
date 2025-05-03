@@ -5,26 +5,29 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace CommerceCore.IdentityServer.Extensions;
+namespace CommerceCore.IdentityServer.Configs;
 
-public static class WebApplicationBuilderExtensions
+public static class ServiceConfig
 {
-    public static void ConfigureServices(this WebApplicationBuilder builder)
+    public static IServiceCollection AddServices(
+        this IServiceCollection services,
+        IConfigurationManager configurationManager
+    )
     {
         var connectionString =
-            builder.Configuration.GetConnectionString("DefaultConnection")
+            configurationManager.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException(
                 "Connection string 'DefaultConnection' not found."
             );
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
             options.UseOpenIddict();
         });
 
-        builder
-            .Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        services
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -32,10 +35,10 @@ public static class WebApplicationBuilderExtensions
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
 
-        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+        services.AddDatabaseDeveloperPageExceptionFilter();
 
-        builder
-            .Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        services
+            .AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // options.SignIn.RequireConfirmedAccount = true;
             })
@@ -44,12 +47,12 @@ public static class WebApplicationBuilderExtensions
             .AddDefaultTokenProviders()
             .AddDefaultUI();
 
-        // builder.Services.ConfigureApplicationCookie(options =>
+        // services.ConfigureApplicationCookie(options =>
         // {
         //     options.LoginPath = "/authentication/login";
         // });
 
-        builder.Services.AddCors(options =>
+        services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
@@ -60,12 +63,12 @@ public static class WebApplicationBuilderExtensions
             });
         });
 
-        builder.Services.AddControllersWithViews();
+        services.AddControllersWithViews();
 
-        builder.Services.AddRazorPages();
+        services.AddRazorPages();
 
-        builder
-            .Services.AddOpenIddict()
+        services
+            .AddOpenIddict()
             .AddCore(options =>
             {
                 options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
@@ -124,6 +127,8 @@ public static class WebApplicationBuilderExtensions
                 options.UseAspNetCore();
             });
 
-        builder.Services.AddHostedService<Worker>();
+        services.AddHostedService<Worker>();
+
+        return services;
     }
 }
