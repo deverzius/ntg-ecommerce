@@ -4,8 +4,5 @@ using MediatR;
 
 namespace CommerceCore.Application.Categories.Queries.GetCategoriesWithPagination;
 
-public record GetCategoriesWithPaginationQuery : IRequest<PaginatedList<CategoryResponseDto>>
-{
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
-}
+public record GetCategoriesWithPaginationQuery(int PageNumber = 1, int PageSize = 10)
+    : IRequest<PaginatedList<CategoryResponseDto>> { }

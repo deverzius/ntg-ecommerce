@@ -4,8 +4,5 @@ using MediatR;
 
 namespace CommerceCore.Application.Brands.Queries.GetBrandsWithPagination;
 
-public record GetBrandsWithPaginationQuery : IRequest<PaginatedList<BrandResponseDto>>
-{
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
-}
+public record GetBrandsWithPaginationQuery(int PageNumber = 1, int PageSize = 10)
+    : IRequest<PaginatedList<BrandResponseDto>> { }
