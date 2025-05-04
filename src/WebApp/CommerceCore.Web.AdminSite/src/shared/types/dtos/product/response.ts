@@ -13,9 +13,15 @@ export type ProductResponseDto = {
 
   brand?: SimpleBrandResponseDto;
   category?: SimpleCategoryResponseDto;
+  images: ProductImageResponseDto[];
 
   // TODO: update types
-  images: any[];
   variants: any[];
   reviews: any[];
+};
+
+export type ProductImageResponseDto = {
+  name: string;
+  path: string;
+  productId: string;
 };

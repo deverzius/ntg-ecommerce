@@ -13,4 +13,10 @@ export type UpdateProductRequestDto = {
   price: number;
   brandId: string;
   categoryId: string;
+  images: ProductImageRequestDto[];
+};
+
+export type ProductImageRequestDto = {
+  name: string;
+  path: string;
 };

@@ -82,6 +82,15 @@ export const theme = createTheme({
         },
       },
     },
+    FileInput: {
+      defaultProps: {
+        size: "md",
+        mb: "sm",
+        labelProps: {
+          mb: 4,
+        },
+      },
+    },
     Select: {
       defaultProps: {
         size: "md",

@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { notifications } from "@mantine/notifications";
 import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import { ProductImagesInput } from "./ProductImagesInput";
 
 interface ProductEditFormProps {
   product: ProductResponseDto;
@@ -26,8 +27,10 @@ export function ProductEditForm({
   closeFn,
 }: ProductEditFormProps) {
   const queryClient = useQueryClient();
-  const { mutateAsync, isPending } = useUpdateProductMutation();
+  const { mutateAsync: updateProduct, isPending: isUpdateProductPending } =
+    useUpdateProductMutation();
 
+  // TODO: Handle upload multiple files
   const form = useForm<UpdateProductRequestDto>({
     mode: "uncontrolled",
     initialValues: {
@@ -37,6 +40,7 @@ export function ProductEditForm({
       description: product.description,
       brandId: product.brandId,
       categoryId: product.categoryId,
+      images: [],
     },
     validate: {
       name: (value) => (value.length > 0 ? null : "Name is required."),
@@ -47,7 +51,7 @@ export function ProductEditForm({
   });
 
   function handleSubmit(data: UpdateProductRequestDto) {
-    mutateAsync({
+    updateProduct({
       id: product.id,
       productDto: data,
     }).then((result) => {
@@ -84,26 +88,12 @@ export function ProductEditForm({
 
       <Group gap="xs" align="top">
         <TextInput
+          flex={1}
           withAsterisk
           label={productLabels.name}
           key={form.key("name")}
           {...form.getInputProps("name")}
         />
-        <NumberInput
-          withAsterisk
-          label={productLabels.price}
-          key={form.key("price")}
-          {...form.getInputProps("price")}
-        />
-      </Group>
-
-      <TextInput
-        label={productLabels.description}
-        key={form.key("description")}
-        {...form.getInputProps("description")}
-      />
-
-      <Group gap="xs" align="top">
         <TextInput
           label={productLabels.createdDate}
           value={formatDate(product.createdDate)}
@@ -116,30 +106,53 @@ export function ProductEditForm({
         />
       </Group>
 
-      <Select
-        withAsterisk
-        label={productLabels.brand}
-        data={mapSelectOptions(brands || [], "name", "id")}
-        key={form.key("brandId")}
-        {...form.getInputProps("brandId")}
-        onChange={(value) => {
-          value && form.setFieldValue("brandId", value);
-        }}
+      <TextInput
+        label={productLabels.description}
+        key={form.key("description")}
+        {...form.getInputProps("description")}
       />
 
-      <Select
-        withAsterisk
-        label={productLabels.category}
-        data={mapSelectOptions(categories || [], "name", "id")}
-        key={form.key("categoryId")}
-        {...form.getInputProps("categoryId")}
-        onChange={(value) => {
-          value && form.setFieldValue("categoryId", value);
-        }}
+      <Group gap="xs" align="top">
+        <NumberInput
+          flex={1}
+          withAsterisk
+          label={productLabels.price}
+          key={form.key("price")}
+          {...form.getInputProps("price")}
+        />
+        <Select
+          flex={1}
+          withAsterisk
+          label={productLabels.brand}
+          data={mapSelectOptions(brands || [], "name", "id")}
+          key={form.key("brandId")}
+          {...form.getInputProps("brandId")}
+          onChange={(value) => {
+            value && form.setFieldValue("brandId", value);
+          }}
+        />
+        <Select
+          flex={1}
+          withAsterisk
+          label={productLabels.category}
+          data={mapSelectOptions(categories || [], "name", "id")}
+          key={form.key("categoryId")}
+          {...form.getInputProps("categoryId")}
+          onChange={(value) => {
+            value && form.setFieldValue("categoryId", value);
+          }}
+        />
+      </Group>
+
+      <ProductImagesInput
+        product={product}
+        onUploadSuccess={(name, path) =>
+          form.setFieldValue("images", [{ name, path }])
+        }
       />
 
       <Group mt={24} gap="xs">
-        <Button loading={isPending} flex={1} type="submit">
+        <Button loading={isUpdateProductPending} flex={1} type="submit">
           Save
         </Button>
         <Button flex={1} variant="outline" onClick={closeFn}>

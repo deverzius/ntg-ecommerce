@@ -4,7 +4,8 @@ type FnName =
   | "getBrands"
   | "getCategories"
   | "getCategoryById"
-  | "getUserInfo";
+  | "getUserInfo"
+  | "getFileUrl";
 
 export function getQueryKey(fnName: FnName, data?: object) {
   const optionalData = data ? Object.values(data) : [];
@@ -25,6 +26,9 @@ export function getQueryKey(fnName: FnName, data?: object) {
 
     case "getUserInfo":
       return ["userInfo", ...optionalData];
+
+    case "getFileUrl":
+      return ["fileUrl", ...optionalData];
 
     default:
       throw new Error(`Invalid function name: ${fnName}`);

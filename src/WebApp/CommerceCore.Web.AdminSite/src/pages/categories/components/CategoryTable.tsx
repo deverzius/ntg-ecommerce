@@ -135,7 +135,7 @@ export function CategoryTable() {
             </Table.Tbody>
           </Table>
 
-          {!data?.items && (
+          {data && (!data.items || data.items.length === 0) && (
             <Center my="md">
               <Text fz="md">No categories found</Text>
             </Center>

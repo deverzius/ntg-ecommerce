@@ -21,7 +21,7 @@ export function ProductEditModal({
   const { data: categories } = useGetCategoriesQuery();
 
   return (
-    <Modal opened={opened} onClose={close} title="Edit Product">
+    <Modal opened={opened} onClose={close} title="Edit Product" size="xl">
       {product.data ? (
         <ProductEditForm
           product={product.data}
