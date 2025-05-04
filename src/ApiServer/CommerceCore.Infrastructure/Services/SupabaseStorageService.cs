@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using Ardalis.GuardClauses;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Files.Dtos;
 using Microsoft.Extensions.Configuration;
@@ -16,9 +17,13 @@ public class SupabaseStorageService(
 ) : IStorageService
 {
     private readonly HttpClient _httpClient = httpClient;
-    private readonly string _storageBaseUrl = config["Supabase:StorageBaseUrl"]!;
-    private readonly string _apiKey = config["Supabase:ApiKey"]!;
-    private readonly string _bucketName = config["Supabase:BucketName"]!;
+    private readonly string _storageBaseUrl =
+        config["Supabase:StorageBaseUrl"]
+        ?? Guard.Against.NullOrEmpty(config["Supabase:StorageBaseUrl"]);
+    private readonly string _apiKey =
+        config["Supabase:ApiKey"] ?? Guard.Against.NullOrEmpty(config["Supabase:ApiKey"]);
+    private readonly string _bucketName =
+        config["Supabase:BucketName"] ?? Guard.Against.NullOrEmpty(config["Supabase:BucketName"]);
     private readonly ILogger<SupabaseStorageService> _logger = logger;
 
     public async Task<FileUrlDto?> UploadFileAsync(
