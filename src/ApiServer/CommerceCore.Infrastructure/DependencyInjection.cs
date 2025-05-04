@@ -1,5 +1,7 @@
 using Ardalis.GuardClauses;
+using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Infrastructure.Data;
+using CommerceCore.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,8 @@ public static class DependencyInjection
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString)
         );
+
+        services.AddTransient<IStorageService, SupabaseStorageService>();
 
         return services;
     }
