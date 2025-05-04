@@ -6,12 +6,13 @@ namespace CommerceCore.Domain.Entities;
 public class ProductImage
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    [Required]
+    [MaxLength(100)]
+    public required string Name { get; set; }
 
     [Required]
-    [MaxLength(255)]
-    public required string Url { get; set; }
+    [MaxLength(200)]
+    public required string Path { get; set; }
 
     [Required]
     public required Guid ProductId { get; set; }

@@ -21,9 +21,11 @@ public class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("https://localhost:5173");
-                policy.WithMethods("GET", "POST", "PUT", "DELETE");
-                policy.AllowAnyHeader();
+                policy
+                    .WithOrigins("https://localhost:5173")
+                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                    .AllowAnyHeader()
+                    .AllowCredentials();
             });
         });
 
