@@ -1,7 +1,7 @@
 import { authorizeUser } from "@/services/authServices";
 import { useMutation } from "@tanstack/react-query";
 
-export function useLoginUserMutation() {
+export function useAuthorizeUserMutation() {
   return useMutation({
     mutationFn: async () => {
       const res = await authorizeUser();

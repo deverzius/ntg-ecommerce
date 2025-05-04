@@ -6,3 +6,9 @@ export type AuthResponseDto = {
   id_token: string;
   refresh_token: string;
 };
+
+export type UserResponseDto = {
+  id: string;
+  email: string;
+  phoneNumber?: string;
+};

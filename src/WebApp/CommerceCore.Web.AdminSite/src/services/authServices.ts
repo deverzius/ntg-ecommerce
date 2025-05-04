@@ -1,7 +1,10 @@
 import { dotenv } from "@/shared/constants/dotenv";
-import type { AuthResponseDto } from "@/shared/types/dtos/auth/response";
+import type {
+  AuthResponseDto,
+  UserResponseDto,
+} from "@/shared/types/dtos/auth/response";
 
-export async function getUserInfo(): Promise<Response> {
+export async function getUserInfo(): Promise<UserResponseDto> {
   return await fetch(`${dotenv.IDENTITY_SERVER_URL}/connect/userinfo`, {
     method: "GET",
     headers: {
@@ -9,7 +12,7 @@ export async function getUserInfo(): Promise<Response> {
       Accept: "application/json",
     },
     credentials: "include",
-  }).then((res) => res);
+  }).then((res) => res.json());
 }
 
 export async function authorizeUser(): Promise<Response> {
@@ -24,6 +27,16 @@ export async function authorizeUser(): Promise<Response> {
       grant_type: "authorization_code",
       scope: "openid offline_access",
     }),
+  }).then((res) => res);
+}
+
+export async function logOutUser(): Promise<Response> {
+  return await fetch(`${dotenv.IDENTITY_SERVER_URL}/connect/logout`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    credentials: "include",
   }).then((res) => res);
 }
 

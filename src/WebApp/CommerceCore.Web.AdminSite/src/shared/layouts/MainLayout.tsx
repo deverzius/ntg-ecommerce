@@ -1,5 +1,5 @@
 import { useGetUserInfoQuery } from "@/hooks/auth/useGetUserInfoQuery";
-import { useLoginUserMutation } from "@/hooks/auth/useLoginUserMutation";
+import { useAuthorizeUserMutation } from "@/hooks/auth/useAuthorizeUserMutation";
 import { AppNavbar } from "@/shared/components/AppNavbar/AppNavbar";
 import { HeaderMenu } from "@/shared/components/HeaderMenu/HeaderMenu";
 import { Box, Center, Flex } from "@mantine/core";
@@ -8,20 +8,20 @@ import { Outlet } from "react-router";
 import { LoadingIndicator } from "../components/LoadingIndicator/LoadingIndicator";
 
 export default function MainLayout() {
-  const { isLoading, data } = useGetUserInfoQuery();
-  const { mutateAsync: loginAsync } = useLoginUserMutation();
+  const { isLoading, data: user } = useGetUserInfoQuery();
+  const { mutateAsync: authorizeAsync } = useAuthorizeUserMutation();
 
   useEffect(() => {
     if (isLoading) {
       return;
     }
-    if (data && data.status === 200) {
+    if (user) {
       return;
     }
-    loginAsync();
-  }, [data]);
+    authorizeAsync();
+  });
 
-  if (isLoading || data?.status !== 200) {
+  if (isLoading) {
     return (
       <Box mt="40vh">
         <Center>
@@ -33,7 +33,7 @@ export default function MainLayout() {
 
   return (
     <Flex direction="column" mih="100vh">
-      <HeaderMenu />
+      <HeaderMenu user={user} />
       <Flex direction="row" flex={1}>
         <AppNavbar />
         <Box flex={1} bg="gray.0" p="md">
