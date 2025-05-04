@@ -30,6 +30,19 @@ public class UpdateProductCommandHandler(IApplicationDbContext context)
         // Avoid modifying the CreatedDate property during update
         productEntry.Property(x => x.CreatedDate).IsModified = false;
 
+        // Handle images
+        _context.ProductImages.RemoveRange(
+            _context.ProductImages.Where(pi => pi.ProductId == request.Id)
+        );
+        _context.ProductImages.AddRange(
+            request.Images.Select(image => new ProductImage
+            {
+                Name = image.Name,
+                Path = image.Path,
+                ProductId = request.Id,
+            })
+        );
+
         try
         {
             await _context.SaveChangesAsync(cancellationToken);

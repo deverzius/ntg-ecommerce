@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Web;
 using Ardalis.GuardClauses;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Files.Dtos;
@@ -60,8 +61,10 @@ public class SupabaseStorageService(
 
     public async Task<FileUrlDto?> GetFileAsync(string filePath)
     {
-        var body = new { expiresIn = 360 };
+        var body = new { expiresIn = 3600 };
         var json = JsonSerializer.Serialize(body);
+
+        filePath = HttpUtility.UrlDecode(filePath);
 
         var request = new HttpRequestMessage(
             HttpMethod.Post,
@@ -96,7 +99,7 @@ public class SupabaseStorageService(
 
     public async Task<FileUrlDto[]> GetFilesAsync(string[] filePaths)
     {
-        var body = new { paths = filePaths, expiresIn = 360 };
+        var body = new { paths = filePaths, expiresIn = 3600 };
         var json = JsonSerializer.Serialize(body);
 
         var request = new HttpRequestMessage(

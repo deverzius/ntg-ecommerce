@@ -4,7 +4,6 @@ using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Application.Products.Dtos;
 
-// Composition approach to create ProductResponseDto
 public class ProductResponseDto(Product product)
 {
     private readonly Product _product = product;
@@ -22,7 +21,8 @@ public class ProductResponseDto(Product product)
     public SimpleBrandResponseDto? Brand => _product.Brand == null ? null : new(_product.Brand);
     public SimpleCategoryResponseDto? Category =>
         _product.Category == null ? null : new(_product.Category);
-    public ICollection<ProductImage> Images => _product.Images;
+    public ICollection<SimpleProductImageResponseDto> Images =>
+        [.. _product.Images.Select(i => new SimpleProductImageResponseDto(i))];
     public ICollection<ProductVariant> Variants => _product.Variants;
     public ICollection<Review> Reviews => _product.Reviews;
 }

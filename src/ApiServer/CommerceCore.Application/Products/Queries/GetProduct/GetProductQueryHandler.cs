@@ -17,6 +17,7 @@ public class GetProductQueryHandler(IApplicationDbContext context)
         var result = await _context
             .Products.Include(p => p.Brand)
             .Include(p => p.Category)
+            .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
         return result == null ? null : new ProductResponseDto(result);

@@ -42,7 +42,7 @@ public class FilesController() : ControllerBase
     public async Task<Results<Created<FileUrlDto>, BadRequest<string>>> UploadFile(
         ISender sender,
         [FromForm] string name,
-        [FromForm] IFormFile file
+        IFormFile file
     )
     {
         if (file == null || file.Length == 0)
