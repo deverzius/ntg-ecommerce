@@ -16,9 +16,11 @@ public class GetProductsWithPaginationQueryHandler(IApplicationDbContext context
         CancellationToken cancellationToken
     )
     {
+        // TODO: optimize query
         return await _context
             .Products.Include(p => p.Brand)
             .Include(p => p.Category)
+            .Include(p => p.Images)
             .Select(p => new ProductResponseDto(p))
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }

@@ -14,6 +14,7 @@ public class GetProductQueryHandler(IApplicationDbContext context)
         CancellationToken cancellationToken
     )
     {
+        // TODO: optimize query
         var result = await _context
             .Products.Include(p => p.Brand)
             .Include(p => p.Category)
