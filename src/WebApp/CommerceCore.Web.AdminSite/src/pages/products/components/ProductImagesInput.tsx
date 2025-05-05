@@ -5,17 +5,23 @@ import { notifications } from "@mantine/notifications";
 import { useUploadFileMutation } from "@/hooks/file/useUploadFileMutation";
 import { useGetFileUrlQuery } from "@/hooks/file/useGetFileUrlQuery";
 import { getImageUrlFromSignedUrl } from "@/shared/utils/getImageUrlFromSignedUrl";
+import { useEffect } from "react";
 
 interface ProductImagesInputProps {
   product: ProductResponseDto;
+  onUploading: () => void;
+  onUploadFinish: () => void;
   onUploadSuccess: (fileName: string, filePath: string) => void;
 }
 
 export function ProductImagesInput({
   product,
+  onUploading,
+  onUploadFinish,
   onUploadSuccess,
 }: ProductImagesInputProps) {
-  const { mutateAsync: uploadFile } = useUploadFileMutation();
+  const { mutateAsync: uploadFile, isPending: isUploadingFile } =
+    useUploadFileMutation();
   const { data: fileUrlResponse } = useGetFileUrlQuery({
     filePath: product.images[0]?.path,
   });
@@ -44,14 +50,27 @@ export function ProductImagesInput({
           title: "Error",
           message: "Failed to upload file.",
         });
+      })
+      .finally(() => {
+        onUploadFinish();
       });
   }
+
+  useEffect(() => {
+    if (isUploadingFile) {
+      onUploading();
+    }
+  }, [isUploadingFile]);
 
   return (
     <>
       <FileInput
         label={productLabels.files}
-        placeholder="Click to upload file"
+        description={
+          isUploadingFile ? "Uploading..." : "Click to upload product image"
+        }
+        disabled={isUploadingFile}
+        placeholder={"Click to upload file"}
         accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
         onChange={(payload) => handleFileUpload(payload)}
       />

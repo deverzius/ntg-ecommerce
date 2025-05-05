@@ -12,6 +12,7 @@ import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { notifications } from "@mantine/notifications";
 import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
 import { ProductImagesInput } from "./ProductImagesInput";
+import { useRef } from "react";
 
 interface ProductEditFormProps {
   product: ProductResponseDto;
@@ -29,6 +30,7 @@ export function ProductEditForm({
   const queryClient = useQueryClient();
   const { mutateAsync: updateProduct, isPending: isUpdateProductPending } =
     useUpdateProductMutation();
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
 
   // TODO: Handle upload multiple files
   const form = useForm<UpdateProductRequestDto>({
@@ -146,13 +148,24 @@ export function ProductEditForm({
 
       <ProductImagesInput
         product={product}
+        onUploading={() => {
+          submitBtnRef.current?.setAttribute("disabled", "true");
+        }}
+        onUploadFinish={() => {
+          submitBtnRef.current?.removeAttribute("disabled");
+        }}
         onUploadSuccess={(name, path) =>
           form.setFieldValue("images", [{ name, path }])
         }
       />
 
       <Group mt={24} gap="xs">
-        <Button loading={isUpdateProductPending} flex={1} type="submit">
+        <Button
+          ref={submitBtnRef}
+          loading={isUpdateProductPending}
+          flex={1}
+          type="submit"
+        >
           Save
         </Button>
         <Button flex={1} variant="outline" onClick={closeFn}>
