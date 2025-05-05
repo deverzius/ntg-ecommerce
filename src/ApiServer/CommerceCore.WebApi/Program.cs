@@ -1,7 +1,11 @@
 using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
 using CommerceCore.Application;
+using CommerceCore.IdentityServer.Middlewares;
 using CommerceCore.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Validation.AspNetCore;
 
 namespace CommerceCore.WebApi;
 
@@ -29,6 +33,47 @@ public class Program
             });
         });
 
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+        });
+
+        builder
+            .Services.AddAuthorizationBuilder()
+            .AddPolicy("RequireAdminRole", policy => policy.RequireClaim("Role", "Admin"));
+
+        builder
+            .Services.AddOpenIddict()
+            .AddServer(options =>
+            {
+                options.AddDevelopmentSigningCertificate();
+            })
+            .AddValidation(options =>
+            {
+                options.SetIssuer(
+                    builder.Configuration["IdentityServer:Authority"]
+                        ?? Guard.Against.NullOrWhiteSpace(
+                            "IdentityServer:Authority",
+                            "IdentityServer Authority is not configured."
+                        )
+                );
+
+                var encryptionKey =
+                    builder.Configuration["IdentityServer:EncryptionKey"]
+                    ?? Guard.Against.NullOrWhiteSpace(
+                        "IdentityServer:EncryptionKey",
+                        "IdentityServer EncryptionKey is not configured."
+                    );
+
+                options.AddEncryptionKey(
+                    new SymmetricSecurityKey(Convert.FromBase64String(encryptionKey))
+                );
+
+                options.UseSystemNetHttp();
+
+                options.UseAspNetCore();
+            });
+
         builder.Services.AddApiVersioning(options =>
         {
             options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -54,7 +99,11 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseMiddleware<CookieTokenMiddleware>();
+
         app.UseCors();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
