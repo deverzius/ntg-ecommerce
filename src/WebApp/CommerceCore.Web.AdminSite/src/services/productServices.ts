@@ -40,6 +40,7 @@ export async function createProduct(
       Accept: "application/json",
     },
     body: JSON.stringify(productDto),
+    credentials: "include",
   }).then((res) => res.json());
 }
 
@@ -53,11 +54,13 @@ export async function updateProduct(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(productDto),
-  }).then((res) => res.status === 204);
+    credentials: "include",
+  }).then((res) => res.ok);
 }
 
 export async function deleteProduct(id: string) {
   return await fetch(`${dotenv.API_URL}/v1/products/${id}`, {
     method: "DELETE",
-  }).then((res) => res.status === 204);
+    credentials: "include",
+  }).then((res) => res.ok);
 }

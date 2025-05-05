@@ -42,6 +42,7 @@ export async function createCategory(
       Accept: "application/json",
     },
     body: JSON.stringify(categoryDto),
+    credentials: "include",
   }).then((res) => res.json());
 }
 
@@ -55,11 +56,13 @@ export async function updateCategory(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(categoryDto),
+    credentials: "include",
   }).then((res) => res.status === 204);
 }
 
 export async function deleteCategory(id: string) {
   return await fetch(`${dotenv.API_URL}/v1/categories/${id}`, {
     method: "DELETE",
+    credentials: "include",
   }).then((res) => res.status === 204);
 }
