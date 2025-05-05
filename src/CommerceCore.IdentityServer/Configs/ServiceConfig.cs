@@ -1,8 +1,9 @@
+using Ardalis.GuardClauses;
 using CommerceCore.IdentityServer.Data;
 using CommerceCore.IdentityServer.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace CommerceCore.IdentityServer.Configs;
@@ -26,14 +27,12 @@ public static class ServiceConfig
             options.UseOpenIddict();
         });
 
-        services
-            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.HttpOnly = false;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-            });
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.HttpOnly = false;
+            options.Cookie.SameSite = SameSiteMode.Lax;
+        });
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -93,8 +92,8 @@ public static class ServiceConfig
                 options
                     .AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
-                    .SetAccessTokenLifetime(TimeSpan.FromMinutes(6))
-                    .SetIdentityTokenLifetime(TimeSpan.FromMinutes(6))
+                    .SetAccessTokenLifetime(TimeSpan.FromMinutes(10))
+                    .SetIdentityTokenLifetime(TimeSpan.FromMinutes(10))
                     .SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
                 options
@@ -108,6 +107,21 @@ public static class ServiceConfig
                     Scopes.Profile,
                     Scopes.Roles,
                     Scopes.OfflineAccess
+                );
+
+                var encryptionKey =
+                    configurationManager["IdentityServer:EncryptionKey"]
+                    ?? Guard.Against.NullOrWhiteSpace(
+                        "IdentityServer:EncryptionKey",
+                        "IdentityServer EncryptionKey is not configured."
+                    )
+                    ?? Guard.Against.NullOrWhiteSpace(
+                        "IdentityServer:EncryptionKey",
+                        "IdentityServer EncryptionKey is not configured."
+                    );
+
+                options.AddEncryptionKey(
+                    new SymmetricSecurityKey(Convert.FromBase64String(encryptionKey))
                 );
 
                 options.AddDevelopmentEncryptionCertificate().AddDevelopmentSigningCertificate();

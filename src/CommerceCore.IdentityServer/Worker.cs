@@ -1,4 +1,6 @@
 using CommerceCore.IdentityServer.Data;
+using CommerceCore.IdentityServer.Models;
+using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -15,12 +17,15 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await context.Database.EnsureCreatedAsync(cancellationToken);
 
-        var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+        var openIddictManager =
+            scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-        if (await manager.FindByClientIdAsync("ecommerce-client", cancellationToken) is null)
+        if (
+            await openIddictManager.FindByClientIdAsync("ecommerce-client", cancellationToken)
+            is null
+        )
         {
-            // TODO: update seeding data
-            await manager.CreateAsync(
+            await openIddictManager.CreateAsync(
                 new OpenIddictApplicationDescriptor
                 {
                     DisplayName = "ECommerce Client",
@@ -48,6 +53,25 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 },
                 cancellationToken
             );
+        }
+
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        if (await roleManager.RoleExistsAsync("Admin") is false)
+        {
+            await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+            await roleManager.CreateAsync(new IdentityRole { Name = "User" });
+            await userManager.CreateAsync(
+                new ApplicationUser
+                {
+                    UserName = "admin@nashmail.com",
+                    Email = "admin@nashmail.com",
+                },
+                "Admin123!"
+            );
+            var adminUser = await userManager.FindByEmailAsync("admin@nashmail.com");
+            await userManager.AddToRoleAsync(adminUser!, "Admin");
         }
     }
 
