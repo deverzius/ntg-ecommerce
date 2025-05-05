@@ -3,6 +3,7 @@ using CommerceCore.Application.Files.Dtos;
 using CommerceCore.Application.Files.Queries.GetFileUrl;
 using CommerceCore.Application.Files.Queries.GetFileUrls;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,7 @@ public class FilesController() : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAdminRole")]
     [Consumes("multipart/form-data")]
     [ProducesResponseType(typeof(Created<FileUrlDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

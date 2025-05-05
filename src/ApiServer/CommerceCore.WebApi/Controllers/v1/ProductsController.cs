@@ -6,6 +6,7 @@ using CommerceCore.Application.Products.Dtos;
 using CommerceCore.Application.Products.Queries.GetProduct;
 using CommerceCore.Application.Products.Queries.GetProductsWithPagination;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,7 @@ public class ProductsController() : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(typeof(Created<ProductResponseDto>), StatusCodes.Status201Created)]
     public async Task<Created<ProductResponseDto>> PostProduct(
         ISender sender,
@@ -51,6 +53,7 @@ public class ProductsController() : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -69,6 +72,7 @@ public class ProductsController() : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<Results<NoContent, NotFound>> DeleteProduct(ISender sender, Guid id)

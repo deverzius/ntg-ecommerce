@@ -6,6 +6,7 @@ using CommerceCore.Application.Categories.Queries.GetCategoriesWithPagination;
 using CommerceCore.Application.Categories.Queries.GetCategory;
 using CommerceCore.Application.Common.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,7 @@ public class CategoriesController() : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(typeof(Created<CategoryResponseDto>), StatusCodes.Status201Created)]
     public async Task<Created<CategoryResponseDto>> PostCategory(
         ISender sender,
@@ -54,6 +56,7 @@ public class CategoriesController() : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<Results<NoContent, BadRequest>> PutCategory(
@@ -74,6 +77,7 @@ public class CategoriesController() : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<Results<NoContent, BadRequest>> DeleteCategory(ISender sender, Guid id)
