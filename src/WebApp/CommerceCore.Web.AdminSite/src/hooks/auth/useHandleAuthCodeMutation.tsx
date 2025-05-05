@@ -16,7 +16,7 @@ export function useHandleAuthCodeMutation() {
         })
         .then(() => {
           const timeoutId = setTimeout(() => {
-            window.location.href = `${dotenv.CLIENT_URL}`;
+            window.location.href = `${dotenv.ADMIN_URL}`;
             clearTimeout(timeoutId);
           }, 2000);
         });

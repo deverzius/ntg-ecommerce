@@ -22,7 +22,7 @@ export async function authorizeUser(): Promise<Response> {
     body: new URLSearchParams({
       client_id: dotenv.CLIENT_ID,
       client_secret: dotenv.CLIENT_SECRET,
-      redirect_uri: `${dotenv.CLIENT_URL}/callback`,
+      redirect_uri: `${dotenv.ADMIN_URL}/callback`,
       response_type: "code",
       grant_type: "authorization_code",
       scope: "openid offline_access",
@@ -50,7 +50,7 @@ export async function fetchToken(authCode: string): Promise<AuthResponseDto> {
     body: new URLSearchParams({
       client_id: dotenv.CLIENT_ID,
       client_secret: dotenv.CLIENT_SECRET,
-      redirect_uri: `${dotenv.CLIENT_URL}/callback`,
+      redirect_uri: `${dotenv.ADMIN_URL}/callback`,
       response_type: "code",
       grant_type: "authorization_code",
       code: authCode,
