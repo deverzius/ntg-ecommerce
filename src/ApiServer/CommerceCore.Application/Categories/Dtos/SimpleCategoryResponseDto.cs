@@ -4,10 +4,8 @@ namespace CommerceCore.Application.Categories.Dtos;
 
 public class SimpleCategoryResponseDto(Category category)
 {
-    private readonly Category _category = category;
-
-    public Guid Id => _category.Id;
-    public string Name => _category.Name;
-    public string Description => _category.Description;
-    public Guid? ParentCategoryId => _category.ParentCategoryId;
+    public Guid Id => category.Id;
+    public string Name => category.Name;
+    public string Description => category.Description;
+    public Guid? ParentCategoryId => category.ParentCategoryId;
 }

@@ -4,12 +4,10 @@ namespace CommerceCore.Application.Categories.Dtos;
 
 public class CategoryResponseDto(Category category)
 {
-    private readonly Category _category = category;
-
-    public Guid Id => _category.Id;
-    public string Name => _category.Name;
-    public string Description => _category.Description;
-    public Guid? ParentCategoryId => _category.ParentCategoryId;
-    public Category? ParentCategory => _category.ParentCategory;
-    public ICollection<Product> Products => _category.Products;
+    public Guid Id => category.Id;
+    public string Name => category.Name;
+    public string Description => category.Description;
+    public Guid? ParentCategoryId => category.ParentCategoryId;
+    public Category? ParentCategory => category.ParentCategory;
+    public ICollection<Product> Products => category.Products;
 }

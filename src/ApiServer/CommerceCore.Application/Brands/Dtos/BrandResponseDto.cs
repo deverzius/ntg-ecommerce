@@ -4,10 +4,8 @@ namespace CommerceCore.Application.Brands.Dtos;
 
 public class BrandResponseDto(Brand brand)
 {
-    private readonly Brand _brand = brand;
-
-    public Guid Id => _brand.Id;
-    public string Name => _brand.Name;
-    public string Description => _brand.Description;
-    public ICollection<Product> Products => _brand.Products;
+    public Guid Id => brand.Id;
+    public string Name => brand.Name;
+    public string Description => brand.Description;
+    public ICollection<Product> Products => brand.Products;
 }
