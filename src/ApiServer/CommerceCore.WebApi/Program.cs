@@ -26,8 +26,8 @@ public class Program
             options.AddDefaultPolicy(policy =>
             {
                 policy
-                    .WithOrigins("https://localhost:5173")
-                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                    .WithOrigins("https://localhost:5173", "https://localhost:7136")
+                    .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
             });
