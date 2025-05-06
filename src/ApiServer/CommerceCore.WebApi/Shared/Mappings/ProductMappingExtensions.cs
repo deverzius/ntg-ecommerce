@@ -24,6 +24,21 @@ public static class ProductMappingExtensions
         };
     }
 
+    public static ReviewViewModel ToViewModel(this ReviewResponseDto review)
+    {
+        return new ReviewViewModel()
+        {
+            Id = review.Id,
+            Rating = review.Rating,
+            Title = review.Title,
+            Comment = review.Comment,
+            CreatedDate = review.CreatedDate,
+            FullName = review.FullName,
+            PhoneNumber = review.PhoneNumber,
+            Email = review.Email,
+        };
+    }
+
     public static PaginatedListViewModel<ProductViewModel> ToViewModel(
         this PaginatedList<ProductResponseDto> products,
         string publicStorageUrl

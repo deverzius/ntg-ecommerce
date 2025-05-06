@@ -27,8 +27,6 @@ public class Review
     [Required]
     public required Guid ProductId { get; set; }
 
-    public Guid? UserId { get; set; }
-
     // Required when UserId is null
     public string? FullName { get; set; }
 

@@ -22,5 +22,4 @@ public class ProductResponseDto(Product product)
     public ICollection<SimpleProductImageResponseDto> Images =>
         [.. product.Images.Select(i => new SimpleProductImageResponseDto(i))];
     public ICollection<ProductVariant> Variants => product.Variants;
-    public ICollection<Review> Reviews => product.Reviews;
 }

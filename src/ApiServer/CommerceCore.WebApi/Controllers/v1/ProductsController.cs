@@ -3,6 +3,7 @@ using CommerceCore.Application.Products.Commands.DeleteProduct;
 using CommerceCore.Application.Products.Commands.UpdateProduct;
 using CommerceCore.Application.Products.Queries.GetProduct;
 using CommerceCore.Application.Products.Queries.GetProductsWithPagination;
+using CommerceCore.Application.Products.Queries.GetReviewsByProductId;
 using CommerceCore.WebApi.Shared.Mappings;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,13 +41,25 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(Ok<ProductViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<Results<Ok<ProductViewModel>, NotFound>> GetProduct(ISender sender, Guid id)
+    public async Task<Results<Ok<ProductWithReviewsViewModel>, NotFound>> GetProduct(
+        ISender sender,
+        Guid id
+    )
     {
-        var result = await sender.Send(new GetProductQuery(id));
+        var product = await sender.Send(new GetProductQuery(id));
 
-        return result == null
-            ? TypedResults.NotFound()
-            : TypedResults.Ok(result.ToViewModel(_publicStorageUrl));
+        if (product == null)
+            return TypedResults.NotFound();
+
+        var reviews = await sender.Send(new GetReviewsByProductIdQuery(id));
+
+        return TypedResults.Ok(
+            new ProductWithReviewsViewModel
+            {
+                Product = product.ToViewModel(_publicStorageUrl),
+                Reviews = [.. reviews.Select(r => r.ToViewModel())],
+            }
+        );
     }
 
     [HttpPost]
