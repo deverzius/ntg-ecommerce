@@ -1,32 +1,50 @@
 using System.Diagnostics;
+using System.Text.Json;
+using Ardalis.GuardClauses;
+using CommerceCore.SharedViewModels;
+using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using CommerceCore.Web.CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CommerceCore.Web.CustomersSite.Controllers
+namespace CommerceCore.Web.CustomersSite.Controllers;
+
+public class HomeController(
+    ILogger<HomeController> logger,
+    HttpClient httpClient,
+    IConfiguration config
+) : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger = logger;
+    private readonly HttpClient _httpClient = httpClient;
+    private readonly string _apiUrl =
+        config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
+
+    public async Task<IActionResult> Index()
     {
-        private readonly ILogger<HomeController> _logger;
+        var response = await _httpClient.GetAsync(
+            _apiUrl + "/v1/products/?PageNumber=1&PageSize=100"
+        );
+        response.EnsureSuccessStatusCode();
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        var json = await response.Content.ReadAsStringAsync();
+        var products = JsonSerializer.Deserialize<PaginatedListViewModel<ProductViewModel>>(
+            json,
+            JsonHelper.Options
+        );
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View(products);
+    }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(
+            new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier }
+        );
     }
 }

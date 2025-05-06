@@ -1,12 +1,18 @@
+@model PaginatedListViewModel<ProductViewModel>?
+
+@{
+    var products = Model?.Items ?? [];
+}
+
 <div class="px-3 w-6xl grid grid-cols-12 gap-6 items-center">
     <div class="text-center col-span-12">
         <h3 class="text-3xl font-semibold">Featured Products</h3>
     </div>
 
-    @for (var i = 0; i < 8; i++)
+    @foreach (var p in products)
     {
         <div class="col-span-3">
-            @await Component.InvokeAsync("ProductCard", new { })
+            @await Component.InvokeAsync("ProductCard", p)
         </div>
     }
 

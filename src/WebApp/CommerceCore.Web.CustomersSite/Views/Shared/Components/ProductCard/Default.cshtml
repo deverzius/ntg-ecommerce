@@ -1,20 +1,21 @@
-﻿@using CommerceCore.Web.CustomersSite.ViewModels
-@model ProductCardViewModel
+﻿@model ProductViewModel
 
-@* TODO use route-id from ViewModel *@
-<a asp-controller="Products" asp-action="Details" asp-route-id="abc" class="group">
+@{
+    var imageUrl = Model.Images.Count > 0 ? Model.Images[0].PublicUrl : "#";
+}
+
+<a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id.ToString()" class="group">
     <div class="relative w-full h-[300px] overflow-hidden align-middle">
-        <img src="https://www.prada.com/content/dam/pradabkg_products/1/1BA/1BA457/2CYSF0032/1BA457_2CYS_F0032_V_YO0_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
-            alt="product"
+        <img src="@imageUrl" alt="product"
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
     </div>
 
     <div class="px-4 mt-2 mb-4">
         <div class="text-left mb-4">
             <h3 class="font-semibold text-gray-900">
-                Product ABC
+                @Model.Name
             </h3>
-            <p class="text-gray-800">$ 2,750</p>
+            <p class="text-gray-800">@Model.Price</p>
         </div>
 
         <div class="flex items-center gap-2">
