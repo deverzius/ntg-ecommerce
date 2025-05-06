@@ -1,5 +1,4 @@
 using CommerceCore.Application.Categories.Dtos;
-using CommerceCore.SharedViewModels;
 
 namespace CommerceCore.WebApi.Shared.Mappings;
 

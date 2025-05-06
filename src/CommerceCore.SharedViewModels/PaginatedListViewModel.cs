@@ -1,8 +1,8 @@
-namespace CommerceCore.SharedViewModels;
+using System.Collections.Generic;
 
-public class PaginatedListViewModel<T>()
+public class PaginatedListViewModel<T>
 {
-    public IReadOnlyCollection<T> Items { get; set; }
+    public List<T> Items { get; set; }
     public int PageNumber { get; set; }
     public int TotalPages { get; set; }
     public int TotalCount { get; set; }

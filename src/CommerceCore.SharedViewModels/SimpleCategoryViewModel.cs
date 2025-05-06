@@ -1,6 +1,6 @@
-namespace CommerceCore.SharedViewModels;
+using System;
 
-public class SimpleCategoryViewModel()
+public class SimpleCategoryViewModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

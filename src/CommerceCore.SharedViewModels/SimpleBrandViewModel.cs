@@ -1,4 +1,4 @@
-namespace CommerceCore.SharedViewModels;
+using System;
 
 public class SimpleBrandViewModel
 {

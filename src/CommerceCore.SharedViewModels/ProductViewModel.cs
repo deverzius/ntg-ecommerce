@@ -1,4 +1,5 @@
-namespace CommerceCore.SharedViewModels;
+using System;
+using System.Collections.Generic;
 
 public class ProductViewModel
 {
@@ -8,7 +9,8 @@ public class ProductViewModel
     public decimal Price { get; set; }
     public Guid BrandId { get; set; }
     public Guid CategoryId { get; set; }
-    public SimpleBrandViewModel? Brand { get; set; }
-    public SimpleCategoryViewModel? Category { get; set; }
-    public List<SimpleProductImageViewModel> Images { get; set; }
+    public SimpleBrandViewModel Brand { get; set; } = null;
+    public SimpleCategoryViewModel Category { get; set; } = null;
+    public List<SimpleProductImageViewModel> Images { get; set; } =
+        new List<SimpleProductImageViewModel>();
 }

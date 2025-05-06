@@ -3,7 +3,6 @@ using CommerceCore.Application.Products.Commands.DeleteProduct;
 using CommerceCore.Application.Products.Commands.UpdateProduct;
 using CommerceCore.Application.Products.Queries.GetProduct;
 using CommerceCore.Application.Products.Queries.GetProductsWithPagination;
-using CommerceCore.SharedViewModels;
 using CommerceCore.WebApi.Shared.Mappings;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
