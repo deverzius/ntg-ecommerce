@@ -1,4 +1,3 @@
-using CommerceCore.SharedViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommerceCore.Web.CustomersSite.ViewComponents;

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
 using Ardalis.GuardClauses;
-using CommerceCore.SharedViewModels;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using CommerceCore.Web.CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -21,23 +20,32 @@ public class HomeController(
 
     public async Task<IActionResult> Index()
     {
-        var response = await _httpClient.GetAsync(
-            _apiUrl + "/v1/products/?PageNumber=1&PageSize=100"
-        );
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        var products = JsonSerializer.Deserialize<PaginatedListViewModel<ProductViewModel>>(
-            json,
-            JsonHelper.Options
-        );
+        var products = await FetchProducts();
 
         return View(products);
     }
 
-    public IActionResult Privacy()
+    private async Task<PaginatedListViewModel<ProductViewModel>> FetchProducts()
     {
-        return View();
+        try
+        {
+            var response = await _httpClient.GetAsync(
+                _apiUrl + "/v1/products/?PageNumber=1&PageSize=100"
+            );
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var products = JsonSerializer.Deserialize<PaginatedListViewModel<ProductViewModel>>(
+                json,
+                JsonHelper.Options
+            );
+
+            return products ?? new();
+        }
+        catch
+        {
+            return new PaginatedListViewModel<ProductViewModel>();
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

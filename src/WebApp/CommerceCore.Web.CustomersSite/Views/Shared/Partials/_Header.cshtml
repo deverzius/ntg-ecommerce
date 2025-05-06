@@ -1,3 +1,6 @@
+@inject IConfiguration _configuration
+@inject HttpClient _httpClient
+
 <header>
     <nav class="h-20 border-b border-gray-200">
         <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
@@ -29,11 +32,54 @@
                         </button>
                     </div>
 
-                    @await Component.InvokeAsync("SvgIcon", new { name = "heart", size = 28 })
-                    @await Component.InvokeAsync("SvgIcon", new { name = "user-circle", size = 28 })
+                    @* @await Component.InvokeAsync("SvgIcon", new { name = "heart", size = 28 }) *@
+                    @* @await Component.InvokeAsync("SvgIcon", new { name = "user-circle", size = 28 }) *@
                     @await Component.InvokeAsync("SvgIcon", new { name = "shopping-bag", size = 28 })
+
+                    <button id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown"
+                        class="flex items-center justify-between font-medium w-auto">
+                        <div id="user-menu" class="hidden flex items-center gap-1">
+                            <span class="font-semibold" id="user-email">
+                            </span>
+                            @await Component.InvokeAsync("SvgIcon", new { name = "chevron-down", size = 16 })
+                        </div>
+                    </button>
+                    <div id="mega-menu-dropdown"
+                        class="absolute z-[9999] hidden w-[200px] overflow-hidden text-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                        <div class="p-4 pb-0 text-gray-500 md:pb-4 hover:bg-gray-100">
+                            <ul class="space-y-4" aria-labelledby="mega-menu-dropdown-button">
+                                <li class="w-full">
+                                    <a class="block" asp-controller="Auth" asp-action="Logout">
+                                        Log out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a id="login-btn" class="font-semibold" asp-controller="Auth" asp-action="Login">
+                        Login
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 </header>
+
+<script>
+    fetch("https://localhost:7268/connect/userinfo", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+        },
+        credentials: "include",
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("user-email").innerHTML = data.email;
+            document.getElementById("login-btn").style.display = "none";
+            document.getElementById("user-menu").classList.remove("hidden");
+        })
+        .catch(error => console.log(error));
+</script>
