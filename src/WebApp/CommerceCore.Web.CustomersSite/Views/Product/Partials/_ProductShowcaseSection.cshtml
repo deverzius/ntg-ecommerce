@@ -1,13 +1,19 @@
+@model ProductViewModel
+
+@{
+    var images = Model.Images.Select(x => x.PublicUrl).ToList();
+    var imageUrl = images[0] ?? "#";
+}
+
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
     <div class="col-span-4 col-start-2">
-        <img src="https://www.prada.com/content/dam/pradabkg_products/S/SGC/SGC873/1CMVF0192/SGC873_1CMV_F0192_S_OOO_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.1000.1000.jpg"
-            alt="product-image" class="w-full">
+        <img src="@(imageUrl)" alt="product-image" class="w-full">
     </div>
 
     <div class="col-span-6 grid grid-cols-6 gap-6">
         <div class="col-span-6 space-y-2">
-            <h3 class="text-3xl font-semibold">Medium Prada Galleria leather bag</h3>
-            <p class="text-lg">$ 4,500</p>
+            <h3 class="text-3xl font-semibold">@Model.Name</h3>
+            <p class="text-lg">@Model.Price $</p>
         </div>
 
         <div class="col-span-6 space-x-2 space-y-2">
