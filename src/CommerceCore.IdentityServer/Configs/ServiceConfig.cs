@@ -55,8 +55,8 @@ public static class ServiceConfig
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("https://localhost:5173");
-                policy.WithMethods("GET", "POST");
+                policy.WithOrigins("https://localhost:5173", "https://localhost:7136");
+                policy.AllowAnyMethod();
                 policy.AllowCredentials();
                 policy.AllowAnyHeader();
             });
