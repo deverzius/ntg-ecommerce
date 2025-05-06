@@ -206,6 +206,10 @@ public class AuthorizationController(
     public async Task<IActionResult> Logout()
     {
         Response.Cookies.Delete("access_token");
-        return Ok();
+        Response.Cookies.Delete("refresh_token");
+
+        var redirectUrl = Request.Query["post_logout_redirect_uri"].ToString();
+
+        return Redirect(redirectUrl);
     }
 }
