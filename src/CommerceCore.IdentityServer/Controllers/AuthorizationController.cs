@@ -14,8 +14,7 @@ namespace CommerceCore.IdentityServer.Controllers;
 public class AuthorizationController(
     IOpenIddictApplicationManager applicationManager,
     IOpenIddictAuthorizationManager authorizationManager,
-    UserManager<ApplicationUser> userManager,
-    ILogger<AuthorizationController> logger
+    UserManager<ApplicationUser> userManager
 ) : Controller
 {
     private readonly IOpenIddictApplicationManager _applicationManager = applicationManager;
