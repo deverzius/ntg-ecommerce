@@ -12,4 +12,5 @@ export type UserResponseDto = {
   email: string;
   userName: string;
   phoneNumber?: string;
+  role?: string;
 };

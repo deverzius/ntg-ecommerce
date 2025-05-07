@@ -15,7 +15,7 @@ export default function MainLayout() {
     if (isLoading) {
       return;
     }
-    if (user) {
+    if (user?.role === "Admin") {
       return;
     }
     authorizeAsync();

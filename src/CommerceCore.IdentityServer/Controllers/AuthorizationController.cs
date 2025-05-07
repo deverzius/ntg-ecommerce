@@ -197,6 +197,8 @@ public class AuthorizationController(
 
         var user = await _userManager.FindByIdAsync(userId);
 
+        var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
         return Ok(
             new UserViewModel
             {
@@ -204,6 +206,7 @@ public class AuthorizationController(
                 UserName = user?.UserName,
                 Email = user?.Email,
                 PhoneNumber = user?.PhoneNumber,
+                Role = role,
             }
         );
     }
