@@ -27,7 +27,9 @@ export async function getProductById(id: string): Promise<ProductResponseDto> {
     headers: {
       Accept: "application/json",
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then((res) => res.product);
 }
 
 export async function createProduct(

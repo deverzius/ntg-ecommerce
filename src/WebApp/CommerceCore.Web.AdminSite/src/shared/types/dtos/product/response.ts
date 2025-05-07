@@ -14,14 +14,21 @@ export type ProductResponseDto = {
   brand?: SimpleBrandResponseDto;
   category?: SimpleCategoryResponseDto;
   images: ProductImageResponseDto[];
-
-  // TODO: update types
-  variants: any[];
-  reviews: any[];
 };
 
 export type ProductImageResponseDto = {
   name: string;
   path: string;
   productId: string;
+};
+
+export type ReviewResponseDto = {
+  id: string;
+  rating: number;
+  title: string;
+  comment: string;
+  createdDate: string;
+  fullName?: string;
+  phoneNumber?: string;
+  email?: string;
 };

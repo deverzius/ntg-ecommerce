@@ -100,8 +100,6 @@ export function ProductTable() {
                 <Table.Th>{productLabels.name}</Table.Th>
                 <Table.Th>{productLabels.price}</Table.Th>
                 <Table.Th>{productLabels.updatedDate}</Table.Th>
-                <Table.Th>{productLabels.brand}</Table.Th>
-                <Table.Th>{productLabels.category}</Table.Th>
                 <Table.Th>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
@@ -113,8 +111,6 @@ export function ProductTable() {
                   <Table.Td>{product.name}</Table.Td>
                   <Table.Td>{product.price}</Table.Td>
                   <Table.Td>{product.updatedDate}</Table.Td>
-                  <Table.Td>{product.brand?.name}</Table.Td>
-                  <Table.Td>{product.category?.name}</Table.Td>
                   <Table.Td>
                     <Flex gap="xs">
                       <Button
