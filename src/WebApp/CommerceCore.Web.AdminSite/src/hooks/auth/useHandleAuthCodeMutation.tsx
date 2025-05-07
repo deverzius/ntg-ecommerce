@@ -13,6 +13,7 @@ export function useHandleAuthCodeMutation() {
       fetchToken(authCode)
         .then((res) => {
           setCookie("access_token", res.access_token, res.expires_in);
+          setCookie("refresh_token", res.refresh_token, res.expires_in);
         })
         .then(() => {
           const timeoutId = setTimeout(() => {

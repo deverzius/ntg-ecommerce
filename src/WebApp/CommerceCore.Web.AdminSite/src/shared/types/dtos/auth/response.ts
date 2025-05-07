@@ -10,5 +10,6 @@ export type AuthResponseDto = {
 export type UserResponseDto = {
   id: string;
   email: string;
+  userName: string;
   phoneNumber?: string;
 };

@@ -25,7 +25,7 @@ export async function authorizeUser(): Promise<Response> {
       redirect_uri: `${dotenv.ADMIN_URL}/callback`,
       response_type: "code",
       grant_type: "authorization_code",
-      scope: "openid offline_access",
+      scope: "openid profile offline_access",
     }),
   }).then((res) => res);
 }
