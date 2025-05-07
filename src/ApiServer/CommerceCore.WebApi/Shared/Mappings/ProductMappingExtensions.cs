@@ -18,6 +18,8 @@ public static class ProductMappingExtensions
             Price = product.Price,
             BrandId = product.BrandId,
             CategoryId = product.CategoryId,
+            CreatedDate = product.CreatedDate,
+            UpdatedDate = product.UpdatedDate,
             Brand = product.Brand != null ? product.Brand?.ToViewModel() : null,
             Category = product.Category?.ToViewModel(),
             Images = [.. product.Images.Select(i => i.ToViewModel(publicStorageUrl))],
