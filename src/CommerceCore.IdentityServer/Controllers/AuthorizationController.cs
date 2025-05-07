@@ -218,8 +218,11 @@ public class AuthorizationController(
         Response.Cookies.Delete("access_token");
         Response.Cookies.Delete("refresh_token");
 
-        var redirectUrl = Request.Query["post_logout_redirect_uri"].ToString();
+        if (Request.Query.ContainsKey("post_logout_redirect_uri") == false)
+        {
+            return Ok();
+        }
 
-        return Redirect(redirectUrl);
+        return Redirect(Request.Query["post_logout_redirect_uri"].ToString());
     }
 }
