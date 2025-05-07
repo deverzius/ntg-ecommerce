@@ -35,9 +35,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     RedirectUris =
                     {
                         new Uri("https://oauth.pstmn.io/v1/callback"),
-                        new Uri("https://localhost:5173"),
+                        new Uri("https://localhost:5173/callback"),
+                        new Uri("https://localhost:7136/callback"),
                     },
-                    PostLogoutRedirectUris = { new Uri("https://localhost:5173") },
+                    PostLogoutRedirectUris =
+                    {
+                        new Uri("https://localhost:5173"),
+                        new Uri("https://localhost:7136/SignoutCallback"),
+                    },
                     Permissions =
                     {
                         Permissions.Endpoints.Authorization,
