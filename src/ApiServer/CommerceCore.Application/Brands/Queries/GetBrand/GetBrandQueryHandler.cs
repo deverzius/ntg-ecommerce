@@ -1,4 +1,5 @@
 using CommerceCore.Application.Brands.Dtos;
+using CommerceCore.Application.Common.Mappings;
 using MediatR;
 
 namespace CommerceCore.Application.Brands.Queries.GetBrand;
@@ -15,6 +16,6 @@ public class GetBrandQueryHandler(IApplicationDbContext context)
     {
         var result = await _context.Brands.FindAsync([request.Id], cancellationToken);
 
-        return result == null ? null : new BrandResponseDto(result);
+        return result?.ToDto();
     }
 }

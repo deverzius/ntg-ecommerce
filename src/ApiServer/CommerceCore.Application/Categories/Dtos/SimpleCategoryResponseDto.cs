@@ -1,11 +1,9 @@
-using CommerceCore.Domain.Entities;
-
 namespace CommerceCore.Application.Categories.Dtos;
 
-public class SimpleCategoryResponseDto(Category category)
+public class SimpleCategoryResponseDto
 {
-    public Guid Id => category.Id;
-    public string Name => category.Name;
-    public string Description => category.Description;
-    public Guid? ParentCategoryId => category.ParentCategoryId;
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
+    public Guid? ParentCategoryId { get; set; }
 }

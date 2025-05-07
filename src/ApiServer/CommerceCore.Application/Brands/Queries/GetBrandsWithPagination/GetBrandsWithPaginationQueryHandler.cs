@@ -16,7 +16,7 @@ public class GetBrandsWithPaginationQueryHandler(IApplicationDbContext context)
     )
     {
         return await _context
-            .Brands.Select(p => new BrandResponseDto(p))
+            .Brands.Select(p => p.ToDto())
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

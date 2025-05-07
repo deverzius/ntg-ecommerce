@@ -1,4 +1,5 @@
 using CommerceCore.Application.Categories.Dtos;
+using CommerceCore.Application.Common.Mappings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,6 @@ public class GetCategoryQueryHandler(IApplicationDbContext context)
             cancellationToken
         );
 
-        return result == null ? null : new CategoryResponseDto(result);
+        return result?.ToDto();
     }
 }

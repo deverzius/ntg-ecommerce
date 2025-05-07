@@ -1,10 +1,8 @@
-using CommerceCore.Domain.Entities;
-
 namespace CommerceCore.Application.Products.Dtos;
 
-public class SimpleProductImageResponseDto(ProductImage productImage)
+public class SimpleProductImageResponseDto
 {
-    public string Name => productImage.Name;
-    public string Path => productImage.Path;
-    public Guid ProductId => productImage.ProductId;
+    public required string Name { get; set; }
+    public required string Path { get; set; }
+    public required Guid ProductId { get; set; }
 }

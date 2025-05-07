@@ -1,3 +1,4 @@
+using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Application.Products.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class GetReviewsByProductIdQueryHandler(IApplicationDbContext context)
     {
         return await _context
             .Reviews.Where(r => r.ProductId == request.ProductId)
-            .Select(r => new ReviewResponseDto(r))
+            .Select(r => r.ToDto())
             .ToListAsync(cancellationToken);
     }
 }

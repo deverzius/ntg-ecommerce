@@ -21,7 +21,7 @@ public class GetProductsWithPaginationQueryHandler(IApplicationDbContext context
             .Products.Include(p => p.Brand)
             .Include(p => p.Category)
             .Include(p => p.Images)
-            .Select(p => new ProductResponseDto(p))
+            .Select(p => p.ToDto())
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

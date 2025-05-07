@@ -1,4 +1,5 @@
 using CommerceCore.Application.Categories.Dtos;
+using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Domain.Entities;
 using MediatR;
 
@@ -24,6 +25,6 @@ public class CreateCategoryCommandHandler(IApplicationDbContext context)
         _context.Categories.Add(category);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new CategoryResponseDto(category);
+        return category.ToDto();
     }
 }

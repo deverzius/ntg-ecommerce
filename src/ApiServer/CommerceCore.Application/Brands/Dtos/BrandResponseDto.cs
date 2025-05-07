@@ -2,10 +2,10 @@ using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Application.Brands.Dtos;
 
-public class BrandResponseDto(Brand brand)
+public class BrandResponseDto
 {
-    public Guid Id => brand.Id;
-    public string Name => brand.Name;
-    public string Description => brand.Description;
-    public ICollection<Product> Products => brand.Products;
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
+    public ICollection<Product> Products { get; set; } = [];
 }

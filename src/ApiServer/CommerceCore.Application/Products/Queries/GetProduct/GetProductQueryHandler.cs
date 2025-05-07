@@ -1,3 +1,4 @@
+using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Application.Products.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,6 @@ public class GetProductQueryHandler(IApplicationDbContext context)
             .Include(p => p.Images)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
-        return result == null ? null : new ProductResponseDto(result);
+        return result?.ToDto();
     }
 }

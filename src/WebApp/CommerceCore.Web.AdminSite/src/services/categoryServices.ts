@@ -3,12 +3,12 @@ import type {
   CreateCategoryRequestDto,
   UpdateCategoryRequestDto,
 } from "@/shared/types/dtos/category/request";
-import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 import type { PaginatedList } from "@/shared/types/PaginatedList";
 
 export async function getCategories(
   urlParams?: URLSearchParams
-): Promise<PaginatedList<CategoryResponseDto>> {
+): Promise<PaginatedList<SimpleCategoryResponseDto>> {
   const stringParams = urlParams ? urlParams.toString() : "";
 
   return await fetch(`${dotenv.API_URL}/v1/categories?${stringParams}`, {
@@ -23,7 +23,7 @@ export async function getCategories(
 
 export async function getCategoryById(
   id: string
-): Promise<CategoryResponseDto> {
+): Promise<SimpleCategoryResponseDto> {
   return await fetch(`${dotenv.API_URL}/v1/categories/${id}`, {
     method: "GET",
     headers: {
@@ -34,7 +34,7 @@ export async function getCategoryById(
 
 export async function createCategory(
   categoryDto: CreateCategoryRequestDto
-): Promise<CategoryResponseDto> {
+): Promise<SimpleCategoryResponseDto> {
   return await fetch(`${dotenv.API_URL}/v1/categories`, {
     method: "POST",
     headers: {

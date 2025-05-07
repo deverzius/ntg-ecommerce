@@ -20,8 +20,8 @@ public static class ProductMappingExtensions
             CategoryId = product.CategoryId,
             CreatedDate = product.CreatedDate,
             UpdatedDate = product.UpdatedDate,
-            Brand = product.Brand != null ? product.Brand?.ToViewModel() : null,
-            Category = product.Category?.ToViewModel(),
+            Brand = product.Brand?.ToSimpleViewModel(),
+            Category = product.Category?.ToSimpleViewModel(),
             Images = [.. product.Images.Select(i => i.ToViewModel(publicStorageUrl))],
         };
     }

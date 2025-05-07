@@ -16,7 +16,7 @@ public class GetCategoriesWithPaginationQueryHandler(IApplicationDbContext conte
     )
     {
         return await _context
-            .Categories.Select(c => new CategoryResponseDto(c))
+            .Categories.Select(c => c.ToDto())
             .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
     }
 }

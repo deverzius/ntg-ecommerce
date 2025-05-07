@@ -1,3 +1,4 @@
+using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Application.Products.Dtos;
 using CommerceCore.Domain.Entities;
 using MediatR;
@@ -26,6 +27,6 @@ public class CreateProductCommandHandler(IApplicationDbContext context)
         _context.Products.Add(product);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new ProductResponseDto(product);
+        return product.ToDto();
     }
 }

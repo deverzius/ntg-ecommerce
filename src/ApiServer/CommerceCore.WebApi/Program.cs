@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using Ardalis.GuardClauses;
 using CommerceCore.Application;
-using CommerceCore.IdentityServer.Middlewares;
 using CommerceCore.Infrastructure;
+using CommerceCore.WebApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Validation.AspNetCore;

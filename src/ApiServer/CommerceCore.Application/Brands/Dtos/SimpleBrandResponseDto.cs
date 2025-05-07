@@ -1,10 +1,8 @@
-using CommerceCore.Domain.Entities;
-
 namespace CommerceCore.Application.Brands.Dtos;
 
-public class SimpleBrandResponseDto(Brand brand)
+public class SimpleBrandResponseDto
 {
-    public Guid Id => brand.Id;
-    public string Name => brand.Name;
-    public string Description => brand.Description;
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
 }

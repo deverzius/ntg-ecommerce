@@ -2,12 +2,12 @@ using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Application.Categories.Dtos;
 
-public class CategoryResponseDto(Category category)
+public class CategoryResponseDto
 {
-    public Guid Id => category.Id;
-    public string Name => category.Name;
-    public string Description => category.Description;
-    public Guid? ParentCategoryId => category.ParentCategoryId;
-    public Category? ParentCategory => category.ParentCategory;
-    public ICollection<Product> Products => category.Products;
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
+    public Guid? ParentCategoryId { get; set; }
+    public Category? ParentCategory { get; set; }
+    public ICollection<Product> Products { get; set; } = [];
 }
