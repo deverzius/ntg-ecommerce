@@ -10,13 +10,13 @@ import { useUpdateProductMutation } from "@/hooks/product/useUpdateProductMutati
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { notifications } from "@mantine/notifications";
-import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 import { ProductImagesInput } from "./ProductImagesInput";
 import { useRef } from "react";
 
 interface ProductEditFormProps {
   product: ProductResponseDto;
-  categories: CategoryResponseDto[];
+  categories: SimpleCategoryResponseDto[];
   brands: BrandResponseDto[];
   closeFn: () => void;
 }

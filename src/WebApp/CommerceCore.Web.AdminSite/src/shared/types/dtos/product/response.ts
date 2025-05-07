@@ -18,7 +18,7 @@ export type ProductResponseDto = {
 
 export type ProductImageResponseDto = {
   name: string;
-  path: string;
+  publicUrl: string;
   productId: string;
 };
 

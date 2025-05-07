@@ -13,6 +13,5 @@ public class ProductViewModel
     public DateTime UpdatedDate { get; set; }
     public SimpleBrandViewModel Brand { get; set; } = null;
     public SimpleCategoryViewModel Category { get; set; } = null;
-    public List<SimpleProductImageViewModel> Images { get; set; } =
-        new List<SimpleProductImageViewModel>();
+    public List<SimpleProductImageViewModel> Images { get; set; }
 }

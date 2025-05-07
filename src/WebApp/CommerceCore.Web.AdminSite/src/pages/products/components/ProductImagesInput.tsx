@@ -3,9 +3,8 @@ import { productLabels } from "@/shared/constants/product";
 import type { ProductResponseDto } from "@/shared/types/dtos/product/response";
 import { notifications } from "@mantine/notifications";
 import { useUploadFileMutation } from "@/hooks/file/useUploadFileMutation";
-import { useGetFileUrlQuery } from "@/hooks/file/useGetFileUrlQuery";
-import { getImageUrlFromSignedUrl } from "@/shared/utils/getImageUrlFromSignedUrl";
-import { useEffect } from "react";
+import { getImageUrlFromPath } from "@/shared/utils/getImageUrlFromPath";
+import { useEffect, useState } from "react";
 
 interface ProductImagesInputProps {
   product: ProductResponseDto;
@@ -22,9 +21,7 @@ export function ProductImagesInput({
 }: ProductImagesInputProps) {
   const { mutateAsync: uploadFile, isPending: isUploadingFile } =
     useUploadFileMutation();
-  const { data: fileUrlResponse } = useGetFileUrlQuery({
-    filePath: product.images[0]?.path,
-  });
+  const [imgPath, setImgPath] = useState<string>();
 
   function handleFileUpload(file: File | null) {
     if (!file) {
@@ -42,6 +39,7 @@ export function ProductImagesInput({
         });
 
         // TODO: Handle upload multiple files
+        setImgPath(result.path);
         onUploadSuccess(fileName, result.path);
       })
       .catch(() => {
@@ -75,13 +73,13 @@ export function ProductImagesInput({
         onChange={(payload) => handleFileUpload(payload)}
       />
 
-      {fileUrlResponse?.signedURL && (
-        <Image
-          src={getImageUrlFromSignedUrl(fileUrlResponse?.signedURL)}
-          alt="product-img"
-          w={100}
-        />
-      )}
+      <Image
+        src={
+          imgPath ? getImageUrlFromPath(imgPath) : product.images[0]?.publicUrl
+        }
+        alt="product-img"
+        w={100}
+      />
     </>
   );
 }
