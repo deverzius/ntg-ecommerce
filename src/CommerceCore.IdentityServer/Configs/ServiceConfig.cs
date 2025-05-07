@@ -114,10 +114,6 @@ public static class ServiceConfig
                     ?? Guard.Against.NullOrWhiteSpace(
                         "IdentityServer:EncryptionKey",
                         "IdentityServer EncryptionKey is not configured."
-                    )
-                    ?? Guard.Against.NullOrWhiteSpace(
-                        "IdentityServer:EncryptionKey",
-                        "IdentityServer EncryptionKey is not configured."
                     );
 
                 options.AddEncryptionKey(

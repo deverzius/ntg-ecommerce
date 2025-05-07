@@ -198,7 +198,15 @@ public class AuthorizationController(
 
         var user = await _userManager.FindByIdAsync(userId);
 
-        return Ok(user);
+        return Ok(
+            new UserViewModel
+            {
+                Id = user?.Id,
+                UserName = user?.UserName,
+                Email = user?.Email,
+                PhoneNumber = user?.PhoneNumber,
+            }
+        );
     }
 
     [HttpGet("~/connect/logout")]
