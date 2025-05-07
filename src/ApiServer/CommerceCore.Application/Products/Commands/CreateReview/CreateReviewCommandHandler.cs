@@ -5,22 +5,36 @@ using MediatR;
 namespace CommerceCore.Application.Products.Commands.CreateReview;
 
 public class CreateReviewCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<CreateReviewCommand, ReviewResponseDto>
+    : IRequestHandler<CreateReviewCommand, ReviewResponseDto?>
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<ReviewResponseDto> Handle(
+    public async Task<ReviewResponseDto?> Handle(
         CreateReviewCommand request,
         CancellationToken cancellationToken
     )
     {
+        var isPhoneNumberExists = _context
+            .Reviews.Where(r =>
+                r.ProductId == request.ProductId && r.PhoneNumber == request.PhoneNumber
+            )
+            .Any();
+
+        var isEmailExists = _context
+            .Reviews.Where(r => r.ProductId == request.ProductId && r.Email == request.Email)
+            .Any();
+
+        if (isPhoneNumberExists || isEmailExists)
+        {
+            return null;
+        }
+
         var review = new Review
         {
-            Id = request.Id,
             Rating = request.Rating,
             Title = request.Title,
             Comment = request.Comment,
-            CreatedDate = request.CreatedDate,
+            CreatedDate = DateTime.Now,
             ProductId = request.ProductId,
             FullName = request.FullName,
             PhoneNumber = request.PhoneNumber,

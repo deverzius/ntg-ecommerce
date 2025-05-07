@@ -1,4 +1,5 @@
 ﻿using CommerceCore.Application.Products.Commands.CreateProduct;
+using CommerceCore.Application.Products.Commands.CreateReview;
 using CommerceCore.Application.Products.Commands.DeleteProduct;
 using CommerceCore.Application.Products.Commands.UpdateProduct;
 using CommerceCore.Application.Products.Queries.GetProduct;
@@ -60,6 +61,26 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
                 Reviews = [.. reviews.Select(r => r.ToViewModel())],
             }
         );
+    }
+
+    [HttpPost("{id}/reviews")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<Results<Ok<ReviewViewModel>, BadRequest<string>>> PostReview(
+        ISender sender,
+        CreateReviewCommand command,
+        Guid id
+    )
+    {
+        if (command.ProductId != id)
+            return TypedResults.BadRequest("Product Id does not match.");
+
+        var review = await sender.Send(command);
+
+        if (review == null)
+            return TypedResults.BadRequest("Failed to create review.");
+
+        return TypedResults.Ok(review.ToViewModel());
     }
 
     [HttpPost]

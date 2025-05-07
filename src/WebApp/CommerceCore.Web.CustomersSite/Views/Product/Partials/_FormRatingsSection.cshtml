@@ -1,0 +1,62 @@
+@model ProductViewModel
+
+@{
+    var productId = Model.Id.ToString();
+    var reviewModel = new ReviewViewModel { };
+
+    var errorMessage = Context.Request.Query["formError"].ToString();
+    var errorMessageDisplay = errorMessage != null && errorMessage != string.Empty ? "block" : "hidden";
+
+    var successMessage = Context.Request.Query["formSuccess"].ToString();
+    var successMessageDisplay = successMessage != null && successMessage != string.Empty ? "block" : "hidden";
+}
+
+<form asp-controller="Product" asp-action="CreateComment" asp-route-id="@productId" method="post">
+    <div class="@errorMessageDisplay p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+        <span class="font-medium">Error!</span> @errorMessage
+    </div>
+    <div class="@successMessageDisplay p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+        <span class="font-medium">Success!</span> @successMessage
+    </div>
+    <div class="grid gap-3 mb-2 grid-cols-3">
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
+            <input asp-for="@reviewModel.FullName" type="text" minlength="1" placeholder="John" class="w-full text-sm"
+                required />
+        </div>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
+            <input asp-for="@reviewModel.PhoneNumber" type="tel" placeholder="0123456789" class="w-full text-sm"
+                required />
+        </div>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900">Email
+                address</label>
+            <input asp-for="@reviewModel.Email" type="email" placeholder="john.doe@company.com" class="w-full text-sm"
+                required />
+        </div>
+    </div>
+
+    <div class="flex gap-3 mb-2">
+        <div class="flex-1">
+            <label class="block mb-2 text-sm font-medium text-gray-900">Title</label>
+            <input asp-for="@reviewModel.Title" type="text" minlength="1" placeholder="" class="w-full text-sm"
+                required />
+        </div>
+        <div>
+            <label for="company" class="block mb-2 text-sm font-medium text-gray-900">Rating</label>
+            <input asp-for="@reviewModel.Rating" type="number" placeholder="" min="1" max="5" value="5"
+                class="w-full text-sm" required />
+        </div>
+    </div>
+    <div>
+        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Comment</label>
+        <textarea asp-for="@reviewModel.Comment" type="text" minlength="0" placeholder=""
+            class="w-full text-sm break-all" required></textarea>
+    </div>
+
+    <button type="submit" class="bg-black text-white text-sm py-2 px-8 mt-4 font-medium hover:bg-gray-800 transition">
+        Submit
+    </button>
+
+</form>

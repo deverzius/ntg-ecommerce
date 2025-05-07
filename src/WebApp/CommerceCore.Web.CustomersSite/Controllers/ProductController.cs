@@ -26,7 +26,45 @@ public class ProductController(
         return View(product);
     }
 
-    private async Task<ProductViewModel?> FetchProductById(string id)
+    [HttpPost("{productId}")]
+    public async Task<IActionResult> CreateComment(ReviewViewModel reviewModel, Guid productId)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                _apiUrl + "/v1/products/" + productId + "/reviews",
+                new ReviewRequestViewModel
+                {
+                    Rating = reviewModel.Rating,
+                    Title = reviewModel.Title,
+                    Comment = reviewModel.Comment,
+                    ProductId = productId,
+                    FullName = reviewModel.FullName,
+                    PhoneNumber = reviewModel.PhoneNumber,
+                    Email = reviewModel.Email,
+                }
+            );
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Redirect(
+                    $"/Product/Details/{productId}?formSuccess={Uri.EscapeDataString("Review created successfully.")}"
+                );
+            }
+
+            return Redirect(
+                $"/Product/Details/{productId}?formError={Uri.EscapeDataString(response.RequestMessage.ToString())}"
+            );
+        }
+        catch (Exception ex)
+        {
+            return Redirect(
+                $"/Product/Details/{productId}?formError={Uri.EscapeDataString(ex.Message.ToString())}"
+            );
+        }
+    }
+
+    private async Task<ProductWithReviewsViewModel?> FetchProductById(string id)
     {
         try
         {
@@ -34,7 +72,10 @@ public class ProductController(
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var product = JsonSerializer.Deserialize<ProductViewModel>(json, JsonHelper.Options);
+            var product = JsonSerializer.Deserialize<ProductWithReviewsViewModel>(
+                json,
+                JsonHelper.Options
+            );
 
             return product;
         }
