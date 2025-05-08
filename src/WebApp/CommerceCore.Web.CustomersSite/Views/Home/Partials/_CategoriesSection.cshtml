@@ -1,0 +1,18 @@
+@model PaginatedListViewModel<SimpleCategoryViewModel>?
+
+@{
+    var categories = Model?.Items ?? [];
+}
+
+<div class="px-3 w-6xl grid grid-cols-12 gap-6 items-center">
+    <div class="text-center col-span-12">
+        <h3 class="text-3xl font-semibold">Categories</h3>
+    </div>
+
+    @foreach (var c in categories)
+    {
+        <div class="col-span-3">
+            @await Component.InvokeAsync("Category", c)
+        </div>
+    }
+</div>

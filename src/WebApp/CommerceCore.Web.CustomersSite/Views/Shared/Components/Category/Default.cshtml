@@ -1,0 +1,69 @@
+﻿@model SimpleCategoryViewModel;
+
+@{
+    var imageUrl =
+    "https://iprbauhqfabdlhzuludb.supabase.co/storage/v1/object/public/ecommerce/categories/" + Model.Name;
+}
+
+<a asp-controller="Category" asp-action="Products" asp-route-CategoryId="@Model.Id.ToString()"
+    class="col-span-3 hover:cursor-pointer group">
+    <div class="relative w-full h-[300px] overflow-hidden align-middle">
+        <img src="@imageUrl" alt="product"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+    </div>
+    <div class="text-center font-semibold text-xl py-3">@Model.Name</div>
+</a>
+
+@* <a class="col-span-3 hover:cursor-pointer group">
+        <div class="relative w-full h-[300px] overflow-hidden align-middle">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/U/UP0/UP0305/1CMVF0308/UP0305_1CMV_F0308_S_OOO_MDD.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
+                alt="product"
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+        </div>
+        <div class="text-center font-semibold text-xl py-3">Bottoms</div>
+    </a>
+
+    <a class="col-span-3 hover:cursor-pointer group">
+        <div class="relative w-full h-[300px] overflow-hidden align-middle">
+            <img src="https://www.prada.com/content/dam/pradabkg_products/2/2VD/2VD052/384F041O/2VD052_384_F041O_V_OBF_SLF.jpg/_jcr_content/renditions/cq5dam.web.hebebed.2000.2000.jpg"
+                alt="product"
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+        </div>
+        <div class="text-center font-semibold text-xl py-3">Bags</div>
+    </a>
+
+    <a class="col-span-3 hover:cursor-pointer group">
+        <div class="relative w-full h-[300px] overflow-hidden align-middle">
+            <img src="https://www.prada.com/content/dam/pradanux/e-commerce/2025/01/SS25/Accessories/Man/002_DT.jpg"
+                alt="product"
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+        </div>
+        <div class="text-center font-semibold text-xl py-3">Accessories</div>
+    </a> *@
+
+@* <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id.ToString()" class="group">
+    <div class="relative w-full h-[300px] overflow-hidden align-middle">
+        <img src="@imageUrl" alt="product"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+    </div>
+
+    <div class="px-4 mt-2 mb-4">
+        <div class="text-left mb-4">
+            <h3 class="font-semibold text-gray-900">
+                @Model.Name
+            </h3>
+            <p class="text-gray-800">@Model.Price</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <div class="w-5 h-5 rounded-full bg-black border-1 border-gray-600 focus:outline-none">
+            </div>
+            <div class="w-5 h-5 rounded-full bg-[#b78e59] border-1 border-gray-600 focus:outline-none">
+            </div>
+            <div class="w-5 h-5 rounded-full bg-gray-200 border-1 border-gray-600 focus:outline-none">
+            </div>
+            <div class="w-5 h-5 rounded-full bg-white border-1 border-gray-600 focus:outline-none">
+            </div>
+        </div>
+    </div>
+</a> *@

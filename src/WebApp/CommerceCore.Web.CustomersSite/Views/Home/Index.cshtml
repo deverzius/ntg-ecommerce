@@ -1,4 +1,4 @@
-﻿@model PaginatedListViewModel<ProductViewModel>?
+﻿@model HomePageViewModel
 
 @{
     ViewData["Title"] = "Home";
@@ -7,5 +7,6 @@
 <div class="flex flex-col items-center py-4 gap-y-10">
     @await Html.PartialAsync("Partials/_CarouselSection")
     @await Html.PartialAsync("Partials/_BrandsSection")
-    @await Html.PartialAsync("Partials/_FeaturedProductsSection", Model)
+    @await Html.PartialAsync("Partials/_CategoriesSection", Model.Categories)
+    @await Html.PartialAsync("Partials/_FeaturedProductsSection", Model.Products)
 </div>

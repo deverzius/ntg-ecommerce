@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ public class ProductController(
         config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Details(string id)
+    public async Task<IActionResult> Details(Guid id)
     {
         var product = await FetchProductById(id);
 
@@ -64,7 +63,7 @@ public class ProductController(
         }
     }
 
-    private async Task<ProductWithReviewsViewModel?> FetchProductById(string id)
+    private async Task<ProductWithReviewsViewModel?> FetchProductById(Guid id)
     {
         try
         {
@@ -81,7 +80,7 @@ public class ProductController(
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            _logger.LogError($"{ex}", ex.Message);
             return null;
         }
     }

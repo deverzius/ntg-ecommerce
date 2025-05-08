@@ -21,8 +21,9 @@ public class HomeController(
     public async Task<IActionResult> Index()
     {
         var products = await FetchProducts();
+        var categories = await FetchCategories();
 
-        return View(products);
+        return View(new HomePageViewModel { Products = products, Categories = categories });
     }
 
     private async Task<PaginatedListViewModel<ProductViewModel>> FetchProducts()
@@ -45,6 +46,28 @@ public class HomeController(
         catch
         {
             return new PaginatedListViewModel<ProductViewModel>();
+        }
+    }
+
+    private async Task<PaginatedListViewModel<SimpleCategoryViewModel>> FetchCategories()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync(
+                _apiUrl + "/v1/categories/?PageNumber=1&PageSize=100"
+            );
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var categories = JsonSerializer.Deserialize<
+                PaginatedListViewModel<SimpleCategoryViewModel>
+            >(json, JsonHelper.Options);
+
+            return categories ?? new();
+        }
+        catch
+        {
+            return new PaginatedListViewModel<SimpleCategoryViewModel>();
         }
     }
 
