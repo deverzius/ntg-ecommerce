@@ -99,7 +99,7 @@ export function CategoryTable() {
                 <Table.Th>{categoryLabels.id}</Table.Th>
                 <Table.Th>{categoryLabels.name}</Table.Th>
                 <Table.Th>{categoryLabels.description}</Table.Th>
-                <Table.Th>{categoryLabels.parentCategory}</Table.Th>
+                {/* <Table.Th>{categoryLabels.parentCategory}</Table.Th> */}
                 <Table.Th>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
@@ -110,7 +110,7 @@ export function CategoryTable() {
                   <Table.Td>{category.id}</Table.Td>
                   <Table.Td>{category.name}</Table.Td>
                   <Table.Td>{category.description}</Table.Td>
-                  <Table.Td>{category.parentCategory?.name}</Table.Td>
+                  {/* <Table.Td>{category.parentCategory?.name}</Table.Td> */}
                   <Table.Td>
                     <Flex gap="xs">
                       <Button

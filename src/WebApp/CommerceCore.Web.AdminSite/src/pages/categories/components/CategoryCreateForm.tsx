@@ -7,10 +7,10 @@ import { notifications } from "@mantine/notifications";
 import type { CreateCategoryRequestDto } from "@/shared/types/dtos/category/request";
 import { useCreateCategoryMutation } from "@/hooks/category/useCreateCategoryMutation";
 import { categoryLabels } from "@/shared/constants/category";
-import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 
 interface CategoryCreateFormProps {
-  categories: CategoryResponseDto[];
+  categories: SimpleCategoryResponseDto[];
   closeFn: () => void;
 }
 

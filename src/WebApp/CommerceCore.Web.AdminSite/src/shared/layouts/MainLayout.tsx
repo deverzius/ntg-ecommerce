@@ -21,7 +21,7 @@ export default function MainLayout() {
     authorizeAsync();
   });
 
-  if (isLoading) {
+  if (isLoading || user === undefined) {
     return (
       <Box mt="40vh">
         <Center>

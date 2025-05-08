@@ -4,15 +4,15 @@ import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { notifications } from "@mantine/notifications";
-import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 import type { UpdateCategoryRequestDto } from "@/shared/types/dtos/category/request";
 import { useUpdateCategoryMutation } from "@/hooks/category/useUpdateCategoryMutation";
 import { categoryLabels } from "@/shared/constants/category";
 import type { PaginatedList } from "@/shared/types/PaginatedList";
 
 interface CategoryEditFormProps {
-  category: CategoryResponseDto;
-  categories?: PaginatedList<CategoryResponseDto>;
+  category: SimpleCategoryResponseDto;
+  categories?: PaginatedList<SimpleCategoryResponseDto>;
   closeFn: () => void;
 }
 

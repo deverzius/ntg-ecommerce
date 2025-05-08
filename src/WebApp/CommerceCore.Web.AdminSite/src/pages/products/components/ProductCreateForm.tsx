@@ -8,11 +8,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@/shared/utils/getQueryKey";
 import { useCreateProductMutation } from "@/hooks/product/useCreateProductMutation";
 import { notifications } from "@mantine/notifications";
-import type { CategoryResponseDto } from "@/shared/types/dtos/category/response";
+import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 
 interface ProductCreateFormProps {
   brands: BrandResponseDto[];
-  categories: CategoryResponseDto[];
+  categories: SimpleCategoryResponseDto[];
   closeFn: () => void;
 }
 
