@@ -1,6 +1,3 @@
-@inject IConfiguration _configuration
-@inject HttpClient _httpClient
-
 <header>
     <nav class="h-20 border-b border-gray-200">
         <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
@@ -9,16 +6,14 @@
             </a>
 
             <div class="col-span-4">
-                <div class="flex space-x-4 text-black text-sm font-semibold">
-                    @* <a href="#" class="hover:border-b-[0.5px]">MEN</a>
-                    <a href="#" class="hover:border-b-[0.5px]">WOMEN</a> *@
+                @* <div class="flex space-x-4 text-black text-sm font-semibold">
                     <div class="relative group">
                         <button class="flex items-center gap-1 hover:border-b-[0.5px]">
                             ALL CATEGORIES
                             @await Component.InvokeAsync("SvgIcon", new { name = "chevron-down", size = 16 })
                         </button>
                     </div>
-                </div>
+                </div> *@
             </div>
 
             <div class="col-span-6">
@@ -37,13 +32,14 @@
                     @await Component.InvokeAsync("SvgIcon", new { name = "shopping-bag", size = 28 })
 
                     <button id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown"
-                        class="flex items-center justify-between font-medium w-auto">
+                        class="flex items-center justify-between font-medium w-auto hover:cursor-pointer">
                         <div id="user-menu" class="hidden flex items-center gap-1">
                             <span class="font-semibold" id="user-email">
                             </span>
                             @await Component.InvokeAsync("SvgIcon", new { name = "chevron-down", size = 16 })
                         </div>
                     </button>
+
                     <div id="mega-menu-dropdown"
                         class="absolute z-[9999] hidden w-[200px] overflow-hidden text-sm bg-white border border-gray-200 rounded-lg shadow-md">
                         <div class="p-4 pb-0 text-gray-500 md:pb-4 hover:bg-gray-100">
@@ -57,7 +53,8 @@
                         </div>
                     </div>
 
-                    <a id="login-btn" class="font-semibold" asp-controller="Auth" asp-action="Login">
+                    <a id="login-btn" class="font-semibold hover:cursor-pointer" asp-controller="Auth"
+                        asp-action="Login">
                         Login
                     </a>
                 </div>

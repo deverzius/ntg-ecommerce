@@ -1,5 +1,9 @@
 @model ProductWithReviewsViewModel
 
+@{
+    var reviews = Model?.Reviews ?? [];
+}
+
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
     <div class="col-span-10 col-start-2">
         <div class="border-b border-gray-300">
@@ -56,7 +60,7 @@
     <hr class="col-span-10 col-start-2 border-t border-gray-300">
 
     <div class="col-span-6 col-start-2 ">
-        @await Html.PartialAsync("Partials/_FormRatingsSection", Model.Product)
+        @await Html.PartialAsync("Partials/_FormRatingsSection", Model?.Product)
     </div>
 
     <hr class="col-span-10 col-start-2 border-t border-gray-300">
@@ -64,7 +68,7 @@
 
     <div class="col-span-12">
         <div class="grid grid-cols-12 gap-6 h-full items-center w-full mx-auto pb-10">
-            @foreach (var review in Model.Reviews)
+            @foreach (var review in reviews)
             {
                 @await Component.InvokeAsync("Review", review)
             }

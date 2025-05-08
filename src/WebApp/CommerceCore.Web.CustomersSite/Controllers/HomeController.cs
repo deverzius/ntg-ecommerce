@@ -4,6 +4,7 @@ using Ardalis.GuardClauses;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using CommerceCore.Web.CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace CommerceCore.Web.CustomersSite.Controllers;
 
@@ -30,8 +31,15 @@ public class HomeController(
     {
         try
         {
+            var url = _apiUrl + "/v1/products";
+            var queryParams = new Dictionary<string, string>()
+            {
+                { "PageNumber", "1" },
+                { "PageSize", "16" },
+            };
+
             var response = await _httpClient.GetAsync(
-                _apiUrl + "/v1/products/?PageNumber=1&PageSize=100"
+                new Uri(QueryHelpers.AddQueryString(url, queryParams))
             );
             response.EnsureSuccessStatusCode();
 

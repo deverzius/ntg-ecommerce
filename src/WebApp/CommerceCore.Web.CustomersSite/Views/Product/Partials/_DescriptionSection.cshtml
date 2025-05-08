@@ -6,7 +6,8 @@
             <h3 class="text-xl font-semibold mb-2">Product Description</h3>
         </div>
         <p>
-            @(Model.Description.Length == 0 ? "No description found" : Model.Description)
+            @(Model?.Description != null && Model.Description?.Length == 0 ? "No description found" :
+                        Model?.Description)
         </p>
     </div>
 </div>

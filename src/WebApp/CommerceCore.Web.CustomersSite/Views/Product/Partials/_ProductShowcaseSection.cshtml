@@ -1,8 +1,12 @@
-@model ProductViewModel
+@model ProductViewModel?
 
 @{
-    var images = Model.Images.Select(x => x.PublicUrl).ToList();
-    var imageUrl = images[0] ?? "#";
+    var images = Model?.Images.Select(x => x.PublicUrl).ToList();
+    string imageUrl = "";
+    if (images?.Count > 0)
+    {
+        imageUrl = images[0];
+    }
 }
 
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">

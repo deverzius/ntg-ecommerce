@@ -2,6 +2,7 @@ using System.Text.Json;
 using Ardalis.GuardClauses;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace CommerceCore.Web.CustomersSite.Controllers;
 
@@ -32,8 +33,16 @@ public class CategoryController(
     {
         try
         {
+            var url = _apiUrl + "/v1/products";
+            var queryParams = new Dictionary<string, string>()
+            {
+                { "PageNumber", "1" },
+                { "PageSize", "8" },
+                { "CategoryId", CategoryId.ToString() },
+            };
+
             var response = await _httpClient.GetAsync(
-                _apiUrl + $"/v1/products/?PageNumber=1&PageSize=100&CategoryId={CategoryId}"
+                new Uri(QueryHelpers.AddQueryString(url, queryParams))
             );
             response.EnsureSuccessStatusCode();
 

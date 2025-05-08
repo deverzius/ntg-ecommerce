@@ -1,7 +1,7 @@
-@model ProductViewModel
+@model ProductViewModel?
 
 @{
-    var productId = Model.Id.ToString();
+    var productId = Model?.Id.ToString();
     var reviewModel = new ReviewViewModel { };
 
     var errorMessage = Context.Request.Query["formError"].ToString();
