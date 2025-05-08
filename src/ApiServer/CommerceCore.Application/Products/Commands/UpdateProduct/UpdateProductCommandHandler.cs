@@ -14,6 +14,11 @@ public class UpdateProductCommandHandler(IApplicationDbContext context)
         CancellationToken cancellationToken
     )
     {
+        if (request.Images.Length > 3)
+        {
+            return false;
+        }
+
         var product = new Product
         {
             Id = request.Id,
