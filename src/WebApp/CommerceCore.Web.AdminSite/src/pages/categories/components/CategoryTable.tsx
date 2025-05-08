@@ -96,7 +96,6 @@ export function CategoryTable() {
           <Table>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>{categoryLabels.id}</Table.Th>
                 <Table.Th>{categoryLabels.name}</Table.Th>
                 <Table.Th>{categoryLabels.description}</Table.Th>
                 {/* <Table.Th>{categoryLabels.parentCategory}</Table.Th> */}
@@ -107,7 +106,6 @@ export function CategoryTable() {
             <Table.Tbody>
               {data?.items?.map((category) => (
                 <Table.Tr key={category.id}>
-                  <Table.Td>{category.id}</Table.Td>
                   <Table.Td>{category.name}</Table.Td>
                   <Table.Td>{category.description}</Table.Td>
                   {/* <Table.Td>{category.parentCategory?.name}</Table.Td> */}

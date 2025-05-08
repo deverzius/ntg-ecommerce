@@ -23,7 +23,6 @@ export function CustomerTable() {
           <Table>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>{customerLabels.id}</Table.Th>
                 <Table.Th>{customerLabels.userName}</Table.Th>
                 <Table.Th>{customerLabels.email}</Table.Th>
                 <Table.Th>{customerLabels.phoneNumber}</Table.Th>
@@ -33,7 +32,6 @@ export function CustomerTable() {
             <Table.Tbody>
               {data?.map((customer) => (
                 <Table.Tr key={customer.id}>
-                  <Table.Td>{customer.id}</Table.Td>
                   <Table.Td>{customer.userName}</Table.Td>
                   <Table.Td>{customer.email}</Table.Td>
                   <Table.Td>{customer.phoneNumber}</Table.Td>

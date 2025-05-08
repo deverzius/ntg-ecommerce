@@ -66,7 +66,7 @@ export function CategoryCreateForm({
         {...form.getInputProps("description")}
       />
 
-      <Select
+      {/* <Select
         label={categoryLabels.parentCategory}
         clearable
         data={mapSelectOptions(categories, "name", "id")}
@@ -75,7 +75,7 @@ export function CategoryCreateForm({
         onChange={(value) => {
           value && form.setFieldValue("parentCategoryId", value);
         }}
-      />
+      /> */}
 
       <Group mt={24} gap="xs">
         <Button loading={isPending} flex={1} type="submit">

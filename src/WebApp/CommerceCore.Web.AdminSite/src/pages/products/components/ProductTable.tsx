@@ -96,7 +96,6 @@ export function ProductTable() {
           <Table>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>{productLabels.id}</Table.Th>
                 <Table.Th>{productLabels.name}</Table.Th>
                 <Table.Th>{productLabels.price}</Table.Th>
                 <Table.Th>{productLabels.updatedDate}</Table.Th>
@@ -107,7 +106,6 @@ export function ProductTable() {
             <Table.Tbody>
               {data?.items?.map((product) => (
                 <Table.Tr key={product.id}>
-                  <Table.Td>{product.id}</Table.Td>
                   <Table.Td>{product.name}</Table.Td>
                   <Table.Td>{product.price}</Table.Td>
                   <Table.Td>{product.updatedDate}</Table.Td>
