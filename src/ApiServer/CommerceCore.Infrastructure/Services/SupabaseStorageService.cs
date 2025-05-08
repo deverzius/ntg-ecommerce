@@ -8,6 +8,7 @@ using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Files.Dtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 
 namespace CommerceCore.Infrastructure.Services;
 
@@ -125,6 +126,64 @@ public class SupabaseStorageService(
             FileUrlDto[] imageUrlDtos =
                 await response.Content.ReadFromJsonAsync<FileUrlDto[]>() ?? [];
             return imageUrlDtos;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    public async Task<PublicUrlDto[]> GetPublicFilesAsync(int limit, int offset)
+    {
+        var body = new
+        {
+            prefix = "images",
+            limit,
+            offset,
+        };
+        var json = JsonSerializer.Serialize(body);
+
+        var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            $"{_storageBaseUrl}/storage/v1/object/list/{_bucketName}"
+        )
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json"),
+        };
+
+        request.Headers.Add("Authorization", $"Bearer {_apiKey}");
+
+        var response = await _httpClient.SendAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponseContent = await response.Content.ReadAsStringAsync();
+            _logger.LogError("Error when get files: {errorResponseContent}", errorResponseContent);
+        }
+
+        try
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var fileNameList = new List<string>();
+            JArray fileListJson = JArray.Parse(content);
+
+            foreach (var file in fileListJson)
+            {
+                if (file["name"]?.ToString() != ".emptyFolderPlaceholder")
+                {
+                    fileNameList.Add(file["name"]?.ToString());
+                }
+            }
+
+            return
+            [
+                .. fileNameList.Select(fn => new PublicUrlDto
+                {
+                    Path = "images/" + fn,
+                    PublicUrl =
+                        $"{_storageBaseUrl}/storage/v1/object/public/{_bucketName}/images/{fn}",
+                }),
+            ];
         }
         catch
         {

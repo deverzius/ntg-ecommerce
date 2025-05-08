@@ -2,6 +2,7 @@
 using CommerceCore.Application.Files.Dtos;
 using CommerceCore.Application.Files.Queries.GetFileUrl;
 using CommerceCore.Application.Files.Queries.GetFileUrls;
+using CommerceCore.Application.Files.Queries.GetPublicFileUrls;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -14,8 +15,8 @@ namespace CommerceCore.WebApi.Controllers.v1;
 [Route("api/v{version:apiVersion}/[controller]")]
 public class FilesController() : ControllerBase
 {
-    [HttpPost("list")]
-    [ProducesResponseType(typeof(Ok<FileUrlDto>), StatusCodes.Status200OK)]
+    [HttpPost("sign/list")]
+    [ProducesResponseType(typeof(Ok<FileUrlDto[]>), StatusCodes.Status200OK)]
     public async Task<Ok<FileUrlDto[]>> GetFileUrls(
         ISender sender,
         [FromBody] GetFileUrlsQuery query
@@ -26,7 +27,20 @@ public class FilesController() : ControllerBase
         return TypedResults.Ok(result);
     }
 
-    [HttpGet("{filePath}")]
+    [HttpGet("public/list")]
+    [Authorize(Policy = "RequireAdminRole")]
+    [ProducesResponseType(typeof(Ok<PublicUrlDto[]>), StatusCodes.Status200OK)]
+    public async Task<Ok<PublicUrlDto[]>> GetPublicFileUrls(
+        ISender sender,
+        [FromQuery] GetPublicFileUrlsQuery query
+    )
+    {
+        var result = await sender.Send(query);
+
+        return TypedResults.Ok(result);
+    }
+
+    [HttpGet("sign/{filePath}")]
     [ProducesResponseType(typeof(Ok<FileUrlDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<Results<Ok<FileUrlDto>, NotFound>> GetFileUrl(ISender sender, string filePath)
