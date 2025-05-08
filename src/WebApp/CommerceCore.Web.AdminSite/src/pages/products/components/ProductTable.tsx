@@ -98,6 +98,8 @@ export function ProductTable() {
               <Table.Tr>
                 <Table.Th>{productLabels.name}</Table.Th>
                 <Table.Th>{productLabels.price}</Table.Th>
+                <Table.Th>{productLabels.description}</Table.Th>
+                <Table.Th>{productLabels.createdDate}</Table.Th>
                 <Table.Th>{productLabels.updatedDate}</Table.Th>
                 <Table.Th>Actions</Table.Th>
               </Table.Tr>
@@ -108,6 +110,8 @@ export function ProductTable() {
                 <Table.Tr key={product.id}>
                   <Table.Td>{product.name}</Table.Td>
                   <Table.Td>{product.price}</Table.Td>
+                  <Table.Th>{product.description}</Table.Th>
+                  <Table.Td>{product.createdDate}</Table.Td>
                   <Table.Td>{product.updatedDate}</Table.Td>
                   <Table.Td>
                     <Flex gap="xs">

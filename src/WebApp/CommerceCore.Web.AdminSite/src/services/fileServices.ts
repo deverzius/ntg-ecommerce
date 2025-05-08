@@ -1,5 +1,8 @@
 import { dotenv } from "@/shared/constants/dotenv";
-import type { FileUrlResponseDto } from "@/shared/types/dtos/file/response";
+import type {
+  FileUrlResponseDto,
+  PublicFileUrlResponseDto,
+} from "@/shared/types/dtos/file/response";
 
 export async function uploadFile(
   name: string,
@@ -36,4 +39,20 @@ export async function getFileUrl(
       Accept: "application/json",
     },
   }).then((res) => res.json());
+}
+
+export async function getPublicFileUrls(
+  limit: number,
+  offset: number
+): Promise<PublicFileUrlResponseDto[]> {
+  return await fetch(
+    `${dotenv.API_URL}/v1/files/public/list?limit=${limit}&offset=${offset}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      credentials: "include",
+    }
+  ).then((res) => res.json());
 }

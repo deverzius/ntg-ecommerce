@@ -1,27 +1,19 @@
-import { FileInput, Image } from "@mantine/core";
+import { FileInput } from "@mantine/core";
 import { productLabels } from "@/shared/constants/product";
-import type { ProductResponseDto } from "@/shared/types/dtos/product/response";
 import { notifications } from "@mantine/notifications";
 import { useUploadFileMutation } from "@/hooks/file/useUploadFileMutation";
-import { getImageUrlFromPath } from "@/shared/utils/getImageUrlFromPath";
-import { useEffect, useState } from "react";
 
 interface ProductImagesInputProps {
-  product: ProductResponseDto;
-  onUploading: () => void;
-  onUploadFinish: () => void;
-  onUploadSuccess: (fileName: string, filePath: string) => void;
+  onUploadSuccess?: () => void;
+  productId: string;
 }
 
 export function ProductImagesInput({
-  product,
-  onUploading,
-  onUploadFinish,
+  productId,
   onUploadSuccess,
 }: ProductImagesInputProps) {
   const { mutateAsync: uploadFile, isPending: isUploadingFile } =
     useUploadFileMutation();
-  const [imgPath, setImgPath] = useState<string>();
 
   function handleFileUpload(file: File | null) {
     if (!file) {
@@ -38,9 +30,7 @@ export function ProductImagesInput({
           message: "File uploaded successfully.",
         });
 
-        // TODO: Handle upload multiple files
-        setImgPath(result.path);
-        onUploadSuccess(fileName, result.path);
+        onUploadSuccess && onUploadSuccess();
       })
       .catch(() => {
         notifications.show({
@@ -48,17 +38,8 @@ export function ProductImagesInput({
           title: "Error",
           message: "Failed to upload file.",
         });
-      })
-      .finally(() => {
-        onUploadFinish();
       });
   }
-
-  useEffect(() => {
-    if (isUploadingFile) {
-      onUploading();
-    }
-  }, [isUploadingFile]);
 
   return (
     <>
@@ -71,14 +52,6 @@ export function ProductImagesInput({
         placeholder={"Click to upload file"}
         accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
         onChange={(payload) => handleFileUpload(payload)}
-      />
-
-      <Image
-        src={
-          imgPath ? getImageUrlFromPath(imgPath) : product.images[0]?.publicUrl
-        }
-        alt="product-img"
-        w={100}
       />
     </>
   );

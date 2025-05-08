@@ -13,6 +13,7 @@ import { notifications } from "@mantine/notifications";
 import type { SimpleCategoryResponseDto } from "@/shared/types/dtos/category/response";
 import { ProductImagesInput } from "./ProductImagesInput";
 import { useRef } from "react";
+import ImagePicker from "@/shared/components/ImagePicker/ImagePicker";
 
 interface ProductEditFormProps {
   product: ProductResponseDto;
@@ -146,17 +147,12 @@ export function ProductEditForm({
         />
       </Group>
 
-      <ProductImagesInput
-        product={product}
-        onUploading={() => {
-          submitBtnRef.current?.setAttribute("disabled", "true");
-        }}
-        onUploadFinish={() => {
-          submitBtnRef.current?.removeAttribute("disabled");
-        }}
-        onUploadSuccess={(name, path) =>
-          form.setFieldValue("images", [{ name, path }])
+      <ImagePicker
+        productId={product.id}
+        handleSubmit={(selectedImages) =>
+          form.setFieldValue("images", selectedImages)
         }
+        defaultImages={product.images}
       />
 
       <Group mt={24} gap="xs">
