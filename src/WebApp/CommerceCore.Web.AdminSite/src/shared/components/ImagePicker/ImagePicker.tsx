@@ -17,6 +17,7 @@ import { ProductImagesInput } from "@/pages/products/components/ProductImagesInp
 import { notifications } from "@mantine/notifications";
 import type { ProductImageResponseDto } from "@/shared/types/dtos/product/response";
 import type { ProductImageRequestDto } from "@/shared/types/dtos/product/request";
+import classes from "./ImagePicker.module.css";
 
 interface ImagePickerProps {
   productId: string;
@@ -93,13 +94,18 @@ export default function ImagePicker({
               <Text fw={FontWeight.Medium}>Selected Images</Text>
               <SimpleGrid cols={3} flex={1}>
                 {selectedUrls.map((url, index) => (
-                  <Image
-                    mah={100}
-                    key={index}
-                    src={url}
-                    alt={`Image ${index}`}
-                    onClick={() => handleClickImage(url)}
-                  />
+                  <Box pos="relative" className={classes.imageBtn}>
+                    <Image
+                      mah={100}
+                      key={index}
+                      src={url}
+                      alt={`Image ${index}`}
+                      onClick={() => handleClickImage(url)}
+                    />
+                    <Text pos="absolute" top={0} right={0} fz="lg">
+                      &#10005;
+                    </Text>
+                  </Box>
                 ))}
               </SimpleGrid>
               <Button

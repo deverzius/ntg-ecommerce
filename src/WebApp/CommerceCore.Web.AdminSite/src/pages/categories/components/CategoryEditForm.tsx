@@ -68,12 +68,6 @@ export function CategoryEditForm({
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <TextInput
-        label={categoryLabels.id}
-        value={form.getValues().id}
-        disabled
-      />
-
-      <TextInput
         withAsterisk
         label={categoryLabels.name}
         key={form.key("name")}

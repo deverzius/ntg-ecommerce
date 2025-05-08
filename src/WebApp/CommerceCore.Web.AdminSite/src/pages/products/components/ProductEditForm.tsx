@@ -83,12 +83,6 @@ export function ProductEditForm({
 
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <TextInput
-        label={productLabels.id}
-        value={form.getValues().id}
-        disabled
-      />
-
       <Group gap="xs" align="top">
         <TextInput
           flex={1}
