@@ -18,7 +18,9 @@ public class GetProductsWithPaginationQueryHandler(IApplicationDbContext context
     {
         // TODO: optimize query
         return await _context
-            .Products.Include(p => p.Brand)
+            .Products.AsNoTracking()
+            .Where(p => (!request.CategoryId.HasValue) || p.CategoryId == request.CategoryId)
+            .Include(p => p.Brand)
             .Include(p => p.Category)
             .Include(p => p.Images)
             .Select(p => p.ToDto())
