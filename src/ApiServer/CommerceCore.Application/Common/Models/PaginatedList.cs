@@ -18,6 +18,11 @@ public class PaginatedList<T>(IReadOnlyCollection<T> items, int count, int pageN
         CancellationToken cancellationToken = default
     )
     {
+        if (pageSize < 0 || pageNumber < 1)
+        {
+            return new PaginatedList<T>([], 0, 1, 1);
+        }
+
         var count = await source.CountAsync(cancellationToken);
         var items = await source
             .Skip((pageNumber - 1) * pageSize)
