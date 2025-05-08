@@ -28,7 +28,7 @@ public class DeleteCategoryCommandHandler(IApplicationDbContext context)
             return false;
         }
 
-        var areSomeProductsInCategory = category.Products.Count > 0;
+        var areSomeProductsInCategory = _context.Products.Any(p => p.CategoryId == request.Id);
         if (areSomeProductsInCategory)
         {
             return false;
