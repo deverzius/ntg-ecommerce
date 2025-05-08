@@ -1,17 +1,28 @@
+@using System.Text.Json;
 @model ProductViewModel?
 
+
 @{
-    var images = Model?.Images.Select(x => x.PublicUrl).ToList();
-    string imageUrl = "";
-    if (images?.Count > 0)
-    {
-        imageUrl = images[0];
-    }
+    var images = Model?.Images.Select(x => x.PublicUrl).ToList() ?? [];
+    var firstImageUrl = images.Count > 0 ? images[0] : "#";
 }
 
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
     <div class="col-span-4 col-start-2">
-        <img src="@(imageUrl)" alt="product-image" class="w-full">
+
+        <div class="h-120 overflow-hidden flex items-center align-center">
+            <img id="product-details-thumbnail" src="@(firstImageUrl)" alt="product-image" class="w-full">
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-4">
+            @for (int i = 0; i < images.Count; i++)
+            {
+                <div
+                    class="product-details-image-container h-28 overflow-hidden flex items-center align-center border border-gray-300">
+                    <img class="product-details-image w-full" src="@(images[i])" alt="product-image" data-id="@(i)"
+                        data-selected="true">
+                </div>
+            }
+        </div>
     </div>
 
     <div class="col-span-6 grid grid-cols-6 gap-6">
@@ -67,4 +78,5 @@
             ADD TO SHOPPING CART
         </button>
     </div>
+
 </div>
