@@ -1,8 +1,8 @@
-@model ProductViewModel?
+@model ProductResponse?
 
 @{
     var productId = Model?.Id.ToString();
-    var reviewModel = new ReviewViewModel { };
+    @* var reviewModel = new ReviewViewModel(); *@
 
     var errorMessage = Context.Request.Query["formError"].ToString();
     var errorMessageDisplay = errorMessage != null && errorMessage != string.Empty ? "block" : "hidden";
@@ -11,7 +11,7 @@
     var successMessageDisplay = successMessage != null && successMessage != string.Empty ? "block" : "hidden";
 }
 
-<form asp-controller="Product" asp-action="CreateComment" asp-route-id="@productId" method="post">
+@* <form asp-controller="Product" asp-action="CreateComment" asp-route-id="@productId" method="post">
     <div class="@errorMessageDisplay p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
         <span class="font-medium">Error!</span> @errorMessage
     </div>
@@ -74,4 +74,4 @@
         Submit
     </button>
 
-</form>
+</form> *@

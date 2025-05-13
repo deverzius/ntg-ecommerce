@@ -1,5 +1,7 @@
 using System.Text.Json;
 using Ardalis.GuardClauses;
+using CommerceCore.Shared.DTOs.Common;
+using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -13,10 +15,11 @@ public class CategoryController(
     IConfiguration config
 ) : Controller
 {
-    private readonly ILogger<CategoryController> _logger = logger;
-    private readonly HttpClient _httpClient = httpClient;
     private readonly string _apiUrl =
         config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
+
+    private readonly HttpClient _httpClient = httpClient;
+    private readonly ILogger<CategoryController> _logger = logger;
 
     [HttpGet("products")]
     public async Task<IActionResult> Products([FromQuery] Guid CategoryId)
@@ -29,16 +32,16 @@ public class CategoryController(
         return View(new CategoryPageViewModel { Category = category, Products = products });
     }
 
-    private async Task<PaginatedListViewModel<ProductViewModel>> FetchProducts(Guid CategoryId)
+    private async Task<PaginatedResponse<ProductResponse>> FetchProducts(Guid CategoryId)
     {
         try
         {
             var url = _apiUrl + "/v1/products";
-            var queryParams = new Dictionary<string, string>()
+            var queryParams = new Dictionary<string, string>
             {
                 { "PageNumber", "1" },
                 { "PageSize", "8" },
-                { "CategoryId", CategoryId.ToString() },
+                { "CategoryId", CategoryId.ToString() }
             };
 
             var response = await _httpClient.GetAsync(
@@ -47,21 +50,21 @@ public class CategoryController(
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var products = JsonSerializer.Deserialize<PaginatedListViewModel<ProductViewModel>>(
+            var products = JsonSerializer.Deserialize<PaginatedResponse<ProductResponse>>(
                 json,
                 JsonHelper.Options
             );
 
-            return products ?? new();
+            return products ?? new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex}", ex.Message);
-            return new PaginatedListViewModel<ProductViewModel>();
+            return new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
         }
     }
 
-    private async Task<SimpleCategoryViewModel?> FetchCategoryById(Guid id)
+    private async Task<CategoryResponse?> FetchCategoryById(Guid id)
     {
         try
         {
@@ -69,7 +72,7 @@ public class CategoryController(
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var category = JsonSerializer.Deserialize<SimpleCategoryViewModel>(
+            var category = JsonSerializer.Deserialize<CategoryResponse>(
                 json,
                 JsonHelper.Options
             );

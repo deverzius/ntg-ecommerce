@@ -1,12 +1,12 @@
-import { deleteProduct } from "@/services/productServices";
-import { useMutation } from "@tanstack/react-query";
+import {deleteProduct} from "@/services/productServices";
+import {useMutation} from "@tanstack/react-query";
 
 type MutationFn = {
-  id: string;
+    id: string;
 };
 
 export function useDeleteProductMutation() {
-  return useMutation({
-    mutationFn: ({ id }: MutationFn) => deleteProduct(id),
-  });
+    return useMutation({
+        mutationFn: ({id}: MutationFn) => deleteProduct(id),
+    });
 }

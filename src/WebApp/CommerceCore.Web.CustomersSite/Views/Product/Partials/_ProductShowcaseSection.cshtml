@@ -1,9 +1,8 @@
-@using System.Text.Json;
-@model ProductViewModel?
+@model ProductResponse?
 
 
 @{
-    var images = Model?.Images.Select(x => x.PublicUrl).ToList() ?? [];
+    var images = Model?.Images.ToList() ?? [];
     var firstImageUrl = images.Count > 0 ? images[0] : "#";
 }
 
@@ -14,7 +13,7 @@
             <img id="product-details-thumbnail" src="@(firstImageUrl)" alt="product-image" class="w-full">
         </div>
         <div class="grid grid-cols-3 gap-2 mt-4">
-            @for (int i = 0; i < images.Count; i++)
+            @for (var i = 0; i < images.Count; i++)
             {
                 <div
                     class="product-details-image-container h-28 overflow-hidden flex items-center align-center border border-gray-300">

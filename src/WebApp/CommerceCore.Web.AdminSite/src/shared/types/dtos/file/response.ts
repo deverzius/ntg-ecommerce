@@ -1,9 +1,9 @@
 export type FileUrlResponseDto = {
-  path: string;
-  signedURL: string;
+    path: string;
+    signedURL: string;
 };
 
 export type PublicFileUrlResponseDto = {
-  path: string;
-  publicUrl: string;
+    path: string;
+    publicUrl: string;
 };

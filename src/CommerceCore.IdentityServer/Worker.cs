@@ -24,7 +24,6 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
             await openIddictManager.FindByClientIdAsync("ecommerce-client", cancellationToken)
             is null
         )
-        {
             await openIddictManager.CreateAsync(
                 new OpenIddictApplicationDescriptor
                 {
@@ -36,12 +35,12 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     {
                         new Uri("https://oauth.pstmn.io/v1/callback"),
                         new Uri("https://localhost:5173/callback"),
-                        new Uri("https://localhost:7136/callback"),
+                        new Uri("https://localhost:7136/callback")
                     },
                     PostLogoutRedirectUris =
                     {
                         new Uri("https://localhost:5173"),
-                        new Uri("https://localhost:7136/SignoutCallback"),
+                        new Uri("https://localhost:7136/SignoutCallback")
                     },
                     Permissions =
                     {
@@ -53,12 +52,11 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                         Permissions.ResponseTypes.Code,
                         Permissions.Scopes.Email,
                         Permissions.Scopes.Profile,
-                        Permissions.Scopes.Roles,
-                    },
+                        Permissions.Scopes.Roles
+                    }
                 },
                 cancellationToken
             );
-        }
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -71,7 +69,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 new ApplicationUser
                 {
                     UserName = "admin@nashmail.com",
-                    Email = "admin@nashmail.com",
+                    Email = "admin@nashmail.com"
                 },
                 "Admin123!"
             );
@@ -80,5 +78,8 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         }
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
 }

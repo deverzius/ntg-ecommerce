@@ -7,6 +7,6 @@ public static class JsonHelper
     public static readonly JsonSerializerOptions Options = new()
     {
         PropertyNameCaseInsensitive = true,
-        WriteIndented = false,
+        WriteIndented = false
     };
 }

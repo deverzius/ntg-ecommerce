@@ -35,7 +35,6 @@ public class AuthorizationController(
         var result = await HttpContext.AuthenticateAsync();
 
         if (!result.Succeeded)
-        {
             return Challenge(
                 new AuthenticationProperties
                 {
@@ -44,10 +43,9 @@ public class AuthorizationController(
                         + Request.Path
                         + QueryString.Create(
                             Request.HasFormContentType ? Request.Form : Request.Query
-                        ),
+                        )
                 }
             );
-        }
 
         var user =
             await _userManager.GetUserAsync(result.Principal)
@@ -59,19 +57,19 @@ public class AuthorizationController(
 
         var authorizations = _authorizationManager
             .FindAsync(
-                subject: user.Id,
-                client: request.ClientId,
-                status: Statuses.Valid,
-                type: AuthorizationTypes.AdHoc,
-                scopes: request.GetScopes()
+                user.Id,
+                request.ClientId,
+                Statuses.Valid,
+                AuthorizationTypes.AdHoc,
+                request.GetScopes()
             )
             .ToBlockingEnumerable()
             .ToList();
 
         var identity = new ClaimsIdentity(
-            authenticationType: TokenValidationParameters.DefaultAuthenticationType,
-            nameType: Claims.Name,
-            roleType: Claims.Role
+            TokenValidationParameters.DefaultAuthenticationType,
+            Claims.Name,
+            Claims.Role
         );
 
         identity
@@ -84,11 +82,11 @@ public class AuthorizationController(
 
         var authorization = authorizations.LastOrDefault();
         authorization ??= await _authorizationManager.CreateAsync(
-            identity: identity,
-            subject: user.Id,
-            client: request.ClientId,
-            type: AuthorizationTypes.AdHoc,
-            scopes: identity.GetScopes()
+            identity,
+            user.Id,
+            request.ClientId,
+            AuthorizationTypes.AdHoc,
+            identity.GetScopes()
         );
 
         identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));
@@ -112,9 +110,7 @@ public class AuthorizationController(
             );
 
         if (!request.IsAuthorizationCodeGrantType() && !request.IsRefreshTokenGrantType())
-        {
             throw new InvalidOperationException("The specified grant type is not supported.");
-        }
 
         var result = await HttpContext.AuthenticateAsync(
             OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
@@ -122,18 +118,15 @@ public class AuthorizationController(
 
         var userId = result?.Principal?.GetClaim(Claims.Subject);
 
-        if (userId is null)
-        {
-            return Forbid();
-        }
+        if (userId is null) return Forbid();
 
         var user = await _userManager.FindByIdAsync(userId);
 
         var identity = new ClaimsIdentity(
             result.Principal.Claims,
-            authenticationType: TokenValidationParameters.DefaultAuthenticationType,
-            nameType: Claims.Name,
-            roleType: Claims.Role
+            TokenValidationParameters.DefaultAuthenticationType,
+            Claims.Name,
+            Claims.Role
         );
 
         // Override the user claims present in the principal
@@ -190,10 +183,7 @@ public class AuthorizationController(
 
         var userId = result?.Principal?.GetClaim(Claims.Subject);
 
-        if (userId is null)
-        {
-            return Forbid();
-        }
+        if (userId is null) return Forbid();
 
         var user = await _userManager.FindByIdAsync(userId);
 
@@ -206,7 +196,7 @@ public class AuthorizationController(
                 UserName = user?.UserName,
                 Email = user?.Email,
                 PhoneNumber = user?.PhoneNumber,
-                Role = role,
+                Role = role
             }
         );
     }
@@ -218,10 +208,7 @@ public class AuthorizationController(
         Response.Cookies.Delete("access_token");
         Response.Cookies.Delete("refresh_token");
 
-        if (Request.Query.ContainsKey("post_logout_redirect_uri") == false)
-        {
-            return Ok();
-        }
+        if (Request.Query.ContainsKey("post_logout_redirect_uri") == false) return Ok();
 
         return Redirect(Request.Query["post_logout_redirect_uri"].ToString());
     }

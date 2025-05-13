@@ -68,10 +68,7 @@ public static class ServiceConfig
 
         services
             .AddOpenIddict()
-            .AddCore(options =>
-            {
-                options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
-            })
+            .AddCore(options => { options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>(); })
             .AddClient(options =>
             {
                 options.AllowAuthorizationCodeFlow().AllowRefreshTokenFlow();

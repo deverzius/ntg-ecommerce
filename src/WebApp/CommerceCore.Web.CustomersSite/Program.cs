@@ -1,4 +1,6 @@
 using Ardalis.GuardClauses;
+using CommerceCore.Web.CustomersSite.Interfaces;
+using CommerceCore.Web.CustomersSite.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -77,7 +79,7 @@ public class Program
                             {
                                 MaxAge = TimeSpan.FromSeconds(expiresIn),
                                 HttpOnly = false,
-                                Secure = true,
+                                Secure = true
                             };
 
                             context.Response.Cookies.Append(
@@ -93,12 +95,9 @@ public class Program
 
                             return Task.CompletedTask;
                         },
-                        OnSignedOutCallbackRedirect = async (context) =>
+                        OnSignedOutCallbackRedirect = async context =>
                         {
-                            if (context.HttpContext.Response.HasStarted)
-                            {
-                                context.HttpContext.Response.Clear();
-                            }
+                            if (context.HttpContext.Response.HasStarted) context.HttpContext.Response.Clear();
 
                             context.HttpContext.Response.Headers.CacheControl =
                                 "no-cache, no-store";
@@ -112,10 +111,13 @@ public class Program
                             context.Response.Redirect("/");
                             context.HandleResponse();
                             await Task.CompletedTask;
-                        },
+                        }
                     };
                 }
             );
+
+        builder.Services.AddScoped<IProductServices, ProductServices>();
+        builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
         var app = builder.Build();
 
@@ -132,7 +134,7 @@ public class Program
 
         app.UseRouting();
 
-        app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
     }

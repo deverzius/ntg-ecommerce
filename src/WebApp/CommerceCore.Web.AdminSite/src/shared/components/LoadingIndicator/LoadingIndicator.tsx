@@ -1,9 +1,9 @@
-import { Loader } from "@mantine/core";
+import {Loader} from "@mantine/core";
 
 interface LoadingIndicatorProps {
-  size?: number;
+    size?: number;
 }
 
-export function LoadingIndicator({ size = 32 }: LoadingIndicatorProps) {
-  return <Loader size={size} />;
+export function LoadingIndicator({size = 32}: LoadingIndicatorProps) {
+    return <Loader size={size}/>;
 }

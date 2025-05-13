@@ -1,7 +1,7 @@
-@model ProductWithReviewsViewModel
+@model ProductResponse
 
 @{
-    var reviews = Model?.Reviews ?? [];
+    @* var reviews = Model?.Reviews ?? []; *@
 }
 
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
@@ -20,7 +20,8 @@
                 <p class="text-sm text-gray-500">(35 Evaluate)</p>
                 <p class="text-sm text-gray-600">69% of customers recommend this product</p>
                 <button
-                    class="border border-gray-700 text-sm py-2 px-6 font-medium hover:bg-gray-100 transition">Evaluate</button>
+                    class="border border-gray-700 text-sm py-2 px-6 font-medium hover:bg-gray-100 transition">Evaluate
+                </button>
             </div>
 
             <div class="space-y-2 w-full max-w-md">
@@ -59,19 +60,19 @@
 
     <hr class="col-span-10 col-start-2 border-t border-gray-300">
 
-    <div class="col-span-6 col-start-2 ">
+    @* <div class="col-span-6 col-start-2 ">
         @await Html.PartialAsync("Partials/_FormRatingsSection", Model?.Product)
-    </div>
+    </div> *@
 
     <hr class="col-span-10 col-start-2 border-t border-gray-300">
 
 
-    <div class="col-span-12">
+    @* <div class="col-span-12">
         <div class="grid grid-cols-12 gap-6 h-full items-center w-full mx-auto pb-10">
             @foreach (var review in reviews)
             {
                 @await Component.InvokeAsync("Review", review)
             }
         </div>
-    </div>
-</h>
+    </div> *@
+</div>

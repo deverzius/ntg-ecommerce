@@ -18,7 +18,7 @@ public class SvgIconViewComponent : ViewComponent
             Name = name,
             Height = height ?? size,
             Width = width ?? size,
-            StrokeWidth = strokeWidth,
+            StrokeWidth = strokeWidth
         };
         return View(icon);
     }

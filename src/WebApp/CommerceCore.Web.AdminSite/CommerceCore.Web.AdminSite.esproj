@@ -10,6 +10,6 @@
     </PropertyGroup>
 
     <Target Name="Install" BeforeTargets="BeforeRestore">
-        <Exec Command="pnpm install" WorkingDirectory="$(MSBuildProjectDirectory)" />
+        <Exec Command="pnpm install" WorkingDirectory="$(MSBuildProjectDirectory)"/>
     </Target>
 </Project>
