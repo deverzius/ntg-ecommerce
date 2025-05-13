@@ -16,8 +16,8 @@ namespace CommerceCore.WebApi.UnitTests.Controllers.v1;
 
 public class CategoriesControllerTests
 {
-    private readonly Mock<ISender> _senderMock;
     private readonly CategoriesController _controller;
+    private readonly Mock<ISender> _senderMock;
 
     public CategoriesControllerTests()
     {
@@ -32,7 +32,7 @@ public class CategoriesControllerTests
     public async Task GetCategoriesWithPagination_ReturnsOkWithPaginatedViewModel()
     {
         // Arrange
-        var query = new GetCategoriesWithPaginationQuery(1, 10);
+        var query = new GetCategoriesQuery();
         var categoryDtos = new List<CategoryResponseDto>
         {
             new()
@@ -40,8 +40,8 @@ public class CategoriesControllerTests
                 Id = Guid.NewGuid(),
                 Name = "Category 1",
                 Description = "Desc 1",
-                ParentCategoryId = null,
-            },
+                ParentCategoryId = null
+            }
         };
         var paginatedListDto = new PaginatedList<CategoryResponseDto>(categoryDtos, 1, 1, 10);
 
@@ -70,7 +70,7 @@ public class CategoriesControllerTests
             Id = Guid.NewGuid(),
             Name = "Category 1",
             Description = "Desc 1",
-            ParentCategoryId = null,
+            ParentCategoryId = null
         };
 
         _senderMock
@@ -122,7 +122,7 @@ public class CategoriesControllerTests
             Id = Guid.NewGuid(),
             Name = command.Name,
             Description = command.Description,
-            ParentCategoryId = command.ParentCategoryId,
+            ParentCategoryId = command.ParentCategoryId
         };
 
         _senderMock
@@ -151,7 +151,8 @@ public class CategoriesControllerTests
             null
         );
 
-        _senderMock.Setup(s => s.Send(command, It.IsAny<CancellationToken>())).ReturnsAsync(true); // Simulate successful update
+        _senderMock.Setup(s => s.Send(command, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true); // Simulate successful update
 
         // Act
         var result = await _controller.PutCategory(_senderMock.Object, categoryId, command);

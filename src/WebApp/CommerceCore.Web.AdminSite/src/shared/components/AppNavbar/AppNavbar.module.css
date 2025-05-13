@@ -1,46 +1,46 @@
 .navbar {
-  width: 300px;
-  padding: var(--mantine-spacing-md);
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--mantine-color-gray-3);
+    width: 300px;
+    padding: var(--mantine-spacing-md);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--mantine-color-gray-3);
 }
 
 .link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  font-size: var(--mantine-font-size-sm);
-  color: var(--mantine-color-gray-7);
-  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
-  border-radius: var(--mantine-radius-sm);
-  font-weight: 500;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: var(--mantine-font-size-sm);
+    color: var(--mantine-color-gray-7);
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+    border-radius: var(--mantine-radius-sm);
+    font-weight: 500;
 
-  @mixin hover {
-    background-color: var(--mantine-color-gray-0);
-    color: var(--mantine-color-black);
+    @mixin hover {
+        background-color: var(--mantine-color-gray-0);
+        color: var(--mantine-color-black);
 
-    .linkIcon {
-      color: var(--mantine-color-black);
+        .linkIcon {
+            color: var(--mantine-color-black);
+        }
     }
-  }
 
-  &[data-active] {
-    &,
-    &:hover {
-      background-color: var(--mantine-color-blue-light);
-      color: var(--mantine-color-blue-light-color);
+    &[data-active] {
+        &,
+        &:hover {
+            background-color: var(--mantine-color-blue-light);
+            color: var(--mantine-color-blue-light-color);
 
-      .linkIcon {
-        color: var(--mantine-color-blue-light-color);
-      }
+            .linkIcon {
+                color: var(--mantine-color-blue-light-color);
+            }
+        }
     }
-  }
 }
 
 .linkIcon {
-  color: var(--mantine-color-gray-6);
-  margin-right: var(--mantine-spacing-sm);
-  width: 25px;
-  height: 25px;
+    color: var(--mantine-color-gray-6);
+    margin-right: var(--mantine-spacing-sm);
+    width: 25px;
+    height: 25px;
 }

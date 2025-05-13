@@ -1,6 +1,6 @@
 export type SimpleCategoryResponseDto = {
-  id: string;
-  name: string;
-  description: string;
-  parentCategoryId?: string;
+    id: string;
+    name: string;
+    description: string;
+    parentCategoryId?: string;
 };

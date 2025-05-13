@@ -2,33 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Giovanna</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css"
-        asp-append-version="true" />
+          asp-append-version="true"/>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"
-        asp-append-version="true" />
+          asp-append-version="true"/>
 
 </head>
 
 <body>
-    @await Html.PartialAsync("Partials/_Header.cshtml")
+@await Html.PartialAsync("Partials/_Header.cshtml")
 
-    <div class="flex-1">
-        <main role="main">
-            @RenderBody()
-        </main>
-    </div>
+<div class="flex-1">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
 
-    @await Html.PartialAsync("Partials/_Footer.cshtml")
+@await Html.PartialAsync("Partials/_Footer.cshtml")
 
-    <script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
 </body>
 
 </html>

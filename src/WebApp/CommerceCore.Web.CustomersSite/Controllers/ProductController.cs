@@ -12,10 +12,11 @@ public class ProductController(
     IConfiguration config
 ) : Controller
 {
-    private readonly ILogger<ProductController> _logger = logger;
-    private readonly HttpClient _httpClient = httpClient;
     private readonly string _apiUrl =
         config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
+
+    private readonly HttpClient _httpClient = httpClient;
+    private readonly ILogger<ProductController> _logger = logger;
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Details(Guid id)
@@ -40,16 +41,14 @@ public class ProductController(
                     ProductId = productId,
                     FullName = reviewModel.FullName,
                     PhoneNumber = reviewModel.PhoneNumber,
-                    Email = reviewModel.Email,
+                    Email = reviewModel.Email
                 }
             );
 
             if (response.IsSuccessStatusCode)
-            {
                 return Redirect(
                     $"/Product/Details/{productId}?formSuccess={Uri.EscapeDataString("Review created successfully.")}"
                 );
-            }
 
             return Redirect(
                 $"/Product/Details/{productId}?formError={Uri.EscapeDataString(response.RequestMessage.ToString())}"
@@ -58,7 +57,7 @@ public class ProductController(
         catch (Exception ex)
         {
             return Redirect(
-                $"/Product/Details/{productId}?formError={Uri.EscapeDataString(ex.Message.ToString())}"
+                $"/Product/Details/{productId}?formError={Uri.EscapeDataString(ex.Message)}"
             );
         }
     }

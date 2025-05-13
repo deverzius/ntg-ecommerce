@@ -12,8 +12,8 @@ using Moq;
 
 public class FilesControllerTests
 {
-    private readonly Mock<ISender> _senderMock;
     private readonly FilesController _controller;
+    private readonly Mock<ISender> _senderMock;
 
     public FilesControllerTests()
     {
@@ -35,13 +35,13 @@ public class FilesControllerTests
             new FileUrlDto
             {
                 Path = "path/to/file1.jpg",
-                SignedURL = "http://example.com/signed/file1.jpg",
+                SignedURL = "http://example.com/signed/file1.jpg"
             },
             new FileUrlDto
             {
                 Path = "path/to/file2.png",
-                SignedURL = "http://example.com/signed/file2.png",
-            },
+                SignedURL = "http://example.com/signed/file2.png"
+            }
         };
 
         _senderMock
@@ -70,7 +70,7 @@ public class FilesControllerTests
         var expectedUrl = new FileUrlDto
         {
             Path = filePath,
-            SignedURL = "http://example.com/signed/image.png",
+            SignedURL = "http://example.com/signed/image.png"
         };
 
         _senderMock
@@ -128,7 +128,7 @@ public class FilesControllerTests
         var expectedDto = new FileUrlDto
         {
             Path = formFileName,
-            SignedURL = $"http://example.com/signed/{formFileName}",
+            SignedURL = $"http://example.com/signed/{formFileName}"
         };
 
         _senderMock
@@ -155,7 +155,8 @@ public class FilesControllerTests
         var createdResult = Assert.IsType<Created<FileUrlDto>>(result.Result);
         Assert.NotNull(createdResult.Value);
         Assert.Equal(expectedDto.SignedURL, createdResult.Value.SignedURL);
-        Assert.Equal(expectedDto.Path, createdResult.Value.Path); // Path should match the 'name' parameter if handler sets it that way
+        Assert.Equal(expectedDto.Path,
+            createdResult.Value.Path); // Path should match the 'name' parameter if handler sets it that way
         Assert.Equal(nameof(_controller.GetFileUrl), createdResult.Location);
         mockFile.Verify(
             f => f.CopyToAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()),

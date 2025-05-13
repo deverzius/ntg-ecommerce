@@ -2,23 +2,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiServer", "ApiServer", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceServer", "ResourceServer", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{D889AC62-EE7C-43E0-8585-9260B2F11AF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.IdentityServer", "src\CommerceCore.IdentityServer\CommerceCore.IdentityServer.csproj", "{24B32BA8-765D-4F13-88CE-40CEBDE3BC74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Application", "src\ApiServer\CommerceCore.Application\CommerceCore.Application.csproj", "{0B1B82BA-40CF-E787-3036-3B307C644DD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Application", "src\ResourceServer\CommerceCore.Application\CommerceCore.Application.csproj", "{0B1B82BA-40CF-E787-3036-3B307C644DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Domain", "src\ApiServer\CommerceCore.Domain\CommerceCore.Domain.csproj", "{E22663FE-D2DC-B153-224A-33E83B3738A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Domain", "src\ResourceServer\CommerceCore.Domain\CommerceCore.Domain.csproj", "{E22663FE-D2DC-B153-224A-33E83B3738A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Infrastructure", "src\ApiServer\CommerceCore.Infrastructure\CommerceCore.Infrastructure.csproj", "{E9642F35-F21F-51CE-569A-EED1854AFD8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Infrastructure", "src\ResourceServer\CommerceCore.Infrastructure\CommerceCore.Infrastructure.csproj", "{E9642F35-F21F-51CE-569A-EED1854AFD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi", "src\ApiServer\CommerceCore.WebApi\CommerceCore.WebApi.csproj", "{0602FAA7-6D5F-9876-20F9-32F502C70791}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi", "src\ResourceServer\CommerceCore.WebApi\CommerceCore.WebApi.csproj", "{0602FAA7-6D5F-9876-20F9-32F502C70791}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Web.CustomersSite", "src\WebApp\CommerceCore.Web.CustomersSite\CommerceCore.Web.CustomersSite.csproj", "{8797FE7A-FFA6-4DE5-F20F-5149DD9CEC85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.SharedViewModels", "src\CommerceCore.SharedViewModels\CommerceCore.SharedViewModels.csproj", "{3814A089-D17B-CDED-A3F2-889B3BC87F4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Shared", "src\CommerceCore.Shared\CommerceCore.Shared.csproj", "{3814A089-D17B-CDED-A3F2-889B3BC87F4F}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CommerceCore.Web.AdminSite", "src\WebApp\CommerceCore.Web.AdminSite\CommerceCore.Web.AdminSite.esproj", "{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}"
 EndProject
@@ -26,9 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D785781F-DC3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5C723F72-397D-4FB1-9964-A0B62A832328}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiServer", "ApiServer", "{615C8BB9-489F-4D6A-B498-FC8B342A88E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceServer", "ResourceServer", "{615C8BB9-489F-4D6A-B498-FC8B342A88E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi.UnitTests", "tests\ApiServer\CommerceCore.WebApi.UnitTests\CommerceCore.WebApi.UnitTests.csproj", "{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi.UnitTests", "tests\ResourceServer\CommerceCore.WebApi.UnitTests\CommerceCore.WebApi.UnitTests.csproj", "{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

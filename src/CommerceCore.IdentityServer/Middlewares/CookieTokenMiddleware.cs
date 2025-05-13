@@ -7,9 +7,7 @@ public class CookieTokenMiddleware(RequestDelegate next)
     public async Task Invoke(HttpContext context)
     {
         if (context.Request.Cookies.TryGetValue("access_token", out var token))
-        {
             context.Request.Headers.Authorization = $"Bearer {token}";
-        }
 
         await _next(context);
     }

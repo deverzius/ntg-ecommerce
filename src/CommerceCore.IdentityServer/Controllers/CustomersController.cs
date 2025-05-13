@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CommerceCore.IdentityServer.Data;
 using CommerceCore.IdentityServer.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -16,8 +15,8 @@ public class CustomersController(
     ApplicationDbContext dbContext
 ) : Controller
 {
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly ApplicationDbContext _dbContext = dbContext;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
 
     [HttpGet]
     [IgnoreAntiforgeryToken]
@@ -46,7 +45,7 @@ public class CustomersController(
                 Id = u.Id,
                 UserName = u.UserName,
                 PhoneNumber = u.PhoneNumber,
-                Email = u.Email,
+                Email = u.Email
             })
             .ToListAsync();
 

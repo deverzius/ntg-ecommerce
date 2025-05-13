@@ -1,17 +1,13 @@
-﻿using CommerceCore.Application.Brands.Dtos;
-using CommerceCore.Application.Categories.Dtos;
-using CommerceCore.Application.Common.Models;
+﻿using CommerceCore.Application.Common.Models;
 using CommerceCore.Application.Products.Commands.CreateProduct;
 using CommerceCore.Application.Products.Commands.CreateReview;
 using CommerceCore.Application.Products.Commands.DeleteProduct;
 using CommerceCore.Application.Products.Commands.UpdateProduct;
-using CommerceCore.Application.Products.Dtos;
 using CommerceCore.Application.Products.Queries.GetProduct;
 using CommerceCore.Application.Products.Queries.GetProductsWithPagination;
 using CommerceCore.Application.Products.Queries.GetReviewsByProductId;
 using CommerceCore.WebApi.Controllers.v1;
 using MediatR;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +16,15 @@ using Moq;
 
 public class ProductsControllerTests
 {
-    private readonly Mock<ISender> _senderMock;
-    private readonly Mock<IConfiguration> _configurationMock;
-    private readonly ProductsController _controller;
     private const string StorageBaseUrl = "http://fake.supabase.co";
     private const string BucketName = "my-bucket";
+    private readonly Mock<IConfiguration> _configurationMock;
+    private readonly ProductsController _controller;
+
     private readonly string _expectedPublicStorageUrl =
         $"{StorageBaseUrl}/storage/v1/object/public/{BucketName}/";
+
+    private readonly Mock<ISender> _senderMock;
 
     public ProductsControllerTests()
     {
@@ -47,7 +45,7 @@ public class ProductsControllerTests
     public async Task GetProductsWithPagination_ReturnsOkWithPaginatedViewModel()
     {
         // Arrange
-        var query = new GetProductsWithPaginationQuery(1, 10);
+        var query = new GetProductsQuery();
         var productDtos = new List<ProductResponseDto>
         {
             new()
@@ -60,17 +58,17 @@ public class ProductsControllerTests
                 CategoryId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow,
-                Brand = new SimpleBrandResponseDto()
+                Brand = new SimpleBrandResponse
                 {
                     Id = Guid.NewGuid(),
                     Name = "Brand2",
-                    Description = "",
+                    Description = ""
                 },
-                Category = new SimpleCategoryResponseDto()
+                Category = new SimpleCategoryResponseDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Category2",
-                    Description = "",
+                    Description = ""
                 },
                 Images =
                 [
@@ -78,10 +76,10 @@ public class ProductsControllerTests
                     {
                         Name = "img2.jpg",
                         Path = "img2.jpg",
-                        ProductId = Guid.NewGuid(),
-                    },
-                ],
-            },
+                        ProductId = Guid.NewGuid()
+                    }
+                ]
+            }
         };
         var paginatedListDto = new PaginatedList<ProductResponseDto>(productDtos, 1, 1, 10);
 
@@ -121,17 +119,17 @@ public class ProductsControllerTests
                 CategoryId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
                 UpdatedDate = DateTime.UtcNow,
-                Brand = new SimpleBrandResponseDto()
+                Brand = new SimpleBrandResponse
                 {
                     Id = Guid.NewGuid(),
                     Name = "Brand2",
-                    Description = "",
+                    Description = ""
                 },
-                Category = new SimpleCategoryResponseDto()
+                Category = new SimpleCategoryResponseDto
                 {
                     Id = Guid.NewGuid(),
                     Name = "Category2",
-                    Description = "",
+                    Description = ""
                 },
                 Images =
                 [
@@ -139,10 +137,10 @@ public class ProductsControllerTests
                     {
                         Name = "img2.jpg",
                         Path = "img2.jpg",
-                        ProductId = Guid.NewGuid(),
-                    },
-                ],
-            },
+                        ProductId = Guid.NewGuid()
+                    }
+                ]
+            }
         };
         var reviewDtos = new List<ReviewResponseDto>
         {
@@ -152,8 +150,8 @@ public class ProductsControllerTests
                 Rating = 5,
                 Title = "Good",
                 Comment = "Great!",
-                CreatedDate = DateTime.UtcNow,
-            },
+                CreatedDate = DateTime.UtcNow
+            }
         };
 
         _senderMock
@@ -224,13 +222,13 @@ public class ProductsControllerTests
             null,
             null
         );
-        var reviewDto = new ReviewResponseDto()
+        var reviewDto = new ReviewResponseDto
         {
             Id = Guid.NewGuid(),
             Rating = command.Rating,
             Title = command.Title,
             Comment = command.Comment,
-            CreatedDate = DateTime.UtcNow,
+            CreatedDate = DateTime.UtcNow
         };
 
         _senderMock
@@ -320,27 +318,27 @@ public class ProductsControllerTests
             CategoryId = command.CategoryId,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow,
-            Brand = new SimpleBrandResponseDto
+            Brand = new SimpleBrandResponse
             {
                 Id = command.BrandId,
                 Name = "NewBrand",
-                Description = "",
+                Description = ""
             },
             Category = new SimpleCategoryResponseDto
             {
                 Id = command.CategoryId,
                 Name = "NewCategory",
-                Description = "",
+                Description = ""
             },
             Images = new List<SimpleProductImageResponseDto>
             {
-                new SimpleProductImageResponseDto
+                new()
                 {
                     Name = "Image1",
                     Path = "image1.jpg",
-                    ProductId = productId,
-                },
-            },
+                    ProductId = productId
+                }
+            }
         };
 
         _senderMock

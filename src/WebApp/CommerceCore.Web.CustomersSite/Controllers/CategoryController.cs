@@ -13,10 +13,11 @@ public class CategoryController(
     IConfiguration config
 ) : Controller
 {
-    private readonly ILogger<CategoryController> _logger = logger;
-    private readonly HttpClient _httpClient = httpClient;
     private readonly string _apiUrl =
         config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
+
+    private readonly HttpClient _httpClient = httpClient;
+    private readonly ILogger<CategoryController> _logger = logger;
 
     [HttpGet("products")]
     public async Task<IActionResult> Products([FromQuery] Guid CategoryId)
@@ -34,11 +35,11 @@ public class CategoryController(
         try
         {
             var url = _apiUrl + "/v1/products";
-            var queryParams = new Dictionary<string, string>()
+            var queryParams = new Dictionary<string, string>
             {
                 { "PageNumber", "1" },
                 { "PageSize", "8" },
-                { "CategoryId", CategoryId.ToString() },
+                { "CategoryId", CategoryId.ToString() }
             };
 
             var response = await _httpClient.GetAsync(
@@ -52,7 +53,7 @@ public class CategoryController(
                 JsonHelper.Options
             );
 
-            return products ?? new();
+            return products ?? new PaginatedListViewModel<ProductViewModel>();
         }
         catch (Exception ex)
         {

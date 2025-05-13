@@ -2,7 +2,7 @@
 
 @{
     var productId = Model?.Id.ToString();
-    var reviewModel = new ReviewViewModel { };
+    var reviewModel = new ReviewViewModel();
 
     var errorMessage = Context.Request.Query["formError"].ToString();
     var errorMessageDisplay = errorMessage != null && errorMessage != string.Empty ? "block" : "hidden";
@@ -25,7 +25,7 @@
                 <span class="text-red-600">*</span>
             </label>
             <input asp-for="@reviewModel.FullName" type="text" minlength="1" placeholder="John" class="w-full text-sm"
-                required />
+                   required/>
         </div>
         <div>
             <label class="block mb-2 text-sm font-medium text-gray-900">
@@ -33,13 +33,13 @@
                 <span class="text-red-600">*</span>
             </label>
             <input asp-for="@reviewModel.PhoneNumber" type="tel" placeholder="0123456789" class="w-full text-sm"
-                required />
+                   required/>
         </div>
         <div>
             <label class="block mb-2 text-sm font-medium text-gray-900">Email
                 address</label>
             <input asp-for="@reviewModel.Email" type="email" placeholder="john.doe@company.com" class="w-full text-sm"
-                required />
+                   required/>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
                 <span class="text-red-600">*</span>
             </label>
             <input asp-for="@reviewModel.Title" type="text" minlength="1" placeholder="" class="w-full text-sm"
-                required />
+                   required/>
         </div>
         <div>
             <label for="company" class="block mb-2 text-sm font-medium text-gray-900">
@@ -58,7 +58,7 @@
                 <span class="text-red-600">*</span>
             </label>
             <input asp-for="@reviewModel.Rating" type="number" placeholder="" min="1" max="5" value="5"
-                class="w-full text-sm" required />
+                   class="w-full text-sm" required/>
         </div>
     </div>
     <div>
@@ -67,7 +67,7 @@
             <span class="text-red-600">*</span>
         </label>
         <textarea asp-for="@reviewModel.Comment" type="text" minlength="0" placeholder=""
-            class="w-full text-sm break-all" required></textarea>
+                  class="w-full text-sm break-all" required></textarea>
     </div>
 
     <button type="submit" class="bg-black text-white text-sm py-2 px-8 mt-4 font-medium hover:bg-gray-800 transition">

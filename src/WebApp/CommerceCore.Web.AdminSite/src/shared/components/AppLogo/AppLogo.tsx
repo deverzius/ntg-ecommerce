@@ -1,9 +1,9 @@
-import { Image } from "@mantine/core";
+import {Image} from "@mantine/core";
 
 interface AppLogoProps {
-  width?: number;
+    width?: number;
 }
 
-export function AppLogo({ width }: AppLogoProps) {
-  return <Image src="images/logo.svg" alt="app-logo" w={width} />;
+export function AppLogo({width}: AppLogoProps) {
+    return <Image src="images/logo.svg" alt="app-logo" w={width}/>;
 }

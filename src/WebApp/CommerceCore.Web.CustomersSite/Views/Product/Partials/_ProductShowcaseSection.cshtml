@@ -1,4 +1,3 @@
-@using System.Text.Json;
 @model ProductViewModel?
 
 
@@ -14,12 +13,12 @@
             <img id="product-details-thumbnail" src="@(firstImageUrl)" alt="product-image" class="w-full">
         </div>
         <div class="grid grid-cols-3 gap-2 mt-4">
-            @for (int i = 0; i < images.Count; i++)
+            @for (var i = 0; i < images.Count; i++)
             {
                 <div
                     class="product-details-image-container h-28 overflow-hidden flex items-center align-center border border-gray-300">
                     <img class="product-details-image w-full" src="@(images[i])" alt="product-image" data-id="@(i)"
-                        data-selected="true">
+                         data-selected="true">
                 </div>
             }
         </div>

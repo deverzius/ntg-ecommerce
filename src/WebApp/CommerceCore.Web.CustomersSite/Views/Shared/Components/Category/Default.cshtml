@@ -2,16 +2,16 @@
 
 @{
     var imageUrl =
-    "https://iprbauhqfabdlhzuludb.supabase.co/storage/v1/object/public/ecommerce/categories/" +
-    Model.Name.ToLower().Replace(" ", "-") +
-    ".jpg";
+        "https://iprbauhqfabdlhzuludb.supabase.co/storage/v1/object/public/ecommerce/categories/" +
+        Model.Name.ToLower().Replace(" ", "-") +
+        ".jpg";
 }
 
 <a asp-controller="Category" asp-action="Products" asp-route-CategoryId="@Model.Id.ToString()"
-    class="col-span-3 hover:cursor-pointer group">
+   class="col-span-3 hover:cursor-pointer group">
     <div class="relative w-full h-[300px] overflow-hidden align-middle">
         <img src="@imageUrl" alt="category"
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200" />
+             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-120 group-hover:duration-200"/>
     </div>
     <div class="text-center font-semibold text-xl py-3">@Model.Name</div>
 </a>
