@@ -5,6 +5,6 @@ namespace CommerceCore.Web.CustomersSite.ViewModels;
 
 public class HomePageViewModel
 {
-    public PaginatedResponse<ProductResponse> Products { get; set; }
-    public PaginatedResponse<CategoryResponse> Categories { get; set; }
+    public PagedResult<ProductResponse> Products { get; set; }
+    public PagedResult<CategoryResponse> Categories { get; set; }
 }

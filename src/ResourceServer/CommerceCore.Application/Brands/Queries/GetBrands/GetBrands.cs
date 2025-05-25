@@ -1,4 +1,5 @@
 using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Mappers;
 using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Responses;
@@ -7,14 +8,14 @@ using MediatR;
 namespace CommerceCore.Application.Brands.Queries.GetBrands;
 
 public record GetBrandsQuery(int PageNumber = 1, int PageSize = 10)
-    : IRequest<PaginatedResponse<BrandResponse>>;
+    : IRequest<PagedResult<BrandResponse>>;
 
 public class GetBrandsQueryHandler(IApplicationDbContext context)
-    : IRequestHandler<GetBrandsQuery, PaginatedResponse<BrandResponse>>
+    : IRequestHandler<GetBrandsQuery, PagedResult<BrandResponse>>
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<PaginatedResponse<BrandResponse>> Handle(
+    public async Task<PagedResult<BrandResponse>> Handle(
         GetBrandsQuery request,
         CancellationToken cancellationToken
     )

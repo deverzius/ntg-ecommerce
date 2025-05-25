@@ -32,7 +32,7 @@ public class CategoryController(
         return View(new CategoryPageViewModel { Category = category, Products = products });
     }
 
-    private async Task<PaginatedResponse<ProductResponse>> FetchProducts(Guid CategoryId)
+    private async Task<PagedResult<ProductResponse>> FetchProducts(Guid CategoryId)
     {
         try
         {
@@ -50,17 +50,17 @@ public class CategoryController(
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var products = JsonSerializer.Deserialize<PaginatedResponse<ProductResponse>>(
+            var products = JsonSerializer.Deserialize<PagedResult<ProductResponse>>(
                 json,
                 JsonHelper.Options
             );
 
-            return products ?? new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
+            return products ?? new PagedResult<ProductResponse>([], 0, 0, 0);
         }
         catch (Exception ex)
         {
             _logger.LogError($"{ex}", ex.Message);
-            return new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
+            return new PagedResult<ProductResponse>([], 0, 0, 0);
         }
     }
 

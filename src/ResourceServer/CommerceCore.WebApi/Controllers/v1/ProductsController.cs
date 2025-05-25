@@ -24,7 +24,7 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     //     );
 
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedResponse<ProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<ProductResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetProducts(
         ISender sender,
         [FromQuery] GetProductsQuery query

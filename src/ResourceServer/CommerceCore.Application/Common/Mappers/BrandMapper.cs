@@ -3,7 +3,7 @@ using CommerceCore.Shared.DTOs.Responses;
 
 namespace CommerceCore.Application.Common.Mappings;
 
-public static class BrandMappingExtensions
+public static class BrandMapper
 {
     public static BrandResponse ToDto(this Brand brand)
     {

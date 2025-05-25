@@ -4,5 +4,5 @@ using CommerceCore.Shared.DTOs.Responses;
 public class CategoryPageViewModel
 {
     public CategoryResponse Category { get; set; }
-    public PaginatedResponse<ProductResponse> Products { get; set; }
+    public PagedResult<ProductResponse> Products { get; set; }
 }

@@ -5,5 +5,5 @@ namespace CommerceCore.Web.CustomersSite.Interfaces;
 
 public interface ICategoryServices
 {
-    Task<PaginatedResponse<CategoryResponse>> FetchCategories();
+    Task<PagedResult<CategoryResponse>> FetchCategories();
 }

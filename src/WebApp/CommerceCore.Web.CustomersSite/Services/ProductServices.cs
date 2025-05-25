@@ -10,7 +10,7 @@ public class ProductServices(HttpClient client, IConfiguration config) : IProduc
 {
     private readonly string _apiUrl = config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
 
-    public async Task<PaginatedResponse<ProductResponse>> FetchProducts()
+    public async Task<PagedResult<ProductResponse>> FetchProducts()
     {
         try
         {
@@ -27,16 +27,16 @@ public class ProductServices(HttpClient client, IConfiguration config) : IProduc
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var products = JsonSerializer.Deserialize<PaginatedResponse<ProductResponse>>(
+            var products = JsonSerializer.Deserialize<PagedResult<ProductResponse>>(
                 json,
                 JsonHelper.Options
             );
 
-            return products ?? new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
+            return products ?? new PagedResult<ProductResponse>([], 0, 0, 0);
         }
         catch
         {
-            return new PaginatedResponse<ProductResponse>([], 0, 0, 0, false, false);
+            return new PagedResult<ProductResponse>([], 0, 0, 0);
         }
     }
 

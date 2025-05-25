@@ -1,9 +1,9 @@
 using CommerceCore.Domain.Entities;
 using CommerceCore.Shared.DTOs.Responses;
 
-namespace CommerceCore.Application.Common.Mappings;
+namespace CommerceCore.Application.Common.Mappers;
 
-public static class ProductMappingExtensions
+public static class ProductMapper
 {
     public static ProductResponse ToDto(this Product product)
     {

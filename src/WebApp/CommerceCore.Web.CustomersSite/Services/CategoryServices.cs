@@ -11,7 +11,7 @@ public class CategoryServices(HttpClient client, IConfiguration config) : ICateg
 {
     private readonly string _apiUrl = config["API:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["API:BaseUrl"]);
 
-    public async Task<PaginatedResponse<CategoryResponse>> FetchCategories()
+    public async Task<PagedResult<CategoryResponse>> FetchCategories()
     {
         try
         {
@@ -22,14 +22,14 @@ public class CategoryServices(HttpClient client, IConfiguration config) : ICateg
 
             var json = await response.Content.ReadAsStringAsync();
             var categories = JsonSerializer.Deserialize<
-                PaginatedResponse<CategoryResponse>
+                PagedResult<CategoryResponse>
             >(json, JsonHelper.Options);
 
-            return categories ?? new PaginatedResponse<CategoryResponse>([], 0, 0, 0, false, false);
+            return categories ?? new PagedResult<CategoryResponse>([], 0, 0, 0);
         }
         catch
         {
-            return new PaginatedResponse<CategoryResponse>([], 0, 0, 0, false, false);
+            return new PagedResult<CategoryResponse>([], 0, 0, 0);
         }
     }
 }

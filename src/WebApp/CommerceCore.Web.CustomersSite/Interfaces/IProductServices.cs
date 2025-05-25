@@ -5,6 +5,6 @@ namespace CommerceCore.Web.CustomersSite.Interfaces;
 
 public interface IProductServices
 {
-    Task<PaginatedResponse<ProductResponse>> FetchProducts();
+    Task<PagedResult<ProductResponse>> FetchProducts();
     Task<ProductResponse?> FetchProductById(Guid id);
 }

@@ -1,8 +1,7 @@
 namespace CommerceCore.Shared.DTOs.Requests;
 
 public record BaseRequest(
-    int Offset,
-    int Limit,
-    string Sort,
-    bool Asc
+    int PageNumber,
+    int PageSize,
+    string Sort
 );

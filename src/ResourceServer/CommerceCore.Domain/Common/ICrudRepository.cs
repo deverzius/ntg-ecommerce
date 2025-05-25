@@ -1,10 +1,14 @@
+using CommerceCore.Shared.DTOs.Common;
+
 namespace CommerceCore.Domain.Common;
 
-public interface ICrudRepository<T, TID> where T : class
+public interface ICrudRepository<TEntity, TID, TGetAllOptions>
+    where TEntity : class
+    where TGetAllOptions : IGetAllOptions
 {
-    IQueryable<T> GetQueryableList();
-    Task<T?> GetByIdAsync(TID id, CancellationToken cancellationToken);
-    Task AddAsync(T item, CancellationToken cancellationToken);
-    void Update(T item);
-    void Remove(T item);
+    Task<PagedResult<TEntity>> GetPagedResultAsync(TGetAllOptions options, CancellationToken cancellationToken);
+    Task<TEntity?> GetByIdAsync(TID id, CancellationToken cancellationToken);
+    Task AddAsync(TEntity item, CancellationToken cancellationToken);
+    void Update(TEntity item);
+    void Remove(TEntity item);
 }

@@ -17,7 +17,7 @@ namespace CommerceCore.WebApi.Controllers.v1;
 public class CategoriesController : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedResponse<CategoryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<CategoryResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCategories(
         ISender sender,
         [FromQuery] GetCategoriesQuery query

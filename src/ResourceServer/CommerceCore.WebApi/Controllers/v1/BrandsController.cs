@@ -13,7 +13,7 @@ namespace CommerceCore.WebApi.Controllers.v1;
 public class BrandsController : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedResponse<BrandResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResult<BrandResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetBrands(
         ISender sender,
         [FromQuery] GetBrandsQuery query
