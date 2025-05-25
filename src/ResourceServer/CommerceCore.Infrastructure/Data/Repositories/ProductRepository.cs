@@ -1,7 +1,9 @@
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Mappers;
+using CommerceCore.Application.Common.Repositories;
+using CommerceCore.Application.Products.Queries.GetProducts;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Domain.Interfaces.Repositories;
+using CommerceCore.Infrastructure.Extensions;
 using CommerceCore.Shared.DTOs.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,15 +13,17 @@ public class ProductRepository(IApplicationDbContext dbContext) : IProductReposi
 {
     private readonly DbSet<Product> _dbSet = dbContext.Products;
 
-    public async Task<PagedResult<Product>> GetPagedResultAsync(GetProductsOptions options, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<Product>> GetPagedResultAsync(GetProductsQuery query, CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .AsNoTracking()
             .Include(p => p.Brand)
             .Include(p => p.Category)
             .Include(p => p.Images)
-            // .Where(p => !request.CategoryId.HasValue || p.CategoryId == request.CategoryId)
-            .PaginateAsync(options.PageNumber, options.PageSize, cancellationToken);
+            .SortBy(query.Sort)
+            .SearchBy(query.Search)
+            .FilterBy(query.CategoryId)
+            .PaginateAsync(query.PageNumber, query.PageSize, cancellationToken);
     }
 
     public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
