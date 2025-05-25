@@ -1,8 +1,8 @@
 using CommerceCore.IdentityServer.Middlewares;
 
-namespace CommerceCore.IdentityServer.Configs;
+namespace CommerceCore.IdentityServer.Extensions;
 
-public static class AppConfig
+public static class ApplicationExtensions
 {
     public static void Configure(this WebApplication app)
     {

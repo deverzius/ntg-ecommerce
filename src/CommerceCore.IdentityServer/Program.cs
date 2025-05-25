@@ -1,4 +1,4 @@
-using CommerceCore.IdentityServer.Configs;
+using CommerceCore.IdentityServer.Extensions;
 
 namespace CommerceCore.IdentityServer;
 

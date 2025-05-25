@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace CommerceCore.IdentityServer.Configs;
+namespace CommerceCore.IdentityServer.Extensions;
 
-public static class ServiceConfig
+public static class BuilderExtensions
 {
     public static IServiceCollection AddServices(
         this IServiceCollection services,
