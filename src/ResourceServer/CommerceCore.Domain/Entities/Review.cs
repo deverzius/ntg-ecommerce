@@ -5,27 +5,16 @@ namespace CommerceCore.Domain.Entities;
 
 public class Review
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
+    public required int Rating { get; init; }
+    public required string Title { get; init; }
+    public required string Comment { get; init; }
+    public DateTime CreatedDate { get; init; }
+    public required Guid ProductId { get; init; }
 
-    [Required][Range(1, 5)] public required int Rating { get; set; }
-
-    [Required][StringLength(200)] public required string Title { get; set; }
-
-    [Required][StringLength(500)] public required string Comment { get; set; }
-
-    [Required] public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-
-    [Required] public required Guid ProductId { get; set; }
+    public string? FullName { get; init; }
 
     // Required when UserId is null
-    public string? FullName { get; set; }
-
-    // Required when UserId is null
-    [Phone] public string? PhoneNumber { get; set; }
-
-    [EmailAddress] public string? Email { get; set; }
-
-    [ForeignKey("ProductId")] public virtual Product? Product { get; set; }
+    public string? PhoneNumber { get; init; }
+    public string? Email { get; init; }
 }

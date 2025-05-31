@@ -5,19 +5,11 @@ namespace CommerceCore.Domain.Entities;
 
 public class OrderItem
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
+    public required int Quantity { get; init; }
+    public required decimal Price { get; init; }
+    public required Guid ProductVariantId { get; init; }
+    public required Guid OrderId { get; init; }
 
-    [Required] public required int Quantity { get; set; }
-
-    [Required]
-    [Column(TypeName = "decimal(18,2)")]
-    public required decimal Price { get; set; }
-
-    [Required] public required Guid OrderId { get; set; }
-
-    public virtual ICollection<ProductVariant> ProductVariants { get; set; } = [];
-
-    [ForeignKey("OrderId")] public virtual Order? Order { get; set; }
+    public virtual ProductVariant ProductVariant { get; init; } = null!;
 }

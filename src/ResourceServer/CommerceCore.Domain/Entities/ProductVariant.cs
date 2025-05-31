@@ -5,19 +5,10 @@ namespace CommerceCore.Domain.Entities;
 
 public class ProductVariant
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
-
-    public required Guid ProductId { get; set; }
-
-    [MinLength(1)][StringLength(100)] public required string Name { get; set; }
-
-    [MinLength(1)][StringLength(100)] public required string Value { get; set; }
-
-    public required int StockQuantity { get; set; }
-
-    [ForeignKey("ProductId")] public virtual Product? Product { get; set; }
-
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = [];
+    public Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required string Value { get; init; }
+    public required int StockQuantity { get; init; }
+    public required Guid ProductId { get; init; }
+    public virtual ICollection<Image> Images { get; init; } = [];
 }

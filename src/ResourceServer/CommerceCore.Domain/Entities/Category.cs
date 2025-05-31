@@ -5,20 +5,13 @@ namespace CommerceCore.Domain.Entities;
 
 public class Category
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required string Description { get; init; }
+    public Guid? ParentCategoryId { get; init; }
+    public DateTime CreatedDate { get; init; }
+    public DateTime UpdatedDate { get; init; }
 
-    [Required]
-    [StringLength(100)]
-    [MinLength(1)]
-    public required string Name { get; set; }
-
-    [Required][StringLength(500)] public required string Description { get; set; }
-
-    public Guid? ParentCategoryId { get; set; }
-
-    [ForeignKey("ParentCategoryId")] public virtual Category? ParentCategory { get; set; }
-
-    public virtual ICollection<Product> Products { get; set; } = [];
+    public virtual Category? ParentCategory { get; init; }
+    public virtual Image? Image { get; init; }
 }

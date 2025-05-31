@@ -5,17 +5,10 @@ namespace CommerceCore.Domain.Entities;
 
 public class Order
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
+    public Guid? UserId { get; init; }
+    public required decimal TotalPrice { get; init; }
+    public DateTime CreatedDate { get; init; }
 
-    public Guid? UserId { get; set; }
-
-    [Required]
-    [Column(TypeName = "decimal(18,4)")]
-    public required decimal TotalPrice { get; set; }
-
-    [Required] public required DateTime OrderDate { get; set; } = DateTime.UtcNow;
-
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = [];
+    public virtual ICollection<OrderItem> OrderItems { get; init; } = [];
 }
