@@ -31,6 +31,8 @@ public static class DependencyInjection
         services.AddTransient<IStorageService, SupabaseStorageService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
 
         return services;
     }
