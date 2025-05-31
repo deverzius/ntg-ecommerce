@@ -19,7 +19,7 @@ public class ProductRepository(IApplicationDbContext dbContext) : IProductReposi
         return await _dbSet
             .AsNoTracking()
             .Include(p => p.Category)
-            .Include(p => p.Images)
+            .Include(p => p.Variants)
             .SortBy(query.Sort)
             .SearchBy(query.Search)
             .FilterBy(query.CategoryId)
@@ -30,7 +30,7 @@ public class ProductRepository(IApplicationDbContext dbContext) : IProductReposi
     {
         return await _dbSet
             .Include(p => p.Category)
-            .Include(p => p.Images)
+            .Include(p => p.Variants)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 

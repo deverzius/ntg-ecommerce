@@ -10,5 +10,5 @@ public class Product
     public DateTime UpdatedDate { get; init; }
 
     public virtual Category Category { get; init; } = null!;
-    public virtual ICollection<ProductVariant> Variants { get; init; } = [];
+    public virtual ICollection<ProductVariant> Variants { get; set; } = [];
 }

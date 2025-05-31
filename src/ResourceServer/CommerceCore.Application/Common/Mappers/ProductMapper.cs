@@ -12,11 +12,10 @@ public static class ProductMapper
             product.Name,
             product.Description,
             product.Price,
-            product.BrandId,
-            product.CategoryId,
             product.CreatedDate,
             product.UpdatedDate,
-            product.Images.Select(img => img.Path).ToList()
+            product.Category.ToDto(),
+            product.Variants.Select(pv => pv.ToDto()).ToList()
         );
     }
 

@@ -44,9 +44,7 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     )
     {
         var product = await sender.Send(new GetProductQuery(id));
-
-        if (product == null)
-            return NotFound();
+        if (product == null) return NotFound();
 
         return Ok(product);
     }
@@ -60,13 +58,9 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
         Guid id
     )
     {
-        if (command.ProductId != id)
-            return BadRequest("Product Id does not match.");
+        if (command.ProductId != id) return BadRequest("Product Id does not match.");
 
         var review = await sender.Send(command);
-
-        if (review == null)
-            return BadRequest("Failed to create review.");
 
         return Ok(review);
     }
@@ -81,7 +75,7 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     {
         var result = await sender.Send(command);
 
-        return Created(nameof(GetProduct), result);
+        return CreatedAtAction(nameof(GetProduct), new { id = result.Id }, result);
     }
 
     [HttpPut("{id:guid}")]
@@ -95,12 +89,11 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
         UpdateProductCommand command
     )
     {
-        if (id != command.Id)
-            return BadRequest();
+        if (id != command.Id) return BadRequest();
 
-        var result = await sender.Send(command);
+        await sender.Send(command);
 
-        return result ? NoContent() : NotFound();
+        return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
@@ -109,8 +102,8 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteProduct(ISender sender, Guid id)
     {
-        var result = await sender.Send(new DeleteProductCommand(id));
+        await sender.Send(new DeleteProductCommand(id));
 
-        return result ? NoContent() : NotFound();
+        return NoContent();
     }
 }

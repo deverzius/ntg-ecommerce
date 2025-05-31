@@ -1,5 +1,4 @@
 using CommerceCore.Application.Common.Mappers;
-using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Application.Common.Repositories;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;

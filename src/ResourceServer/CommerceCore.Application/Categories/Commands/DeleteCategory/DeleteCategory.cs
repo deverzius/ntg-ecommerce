@@ -25,7 +25,7 @@ public class DeleteCategory(IApplicationDbContext context)
         );
         if (isParentCategory) return false;
 
-        var areSomeProductsInCategory = _context.Products.Any(p => p.CategoryId == request.Id);
+        var areSomeProductsInCategory = _context.Products.Any(p => p.Category.Id == request.Id);
         if (areSomeProductsInCategory) return false;
 
         _context.Categories.Remove(category);

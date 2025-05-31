@@ -9,6 +9,7 @@ public class ProductVariant
     public required string Name { get; init; }
     public required string Value { get; init; }
     public required int StockQuantity { get; init; }
-    public required Guid ProductId { get; init; }
+
+    public virtual Product Product { get; init; } = null!;
     public virtual ICollection<Image> Images { get; init; } = [];
 }

@@ -39,8 +39,7 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(p => p.Variants)
-            .WithOne()
-            .HasForeignKey(pv => pv.ProductId)
+            .WithOne(pv => pv.Product)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany<Review>()

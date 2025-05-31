@@ -1,8 +1,11 @@
+using Ardalis.GuardClauses;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Mappers;
-using CommerceCore.Application.Common.Mappings;
+using CommerceCore.Application.Common.Repositories;
 using CommerceCore.Domain.Entities;
+using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
 
 namespace CommerceCore.Application.Products.Commands.CreateProduct;
@@ -11,31 +14,46 @@ public record CreateProductCommand(
     string Name,
     string Description,
     decimal Price,
-    Guid BrandId,
-    Guid CategoryId
+    Guid CategoryId,
+    ICollection<CreateProductVariantRequest> VariantRequests
 ) : IRequest<ProductResponse>;
 
-public class CreateProduct(IApplicationDbContext context)
+public class CreateProduct(
+    IProductRepository productRepository,
+    ICategoryRepository categoryRepository,
+    IUnitOfWork unitOfWork)
     : IRequestHandler<CreateProductCommand, ProductResponse>
 {
-    private readonly IApplicationDbContext _context = context;
-
     public async Task<ProductResponse> Handle(
-        CreateProductCommand request,
+        CreateProductCommand command,
         CancellationToken cancellationToken
     )
     {
+        var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
+        if (category is null) throw new AppException(404, "Category not found");
+
         var product = new Product
         {
-            Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            BrandId = request.BrandId,
-            CategoryId = request.CategoryId
+            Name = command.Name,
+            Description = command.Description,
+            Price = command.Price,
+            Category = category
         };
 
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync(cancellationToken);
+        await productRepository.AddAsync(product, cancellationToken);
+
+        List<ProductVariant> variants = [];
+        variants.AddRange(command.VariantRequests.Select(variantRequest => new ProductVariant
+        {
+            Name = variantRequest.Name,
+            Value = variantRequest.Value,
+            StockQuantity = variantRequest.StockQuantity,
+            Product = product
+        }));
+
+        product.Variants = variants;
+
+        await unitOfWork.SaveAsync(cancellationToken);
 
         return product.ToDto();
     }

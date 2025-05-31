@@ -1,6 +1,5 @@
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Mappers;
-using CommerceCore.Application.Common.Mappings;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;

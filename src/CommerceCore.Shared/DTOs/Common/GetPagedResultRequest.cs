@@ -1,4 +1,4 @@
-namespace CommerceCore.Shared.DTOs.Requests;
+namespace CommerceCore.Shared.DTOs.Common;
 
 public abstract class GetPagedResultRequest
 {

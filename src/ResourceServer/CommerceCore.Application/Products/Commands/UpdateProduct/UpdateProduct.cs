@@ -1,5 +1,8 @@
 using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Repositories;
 using CommerceCore.Domain.Entities;
+using CommerceCore.Shared.DTOs.Create;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,61 +13,43 @@ public record UpdateProductCommand(
     string Name,
     string Description,
     decimal Price,
-    Guid BrandId,
-    Guid CategoryId
-//UpdateProductImageRecord[] Images
-) : IRequest<bool>;
+    Guid CategoryId,
+    ICollection<CreateProductVariantRequest> VariantRequests
+) : IRequest;
 
-public class UpdateProduct(IApplicationDbContext context)
-    : IRequestHandler<UpdateProductCommand, bool>
+public class UpdateProduct(
+    IProductRepository productRepository,
+    ICategoryRepository categoryRepository,
+    IUnitOfWork unitOfWork)
+    : IRequestHandler<UpdateProductCommand>
 {
-    private readonly IApplicationDbContext _context = context;
-
-    public async Task<bool> Handle(
-        UpdateProductCommand request,
+    public async Task Handle(
+        UpdateProductCommand command,
         CancellationToken cancellationToken
     )
     {
-        //if (request.Images.Length > 3) return false;
+        var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
+        if (category is null) throw new AppException(404, "Category not found");
 
         var product = new Product
         {
-            Id = request.Id,
-            Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
+            Id = command.Id,
+            Name = command.Name,
+            Description = command.Description,
+            Price = command.Price,
             UpdatedDate = DateTime.UtcNow,
-            BrandId = request.BrandId,
-            CategoryId = request.CategoryId
+            Category = category
         };
-        var productEntry = _context.Products.Entry(product);
-        productEntry.State = EntityState.Modified;
 
-        // Avoid modifying the CreatedDate property during update
-        productEntry.Property(x => x.CreatedDate).IsModified = false;
-
-        // Handle images
-        _context.ProductImages.RemoveRange(
-            _context.ProductImages.Where(pi => pi.ProductId == request.Id)
-        );
-        //_context.ProductImages.AddRange(
-        //    request.Images.Select(image => new ProductImage
-        //    {
-        //        Name = image.Name,
-        //        Path = image.Path,
-        //        ProductId = request.Id
-        //    })
-        //);
+        productRepository.Update(product);
 
         try
         {
-            await _context.SaveChangesAsync(cancellationToken);
+            await unitOfWork.SaveAsync(cancellationToken);
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException exception)
         {
-            return false;
+            throw new AppException(500, "Error when update Product", exception.ToString());
         }
-
-        return true;
     }
 }
