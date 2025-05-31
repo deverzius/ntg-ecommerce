@@ -30,6 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceServer", "ResourceS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi.UnitTests", "tests\ResourceServer\CommerceCore.WebApi.UnitTests\CommerceCore.WebApi.UnitTests.csproj", "{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{7432D50A-5418-4052-9011-0A6EC2A78A4A}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\Init.sql = scripts\Init.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
