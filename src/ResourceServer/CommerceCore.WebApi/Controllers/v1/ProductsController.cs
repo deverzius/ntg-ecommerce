@@ -1,10 +1,11 @@
-﻿using CommerceCore.Application.Products.Commands.CreateProduct;
+﻿using CommerceCore.Application.Products.Commands.Create;
 using CommerceCore.Application.Products.Commands.CreateReview;
 using CommerceCore.Application.Products.Commands.DeleteProduct;
 using CommerceCore.Application.Products.Commands.UpdateProduct;
 using CommerceCore.Application.Products.Queries.GetProduct;
 using CommerceCore.Application.Products.Queries.GetProducts;
 using CommerceCore.Shared.DTOs.Common;
+using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +15,7 @@ namespace CommerceCore.WebApi.Controllers.v1;
 
 [ApiController]
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v1/[controller]")]
 public class ProductsController(IConfiguration configuration) : ControllerBase
 {
     // private readonly string _publicStorageUrl =
@@ -37,7 +38,6 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
 
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetProduct(
         ISender sender,
         Guid id
@@ -70,9 +70,10 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> PostProduct(
         ISender sender,
-        CreateProductCommand command
+        CreateProductRequest productRequest
     )
     {
+        var command = new CreateProductCommand(productRequest);
         var result = await sender.Send(command);
 
         return CreatedAtAction(nameof(GetProduct), new { id = result.Id }, result);
@@ -81,8 +82,6 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     [HttpPut("{id:guid}")]
     [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> PutProduct(
         ISender sender,
         Guid id,
@@ -99,7 +98,6 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
     [HttpDelete("{id:guid}")]
     [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteProduct(ISender sender, Guid id)
     {
         await sender.Send(new DeleteProductCommand(id));

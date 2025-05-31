@@ -68,12 +68,12 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
             await userManager.CreateAsync(
                 new ApplicationUser
                 {
-                    UserName = "admin@nashmail.com",
-                    Email = "admin@nashmail.com"
+                    UserName = "admin@mail.com",
+                    Email = "admin@mail.com"
                 },
                 "Admin123!"
             );
-            var adminUser = await userManager.FindByEmailAsync("admin@nashmail.com");
+            var adminUser = await userManager.FindByEmailAsync("admin@mail.com");
             await userManager.AddToRoleAsync(adminUser!, "Admin");
         }
     }

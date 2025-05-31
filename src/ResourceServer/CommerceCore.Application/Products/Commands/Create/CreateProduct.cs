@@ -1,4 +1,3 @@
-using Ardalis.GuardClauses;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Mappers;
 using CommerceCore.Application.Common.Repositories;
@@ -8,14 +7,10 @@ using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.Shared.Exceptions;
 using MediatR;
 
-namespace CommerceCore.Application.Products.Commands.CreateProduct;
+namespace CommerceCore.Application.Products.Commands.Create;
 
 public record CreateProductCommand(
-    string Name,
-    string Description,
-    decimal Price,
-    Guid CategoryId,
-    ICollection<CreateProductVariantRequest> VariantRequests
+    CreateProductRequest Product
 ) : IRequest<ProductResponse>;
 
 public class CreateProduct(
@@ -29,21 +24,21 @@ public class CreateProduct(
         CancellationToken cancellationToken
     )
     {
-        var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
+        var category = await categoryRepository.GetByIdAsync(command.Product.CategoryId, cancellationToken);
         if (category is null) throw new AppException(404, "Category not found");
 
         var product = new Product
         {
-            Name = command.Name,
-            Description = command.Description,
-            Price = command.Price,
+            Name = command.Product.Name,
+            Description = command.Product.Description,
+            Price = command.Product.Price,
             Category = category
         };
 
         await productRepository.AddAsync(product, cancellationToken);
 
         List<ProductVariant> variants = [];
-        variants.AddRange(command.VariantRequests.Select(variantRequest => new ProductVariant
+        variants.AddRange(command.Product.Variants.Select(variantRequest => new ProductVariant
         {
             Name = variantRequest.Name,
             Value = variantRequest.Value,

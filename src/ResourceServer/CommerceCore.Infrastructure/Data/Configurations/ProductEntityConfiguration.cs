@@ -1,7 +1,6 @@
 using CommerceCore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace CommerceCore.Infrastructure.Data.Configurations;
 
