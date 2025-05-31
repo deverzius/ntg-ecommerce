@@ -15,8 +15,7 @@ public class ReviewEntityConfiguration : IEntityTypeConfiguration<Review>
             .ValueGeneratedOnAdd();
 
         builder.Property(r => r.Rating)
-            .IsRequired()
-            .HasAnnotation("Range", new RangeAttribute(1, 5));
+            .IsRequired();
 
         builder.Property(r => r.Title)
             .IsRequired()
@@ -34,14 +33,15 @@ public class ReviewEntityConfiguration : IEntityTypeConfiguration<Review>
             .IsRequired();
 
         builder.Property(r => r.FullName)
-            .IsRequired(false);
+            .IsRequired(false)
+            .HasMaxLength(100);
 
         builder.Property(r => r.PhoneNumber)
             .IsRequired(false)
-            .HasAnnotation("Phone", new PhoneAttribute());
+            .HasMaxLength(20);
 
         builder.Property(r => r.Email)
             .IsRequired(false)
-            .HasAnnotation("EmailAddress", new EmailAddressAttribute());
+            .HasMaxLength(50);
     }
 }
