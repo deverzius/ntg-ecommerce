@@ -13,8 +13,7 @@ public record UpdateProductCommand(
     string Name,
     string Description,
     decimal Price,
-    Guid CategoryId,
-    ICollection<CreateProductVariantRequest> VariantRequests
+    Guid CategoryId
 ) : IRequest;
 
 public class UpdateProduct(

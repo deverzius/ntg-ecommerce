@@ -7,5 +7,5 @@ public class Image
     public required string Url { get; init; }
     public required string Type { get; init; }
     public DateTime UploadedDate { get; init; }
-    public ICollection<string> Tags { get; init; } = [];
+    public IList<string> Tags { get; init; } = [];
 }
