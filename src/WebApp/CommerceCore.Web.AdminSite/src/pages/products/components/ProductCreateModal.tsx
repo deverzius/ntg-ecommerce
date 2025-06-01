@@ -16,7 +16,6 @@ export function ProductCreateModal({
   return (
     <Modal opened={opened} onClose={closeFn} title="Create Product">
       <ProductCreateForm
-        brands={[]}
         categories={categories?.items || []}
         closeFn={closeFn}
       />

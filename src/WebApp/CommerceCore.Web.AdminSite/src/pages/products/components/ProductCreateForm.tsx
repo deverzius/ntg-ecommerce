@@ -10,13 +10,11 @@ import { notifications } from "@mantine/notifications";
 import type { CategoryResponse } from "@/shared/types/dtos/category/response";
 
 interface ProductCreateFormProps {
-  brands: any[];
   categories: CategoryResponse[];
   closeFn: () => void;
 }
 
 export function ProductCreateForm({
-  brands,
   categories,
   closeFn,
 }: ProductCreateFormProps) {
@@ -29,13 +27,11 @@ export function ProductCreateForm({
       name: "",
       price: 0,
       description: "",
-      brandId: "",
       categoryId: "",
     },
     validate: {
       name: (value) => (value.length > 0 ? null : "Name is required."),
       price: (value) => (value > 0 ? null : "Price must be greater than 0."),
-      brandId: (value) => (value ? null : "Brand is required."),
       categoryId: (value) => (value ? null : "Category is required."),
     },
   });
@@ -80,18 +76,6 @@ export function ProductCreateForm({
         label={productLabels.description}
         key={form.key("description")}
         {...form.getInputProps("description")}
-      />
-
-      <Select
-        withAsterisk
-        allowDeselect={false}
-        label={productLabels.brand}
-        data={mapSelectOptions(brands || [], "name", "id")}
-        key={form.key("brandId")}
-        {...form.getInputProps("brandId")}
-        onChange={(value) => {
-          value && form.setFieldValue("brandId", value);
-        }}
       />
 
       <Select

@@ -2,7 +2,6 @@ export type CreateProductRequestDto = {
   name: string;
   description: string;
   price: number;
-  brandId: string;
   categoryId: string;
 };
 
