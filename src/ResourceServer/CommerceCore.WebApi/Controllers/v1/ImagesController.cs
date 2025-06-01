@@ -1,0 +1,39 @@
+using CommerceCore.Application.Files.Commands.UploadFile;
+using CommerceCore.Application.Files.Dtos;
+using CommerceCore.Application.Files.Queries.GetFileUrl;
+using CommerceCore.Application.Files.Queries.GetFileUrls;
+using CommerceCore.Application.Files.Queries.GetPublicFileUrls;
+using CommerceCore.Application.Images.Commands.Create;
+using CommerceCore.Shared.DTOs.Create;
+using CommerceCore.Shared.DTOs.Responses;
+using CommerceCore.WebApi.Extensions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CommerceCore.WebApi.Controllers.v1;
+
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v1/[controller]")]
+public class ImagesController : ControllerBase
+{
+    [HttpPost]
+    [Authorize(Policy = "RequireAdminRole")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType(typeof(ImageResponse), StatusCodes.Status201Created)]
+    public async Task<IActionResult> PostImage(
+        ISender sender,
+        [FromForm] CreateImageRequest request,
+        IFormFile file
+    )
+    {
+        var command = new CreateImageCommand(request, await file.ToByteArray());
+
+        var result = await sender.Send(command);
+
+        // TODO: Create image retrieval endpoint
+        // return CreatedAtAction("GetImage", new { id = result.Id }, result);
+        return Created();
+    }
+}
