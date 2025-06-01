@@ -1,34 +1,31 @@
-import type {SimpleBrandResponseDto} from "../brand/response";
-import type {SimpleCategoryResponseDto} from "../category/response";
+import type { CategoryResponse } from "../category/response";
 
-export type ProductResponseDto = {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    createdDate: string;
-    updatedDate: string;
-    brandId: string;
-    categoryId: string;
+export type ProductResponse = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  createdDate: string;
+  updatedDate: string;
 
-    brand?: SimpleBrandResponseDto;
-    category?: SimpleCategoryResponseDto;
-    images: ProductImageResponseDto[];
+  category: CategoryResponse;
+  // TODO: update types
+  variants: any;
 };
 
 export type ProductImageResponseDto = {
-    name: string;
-    publicUrl: string;
-    productId: string;
+  name: string;
+  publicUrl: string;
+  productId: string;
 };
 
 export type ReviewResponseDto = {
-    id: string;
-    rating: number;
-    title: string;
-    comment: string;
-    createdDate: string;
-    fullName?: string;
-    phoneNumber?: string;
-    email?: string;
+  id: string;
+  rating: number;
+  title: string;
+  comment: string;
+  createdDate: string;
+  fullName?: string;
+  phoneNumber?: string;
+  email?: string;
 };
