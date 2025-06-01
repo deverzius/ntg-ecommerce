@@ -111,7 +111,7 @@ export function ProductTable() {
                 <Table.Tr key={product.id}>
                   <Table.Td>{product.name}</Table.Td>
                   <Table.Td>{product.price}</Table.Td>
-                  <Table.Th>{product.description}</Table.Th>
+                  <Table.Td>{product.description}</Table.Td>
                   <Table.Td>{formatDate(product.createdDate)}</Table.Td>
                   <Table.Td>{formatDate(product.updatedDate)}</Table.Td>
                   <Table.Td>

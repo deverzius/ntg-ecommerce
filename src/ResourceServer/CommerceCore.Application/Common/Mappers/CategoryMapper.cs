@@ -11,7 +11,10 @@ public static class CategoryMapper
             category.Id,
             category.Name,
             category.Description,
-            category.ParentCategoryId
+            category.ParentCategoryId,
+            category.ParentCategory?.ToDto(),
+            category.CreatedDate,
+            category.UpdatedDate
         );
     }
 }

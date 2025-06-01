@@ -8,6 +8,7 @@ import type { UpdateCategoryRequestDto } from "@/shared/types/dtos/category/requ
 import { useUpdateCategoryMutation } from "@/hooks/category/useUpdateCategoryMutation";
 import { categoryLabels } from "@/shared/constants/category";
 import type { PagedResult } from "@/shared/types/PagedResult";
+import { formatDatetime } from "@/shared/utils/formatDatetime";
 
 interface CategoryEditFormProps {
   category: CategoryResponse;
@@ -77,6 +78,18 @@ export function CategoryEditForm({
         label={categoryLabels.description}
         key={form.key("description")}
         {...form.getInputProps("description")}
+      />
+
+      <TextInput
+        label={categoryLabels.createdDate}
+        value={formatDatetime(category.createdDate)}
+        disabled
+      />
+
+      <TextInput
+        label={categoryLabels.updatedDate}
+        value={formatDatetime(category.updatedDate)}
+        disabled
       />
 
       {/* <Select

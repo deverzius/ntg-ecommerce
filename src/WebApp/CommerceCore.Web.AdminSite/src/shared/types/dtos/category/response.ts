@@ -3,6 +3,6 @@ export type CategoryResponse = {
   name: string;
   description: string;
   parentCategoryId?: string;
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate: string;
+  updatedDate: string;
 };

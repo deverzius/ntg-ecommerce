@@ -22,6 +22,7 @@ import { CategoryCreateModal } from "./CategoryCreateModal";
 import { CategoryDeleteModal } from "./CategoryDeleteModal";
 import { categoryLabels } from "@/shared/constants/category";
 import { useGetCategoriesQuery } from "@/hooks/category/useGetCategoriesQuery";
+import { formatDate } from "@/shared/utils/formatDate";
 
 export function CategoryTable() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -98,6 +99,8 @@ export function CategoryTable() {
               <Table.Tr>
                 <Table.Th>{categoryLabels.name}</Table.Th>
                 <Table.Th>{categoryLabels.description}</Table.Th>
+                <Table.Th>{categoryLabels.createdDate}</Table.Th>
+                <Table.Th>{categoryLabels.updatedDate}</Table.Th>
                 {/* <Table.Th>{categoryLabels.parentCategory}</Table.Th> */}
                 <Table.Th>Actions</Table.Th>
               </Table.Tr>
@@ -108,6 +111,8 @@ export function CategoryTable() {
                 <Table.Tr key={category.id}>
                   <Table.Td>{category.name}</Table.Td>
                   <Table.Td>{category.description}</Table.Td>
+                  <Table.Td>{formatDate(category.createdDate)}</Table.Td>
+                  <Table.Td>{formatDate(category.updatedDate)}</Table.Td>
                   {/* <Table.Td>{category.parentCategory?.name}</Table.Td> */}
                   <Table.Td>
                     <Flex gap="xs">

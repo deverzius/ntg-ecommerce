@@ -7,6 +7,9 @@ public record CategoryResponse
     Guid Id,
     string Name,
     string Description,
-    Guid? ParentCategoryId
+    Guid? ParentCategoryId,
+    CategoryResponse? ParentCategory,
+    DateTime CreatedDate,
+    DateTime UpdatedDate
 );
 
