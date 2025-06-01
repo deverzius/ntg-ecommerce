@@ -1,7 +1,6 @@
 import { Button, Group, NumberInput, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { productLabels } from "@/shared/constants/product";
-import { formatDate } from "@/shared/utils/formatDate";
 import { mapSelectOptions } from "@/shared/utils/mapSelectOptions";
 import type { UpdateProductRequestDto } from "@/shared/types/dtos/product/request";
 import type { ProductResponse } from "@/shared/types/dtos/product/response";
@@ -12,6 +11,7 @@ import { notifications } from "@mantine/notifications";
 import type { CategoryResponse } from "@/shared/types/dtos/category/response";
 import { useRef } from "react";
 import ImagePicker from "@/shared/components/ImagePicker/ImagePicker";
+import { formatDatetime } from "@/shared/utils/formatDatetime";
 
 interface ProductEditFormProps {
   product: ProductResponse;
@@ -86,12 +86,12 @@ export function ProductEditForm({
         />
         <TextInput
           label={productLabels.createdDate}
-          value={formatDate(product.createdDate)}
+          value={formatDatetime(product.createdDate)}
           disabled
         />
         <TextInput
           label={productLabels.updatedDate}
-          value={formatDate(product.updatedDate)}
+          value={formatDatetime(product.updatedDate)}
           disabled
         />
       </Group>
