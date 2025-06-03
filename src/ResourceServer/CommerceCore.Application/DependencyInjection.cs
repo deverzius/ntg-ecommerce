@@ -1,7 +1,8 @@
 using System.Reflection;
+using CommerceCore.Application.Common.Behavior;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace CommerceCore.Application;
 
@@ -15,11 +16,8 @@ public static class DependencyInjection
         });
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddFluentValidationAutoValidation(options =>
-        {
-            options.DisableBuiltInModelValidation = true;
-            options.EnableFormBindingSourceAutomaticValidation = true;
-        });
+
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }
