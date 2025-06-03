@@ -15,7 +15,7 @@ public static class DependencyInjection
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
-        services.AddValidatorsFromAssemblyContaining<CreateImageValidator>();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddFluentValidationAutoValidation(options =>
         {
             options.DisableBuiltInModelValidation = true;

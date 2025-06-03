@@ -25,10 +25,11 @@ public class ImagesController : ControllerBase
     public async Task<IActionResult> PostImage(
         ISender sender,
         [FromForm] CreateImageRequest request,
-        IFormFile file
+        IFormFile? file
     )
     {
-        var command = new CreateImageCommand(request, await file.ToByteArray());
+        var fileData = await file.ToByteArray();
+        var command = new CreateImageCommand(request, fileData);
 
         var result = await sender.Send(command);
 
