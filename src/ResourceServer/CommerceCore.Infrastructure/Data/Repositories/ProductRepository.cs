@@ -1,7 +1,7 @@
 using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Application.Common.Mappers;
-using CommerceCore.Application.Common.Repositories;
-using CommerceCore.Application.Products.Queries.GetProducts;
+using CommerceCore.Application.Queries.List;
 using CommerceCore.Domain.Entities;
 using CommerceCore.Infrastructure.Extensions;
 using CommerceCore.Shared.DTOs.Common;

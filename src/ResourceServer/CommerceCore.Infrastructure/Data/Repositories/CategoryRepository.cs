@@ -1,5 +1,5 @@
 using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Common.Repositories;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

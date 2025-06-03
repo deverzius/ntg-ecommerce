@@ -1,8 +1,8 @@
-﻿using CommerceCore.Application.Categories.Commands.CreateCategory;
-using CommerceCore.Application.Categories.Commands.DeleteCategory;
-using CommerceCore.Application.Categories.Commands.UpdateCategory;
-using CommerceCore.Application.Categories.Queries.GetCategories;
-using CommerceCore.Application.Categories.Queries.GetCategory;
+﻿using CommerceCore.Application.Commands.Create;
+using CommerceCore.Application.Commands.Delete;
+using CommerceCore.Application.Commands.Update;
+using CommerceCore.Application.Queries.Get;
+using CommerceCore.Application.Queries.List;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;

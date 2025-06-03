@@ -1,9 +1,8 @@
-﻿using CommerceCore.Application.Products.Commands.Create;
-using CommerceCore.Application.Products.Commands.CreateReview;
-using CommerceCore.Application.Products.Commands.DeleteProduct;
-using CommerceCore.Application.Products.Commands.UpdateProduct;
-using CommerceCore.Application.Products.Queries.GetProduct;
-using CommerceCore.Application.Products.Queries.GetProducts;
+﻿using CommerceCore.Application.Commands.Create;
+using CommerceCore.Application.Commands.Delete;
+using CommerceCore.Application.Commands.Update;
+using CommerceCore.Application.Queries.Get;
+using CommerceCore.Application.Queries.List;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;

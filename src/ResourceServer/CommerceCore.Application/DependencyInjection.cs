@@ -1,5 +1,4 @@
 using System.Reflection;
-using CommerceCore.Application.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;

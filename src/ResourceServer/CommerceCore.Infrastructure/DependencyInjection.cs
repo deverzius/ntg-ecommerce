@@ -1,6 +1,6 @@
 using Ardalis.GuardClauses;
 using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Common.Repositories;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Infrastructure.Data;
 using CommerceCore.Infrastructure.Data.Repositories;
 using CommerceCore.Infrastructure.Services;

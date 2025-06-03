@@ -1,9 +1,4 @@
-using CommerceCore.Application.Files.Commands.UploadFile;
-using CommerceCore.Application.Files.Dtos;
-using CommerceCore.Application.Files.Queries.GetFileUrl;
-using CommerceCore.Application.Files.Queries.GetFileUrls;
-using CommerceCore.Application.Files.Queries.GetPublicFileUrls;
-using CommerceCore.Application.Images.Commands.Create;
+using CommerceCore.Application.Commands.Create;
 using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.WebApi.Extensions;
