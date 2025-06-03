@@ -15,7 +15,7 @@ namespace CommerceCore.WebApi.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v1/[controller]")]
-public class ProductsController(IConfiguration configuration) : ControllerBase
+public class ProductsController() : ControllerBase
 {
     // private readonly string _publicStorageUrl =
     //     $"{configuration["Supabase:StorageBaseUrl"]}/storage/v1/object/public/{configuration["Supabase:BucketName"]}/"
@@ -50,7 +50,6 @@ public class ProductsController(IConfiguration configuration) : ControllerBase
 
     [HttpPost("{id:guid}/reviews")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PostReview(
         ISender sender,
         CreateReviewCommand command,
