@@ -3,7 +3,6 @@ using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
 using CommerceCore.Shared.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Commands.Update;
 
@@ -41,13 +40,6 @@ public class UpdateProductCommandHandler(
 
         productRepository.Update(product);
 
-        try
-        {
-            await unitOfWork.SaveAsync(cancellationToken);
-        }
-        catch (DbUpdateConcurrencyException exception)
-        {
-            throw new AppException(500, "Error when update Product", exception.ToString());
-        }
+        await unitOfWork.SaveAsync(cancellationToken);
     }
 }

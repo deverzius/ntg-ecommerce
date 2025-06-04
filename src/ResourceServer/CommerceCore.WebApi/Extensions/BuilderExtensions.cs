@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Ardalis.GuardClauses;
 using CommerceCore.Application;
 using CommerceCore.Infrastructure;
+using CommerceCore.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Validation.AspNetCore;
@@ -14,7 +15,10 @@ public static class BuilderExtensions
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder
-            .Services.AddControllers()
+            .Services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilter>();
+            })
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
             );

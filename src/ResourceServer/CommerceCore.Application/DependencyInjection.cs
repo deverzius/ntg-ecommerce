@@ -1,5 +1,5 @@
 using System.Reflection;
-using CommerceCore.Application.Common.Behavior;
+using CommerceCore.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

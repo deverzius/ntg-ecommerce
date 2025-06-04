@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace CommerceCore.Application.Common.Behavior;
+namespace CommerceCore.Application.Common.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
