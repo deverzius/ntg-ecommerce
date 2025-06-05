@@ -9,14 +9,14 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
     {
         RuleFor(x => x.Name)
             .NotNull().NotEmpty()
-            .WithMessage("Name is required")
+            .WithMessage("Name is required.")
             .MaximumLength(100)
-            .WithMessage("Name must not be over 100 characters");
+            .WithMessage("Name must not be over 100 characters.");
 
         RuleFor(x => x.Description)
             .NotNull()
-            .WithMessage("Description is required")
+            .WithMessage("Description is required.")
             .MaximumLength(500)
-            .WithMessage("Description must not be over 500 characters");
+            .WithMessage("Description must not be over 500 characters.");
     }
 }
