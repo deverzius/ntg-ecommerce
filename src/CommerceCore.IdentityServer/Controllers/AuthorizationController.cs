@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CommerceCore.IdentityServer.Models;
+using CommerceCore.Shared.DTOs.Responses;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -14,20 +15,19 @@ namespace CommerceCore.IdentityServer.Controllers;
 public class AuthorizationController(
     IOpenIddictApplicationManager applicationManager,
     IOpenIddictAuthorizationManager authorizationManager,
-    UserManager<ApplicationUser> userManager
+    UserManager<AppUser> userManager
 ) : Controller
 {
     private readonly IOpenIddictApplicationManager _applicationManager = applicationManager;
     private readonly IOpenIddictAuthorizationManager _authorizationManager = authorizationManager;
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly UserManager<AppUser> _userManager = userManager;
 
     [HttpGet("~/connect/authorize")]
     [HttpPost("~/connect/authorize")]
     [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Authorize()
     {
-        var request =
-            HttpContext.GetOpenIddictServerRequest()
+        var request = HttpContext.GetOpenIddictServerRequest()
             ?? throw new InvalidOperationException(
                 "The OpenID Connect request cannot be retrieved."
             );
@@ -35,24 +35,21 @@ public class AuthorizationController(
         var result = await HttpContext.AuthenticateAsync();
 
         if (!result.Succeeded)
+        {
+            var redirectUri = $"{Request.PathBase}{Request.Path}{QueryString.Create(Request.HasFormContentType ? Request.Form : Request.Query)}";
+
             return Challenge(
                 new AuthenticationProperties
                 {
-                    RedirectUri =
-                        Request.PathBase
-                        + Request.Path
-                        + QueryString.Create(
-                            Request.HasFormContentType ? Request.Form : Request.Query
-                        )
+                    RedirectUri = redirectUri
                 }
             );
+        }
 
-        var user =
-            await _userManager.GetUserAsync(result.Principal)
+        var user = await _userManager.GetUserAsync(result.Principal)
             ?? throw new InvalidOperationException("The user details cannot be retrieved.");
 
-        var application =
-            await _applicationManager.FindByClientIdAsync(request.ClientId)
+        var application = await _applicationManager.FindByClientIdAsync(request.ClientId ?? "")
             ?? throw new InvalidOperationException("The application details cannot be retrieved.");
 
         var authorizations = _authorizationManager
@@ -190,14 +187,13 @@ public class AuthorizationController(
         var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
         return Ok(
-            new UserViewModel
-            {
-                Id = user?.Id,
-                UserName = user?.UserName,
-                Email = user?.Email,
-                PhoneNumber = user?.PhoneNumber,
-                Role = role
-            }
+            new UserResponse(
+                user?.Id ?? string.Empty,
+                user?.UserName ?? string.Empty,
+                user?.Email ?? string.Empty,
+                role ?? "User",
+                user?.PhoneNumber
+            )
         );
     }
 
@@ -208,7 +204,10 @@ public class AuthorizationController(
         Response.Cookies.Delete("access_token");
         Response.Cookies.Delete("refresh_token");
 
-        if (Request.Query.ContainsKey("post_logout_redirect_uri") == false) return Ok();
+        if (Request.Query.ContainsKey("post_logout_redirect_uri") == false)
+        {
+            return Ok();
+        }
 
         return Redirect(Request.Query["post_logout_redirect_uri"].ToString());
     }

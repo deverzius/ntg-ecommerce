@@ -1,8 +1,9 @@
-using Ardalis.GuardClauses;
+using CommerceCore.IdentityServer.Configurations;
 using CommerceCore.IdentityServer.Data;
 using CommerceCore.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -10,65 +11,107 @@ namespace CommerceCore.IdentityServer.Extensions;
 
 public static class BuilderExtensions
 {
-    public static IServiceCollection AddServices(
-        this IServiceCollection services,
-        IConfigurationManager configurationManager
+    public static IServiceCollection AddAppConfigurations(
+       this IServiceCollection services,
+       IConfigurationManager configurationManager
     )
     {
-        var connectionString =
-            configurationManager.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException(
-                "Connection string 'DefaultConnection' not found."
-            );
+        services.Configure<ConnectionStringsConfigurations>(configurationManager.GetSection("ConnectionStrings"));
+        services.Configure<IdentityServerConfigurations>(configurationManager.GetSection("IdentityServer"));
+        services.Configure<CorsConfigurations>(configurationManager.GetSection("Cors"));
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        return services;
+    }
+
+    public static IServiceCollection AddAppDbContext(
+       this IServiceCollection services
+    )
+    {
+        using var scope = services.BuildServiceProvider().CreateScope();
+        var serviceProvider = scope.ServiceProvider;
+
+        var connectionString = serviceProvider.GetRequiredService<IOptions<ConnectionStringsConfigurations>>().Value.DefaultConnection;
+
+        services.AddDbContext<IdentityDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
             options.UseOpenIddict();
         });
 
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            options.Cookie.HttpOnly = false;
-            options.Cookie.SameSite = SameSiteMode.Lax;
-        });
+        return services;
+    }
 
+    public static IServiceCollection AddAppRequiredServices(
+        this IServiceCollection services
+    )
+    {
         services.AddDatabaseDeveloperPageExceptionFilter();
-
-        services
-            .AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                // options.SignIn.RequireConfirmedAccount = true;
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddUserManager<UserManager<ApplicationUser>>()
-            .AddDefaultTokenProviders()
-            .AddDefaultUI();
-
-        // services.ConfigureApplicationCookie(options =>
-        // {
-        //     options.LoginPath = "/authentication/login";
-        // });
-
-        services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(policy =>
-            {
-                policy.WithOrigins("https://localhost:5173", "https://localhost:7136");
-                policy.AllowAnyMethod();
-                policy.AllowCredentials();
-                policy.AllowAnyHeader();
-            });
-        });
 
         services.AddControllersWithViews();
 
         services.AddRazorPages();
 
+        return services;
+    }
+
+    public static IServiceCollection AddAppIdentity(
+       this IServiceCollection services
+    )
+    {
+        services
+            .AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                // options.SignIn.RequireConfirmedAccount = true;
+            })
+            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddUserManager<UserManager<AppUser>>()
+            .AddDefaultTokenProviders()
+            .AddDefaultUI();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAppSecurity(
+       this IServiceCollection services
+    )
+    {
+        // CORS
+        using var scope = services.BuildServiceProvider().CreateScope();
+        var serviceProvider = scope.ServiceProvider;
+
+        var corsConfigurations = serviceProvider.GetRequiredService<IOptions<CorsConfigurations>>().Value;
+
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins(corsConfigurations.AllowedOrigins)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+        });
+
+        // Cookie
+        services.ConfigureApplicationCookie(options =>
+        {
+            // options.LoginPath = "/authentication/login";
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.SameSite = SameSiteMode.Lax;
+        });
+
+        // OpenIddict
+        var identityServerConfigurations = serviceProvider.GetRequiredService<IOptions<IdentityServerConfigurations>>().Value;
+        var serverConfigurations = identityServerConfigurations.Server;
+        var clientConfigurations = identityServerConfigurations.Client;
+
         services
             .AddOpenIddict()
-            .AddCore(options => { options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>(); })
+            .AddCore(options =>
+            {
+                options.UseEntityFrameworkCore().UseDbContext<IdentityDbContext>();
+            })
             .AddClient(options =>
             {
                 options.AllowAuthorizationCodeFlow().AllowRefreshTokenFlow();
@@ -82,22 +125,21 @@ public static class BuilderExtensions
 
                 options.UseSystemNetHttp();
 
-                options.SetRedirectionEndpointUris("connect/redirect");
+                options.SetRedirectionEndpointUris(clientConfigurations.RedirectionEndpointUris);
             })
             .AddServer(options =>
             {
                 options
                     .AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
-                    .SetAccessTokenLifetime(TimeSpan.FromMinutes(10))
-                    .SetIdentityTokenLifetime(TimeSpan.FromMinutes(10))
+                    .SetAccessTokenLifetime(TimeSpan.FromHours(3))
                     .SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
                 options
-                    .SetAuthorizationEndpointUris("connect/authorize")
-                    .SetEndSessionEndpointUris("connect/logout")
-                    .SetTokenEndpointUris("connect/token")
-                    .SetUserInfoEndpointUris("connect/userinfo");
+                    .SetAuthorizationEndpointUris(serverConfigurations.AuthorizationEndpointUris)
+                    .SetEndSessionEndpointUris(serverConfigurations.EndSessionEndpointUris)
+                    .SetTokenEndpointUris(serverConfigurations.TokenEndpointUris)
+                    .SetUserInfoEndpointUris(serverConfigurations.UserInfoEndpointUris);
 
                 options.RegisterScopes(
                     Scopes.Email,
@@ -106,15 +148,8 @@ public static class BuilderExtensions
                     Scopes.OfflineAccess
                 );
 
-                var encryptionKey =
-                    configurationManager["IdentityServer:EncryptionKey"]
-                    ?? Guard.Against.NullOrWhiteSpace(
-                        "IdentityServer:EncryptionKey",
-                        "IdentityServer EncryptionKey is not configured."
-                    );
-
                 options.AddEncryptionKey(
-                    new SymmetricSecurityKey(Convert.FromBase64String(encryptionKey))
+                    new SymmetricSecurityKey(Convert.FromBase64String(identityServerConfigurations.EncryptionKey))
                 );
 
                 options.AddDevelopmentEncryptionCertificate().AddDevelopmentSigningCertificate();
@@ -130,10 +165,16 @@ public static class BuilderExtensions
             .AddValidation(options =>
             {
                 options.UseLocalServer();
-
                 options.UseAspNetCore();
             });
 
+        return services;
+    }
+
+    public static IServiceCollection AddWorkers(
+       this IServiceCollection services
+    )
+    {
         services.AddHostedService<Worker>();
 
         return services;

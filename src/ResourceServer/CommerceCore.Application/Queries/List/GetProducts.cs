@@ -7,7 +7,7 @@ using MediatR;
 
 namespace CommerceCore.Application.Queries.List;
 
-public class GetProductsQuery() : GetPagedResultRequest, IRequest<PagedResult<ProductResponse>>
+public class GetProductsQuery() : PagedResultRequest, IRequest<PagedResult<ProductResponse>>
 {
     public Guid? CategoryId { get; init; }
 }

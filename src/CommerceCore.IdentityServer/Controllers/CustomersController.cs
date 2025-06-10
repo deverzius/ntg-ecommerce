@@ -1,5 +1,6 @@
 using CommerceCore.IdentityServer.Data;
 using CommerceCore.IdentityServer.Models;
+using CommerceCore.Shared.DTOs.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +12,12 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 namespace CommerceCore.IdentityServer.Controllers;
 
 public class CustomersController(
-    UserManager<ApplicationUser> userManager,
-    ApplicationDbContext dbContext
+    UserManager<AppUser> userManager,
+    IdentityDbContext dbContext
 ) : Controller
 {
-    private readonly ApplicationDbContext _dbContext = dbContext;
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly IdentityDbContext _dbContext = dbContext;
+    private readonly UserManager<AppUser> _userManager = userManager;
 
     [HttpGet]
     [IgnoreAntiforgeryToken]
@@ -34,19 +35,19 @@ public class CustomersController(
         var adminRole = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
 
         var adminUserIds = await _dbContext
-            .UserRoles.Where(ur => ur.RoleId == adminRole.Id)
+            .UserRoles.Where(ur => ur.RoleId == adminRole!.Id)
             .Select(ur => ur.UserId)
             .ToListAsync();
 
         var nonAdminUsers = await _userManager
             .Users.Where(u => !adminUserIds.Contains(u.Id))
-            .Select(u => new UserViewModel
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                PhoneNumber = u.PhoneNumber,
-                Email = u.Email
-            })
+            .Select(u => new UserResponse(
+                u.Id,
+                u.UserName ?? string.Empty,
+                u.Email ?? string.Empty,
+                "User",
+                u.PhoneNumber
+            ))
             .ToListAsync();
 
         return Ok(nonAdminUsers ?? []);

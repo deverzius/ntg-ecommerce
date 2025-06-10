@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace CommerceCore.IdentityServer.Areas.Identity.Pages.Account;
 
 public class LoginModel(
-    SignInManager<ApplicationUser> signInManager,
+    SignInManager<AppUser> signInManager,
     ILogger<LoginModel> logger
 ) : PageModel
 {
     private readonly ILogger<LoginModel> _logger = logger;
-    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
+    private readonly SignInManager<AppUser> _signInManager = signInManager;
 
-    [BindProperty] public LoginInputModel Input { get; set; }
+    [BindProperty] public LoginInput Input { get; set; }
 
     public IList<AuthenticationScheme> ExternalLogins { get; set; }
 

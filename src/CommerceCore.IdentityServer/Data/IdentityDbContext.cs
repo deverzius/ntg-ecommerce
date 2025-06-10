@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.IdentityServer.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<ApplicationUser>(options)
+public class IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+    : IdentityDbContext<AppUser>(options)
 {
 }

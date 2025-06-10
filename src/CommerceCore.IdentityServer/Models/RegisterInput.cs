@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CommerceCore.IdentityServer.Models;
 
-public class RegisterInputModel
+public class RegisterInput
 {
     [Required]
     [EmailAddress]

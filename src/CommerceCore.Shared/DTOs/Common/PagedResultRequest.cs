@@ -1,6 +1,6 @@
 namespace CommerceCore.Shared.DTOs.Common;
 
-public abstract class GetPagedResultRequest
+public abstract class PagedResultRequest
 {
     public string? Search { get; init; }
     public string? Sort { get; init; }

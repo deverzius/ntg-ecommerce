@@ -7,7 +7,13 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddServices(builder.Configuration);
+        builder.Services
+            .AddAppConfigurations(builder.Configuration)
+            .AddAppDbContext()
+            .AddAppIdentity()
+            .AddAppSecurity()
+            .AddAppRequiredServices()
+            .AddWorkers();
 
         var app = builder.Build();
         app.Configure();
