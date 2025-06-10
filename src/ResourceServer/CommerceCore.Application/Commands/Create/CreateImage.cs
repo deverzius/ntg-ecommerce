@@ -30,7 +30,7 @@ public class CreateImageCommandHandler(
 
         if (command.Image.Url is not null)
         {
-            var image = new Image
+            var image = new AppImage
             {
                 Name = command.Image.Name,
                 Url = command.Image.Url,

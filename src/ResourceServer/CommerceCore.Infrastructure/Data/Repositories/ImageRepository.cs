@@ -7,9 +7,9 @@ namespace CommerceCore.Infrastructure.Data.Repositories;
 
 public class ImageRepository(IApplicationDbContext dbContext) : IImageRepository
 {
-    private readonly DbSet<Image> _dbSet = dbContext.Images;
+    private readonly DbSet<AppImage> _dbSet = dbContext.Images;
 
-    public async Task AddAsync(Image item, CancellationToken cancellationToken = default)
+    public async Task AddAsync(AppImage item, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(item, cancellationToken);
     }

@@ -16,6 +16,13 @@ cd .\src\ResourceServer\CommerceCore.Infrastructure
 dotnet ef database update --project . --startup-project ../CommerceCore.WebApi/CommerceCore.WebApi.csproj
 ```
 
+To drop the database.
+
+```bash
+cd .\src\ResourceServer\CommerceCore.Infrastructure
+dotnet ef database drop --project . --startup-project ../CommerceCore.WebApi/CommerceCore.WebApi.csproj
+```
+
 ## How To Run
 
 Start the Identity Server:

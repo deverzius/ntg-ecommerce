@@ -13,5 +13,5 @@ public class Category
     public DateTime UpdatedDate { get; init; }
 
     public virtual Category? ParentCategory { get; init; }
-    public virtual Image? Image { get; init; }
+    public virtual AppImage? Image { get; init; }
 }

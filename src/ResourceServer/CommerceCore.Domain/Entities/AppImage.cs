@@ -1,6 +1,6 @@
 namespace CommerceCore.Domain.Entities;
 
-public class Image
+public class AppImage
 {
     public Guid Id { get; init; }
     public required string Name { get; init; }

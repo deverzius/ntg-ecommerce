@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace CommerceCore.Infrastructure.Data.Configurations;
 
-public class ImageEntityConfiguration : IEntityTypeConfiguration<Image>
+public class ImageEntityConfiguration : IEntityTypeConfiguration<AppImage>
 {
-    public void Configure(EntityTypeBuilder<Image> builder)
+    public void Configure(EntityTypeBuilder<AppImage> builder)
     {
         builder.HasKey(i => i.Id);
         builder.Property(i => i.Id)

@@ -22,6 +22,67 @@ namespace CommerceCore.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AppImageProductVariant", b =>
+                {
+                    b.Property<Guid>("ImagesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ImagesId", "ProductVariantId");
+
+                    b.HasIndex("ProductVariantId");
+
+                    b.ToTable("AppImageProductVariant");
+                });
+
+            modelBuilder.Entity("CommerceCore.Domain.Entities.AppImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("UploadedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("CommerceCore.Domain.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("CommerceCore.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,41 +124,6 @@ namespace CommerceCore.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("CommerceCore.Domain.Entities.Image", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("UploadedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("CommerceCore.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -109,43 +135,35 @@ namespace CommerceCore.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
+                    b.Property<string>("CustomerEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("CommerceCore.Domain.Entities.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ProductVariantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductVariantId")
-                        .IsUnique();
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("CommerceCore.Domain.Entities.Product", b =>
@@ -262,24 +280,66 @@ namespace CommerceCore.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("ImageProductVariant", b =>
+            modelBuilder.Entity("AppImageProductVariant", b =>
                 {
-                    b.Property<Guid>("ImagesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("CommerceCore.Domain.Entities.AppImage", null)
+                        .WithMany()
+                        .HasForeignKey("ImagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("ProductVariantId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("CommerceCore.Domain.Entities.ProductVariant", null)
+                        .WithMany()
+                        .HasForeignKey("ProductVariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.HasKey("ImagesId", "ProductVariantId");
+            modelBuilder.Entity("CommerceCore.Domain.Entities.Cart", b =>
+                {
+                    b.OwnsMany("CommerceCore.Domain.Entities.CartItem", "CartItems", b1 =>
+                        {
+                            b1.Property<Guid>("CartUserId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("ProductVariantId");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
-                    b.ToTable("ImageProductVariant");
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("ProductVariantId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Quantity")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasDefaultValue(1);
+
+                            b1.HasKey("CartUserId", "Id");
+
+                            b1.HasIndex("ProductVariantId");
+
+                            b1.ToTable("CartItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CartUserId");
+
+                            b1.HasOne("CommerceCore.Domain.Entities.ProductVariant", "ProductVariant")
+                                .WithMany()
+                                .HasForeignKey("ProductVariantId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
+
+                            b1.Navigation("ProductVariant");
+                        });
+
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("CommerceCore.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("CommerceCore.Domain.Entities.Image", "Image")
+                    b.HasOne("CommerceCore.Domain.Entities.AppImage", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -294,21 +354,75 @@ namespace CommerceCore.Infrastructure.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("CommerceCore.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("CommerceCore.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("CommerceCore.Domain.Entities.Order", null)
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.OwnsMany("CommerceCore.Domain.Entities.OrderItem", "OrderItems", b1 =>
+                        {
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("CommerceCore.Domain.Entities.ProductVariant", "ProductVariant")
-                        .WithOne()
-                        .HasForeignKey("CommerceCore.Domain.Entities.OrderItem", "ProductVariantId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
-                    b.Navigation("ProductVariant");
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("CurrentProductId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("CurrentProductVariantId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("ProductName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<decimal>("ProductPrice")
+                                .HasColumnType("decimal(18,2)");
+
+                            b1.Property<string>("ProductVariantName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<string>("ProductVariantValue")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("int");
+
+                            b1.HasKey("OrderId", "Id");
+
+                            b1.HasIndex("CurrentProductId");
+
+                            b1.HasIndex("CurrentProductVariantId");
+
+                            b1.ToTable("OrderItems");
+
+                            b1.HasOne("CommerceCore.Domain.Entities.Product", "CurrentProduct")
+                                .WithMany()
+                                .HasForeignKey("CurrentProductId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.HasOne("CommerceCore.Domain.Entities.ProductVariant", "CurrentProductVariant")
+                                .WithMany()
+                                .HasForeignKey("CurrentProductVariantId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+
+                            b1.Navigation("CurrentProduct");
+
+                            b1.Navigation("CurrentProductVariant");
+                        });
+
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("CommerceCore.Domain.Entities.Product", b =>
@@ -340,26 +454,6 @@ namespace CommerceCore.Infrastructure.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ImageProductVariant", b =>
-                {
-                    b.HasOne("CommerceCore.Domain.Entities.Image", null)
-                        .WithMany()
-                        .HasForeignKey("ImagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CommerceCore.Domain.Entities.ProductVariant", null)
-                        .WithMany()
-                        .HasForeignKey("ProductVariantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CommerceCore.Domain.Entities.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("CommerceCore.Domain.Entities.Product", b =>

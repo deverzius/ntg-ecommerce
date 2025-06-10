@@ -11,5 +11,5 @@ public class ProductVariant
     public required int StockQuantity { get; init; }
 
     public virtual Product Product { get; init; } = null!;
-    public virtual ICollection<Image> Images { get; init; } = [];
+    public virtual ICollection<AppImage> Images { get; init; } = [];
 }

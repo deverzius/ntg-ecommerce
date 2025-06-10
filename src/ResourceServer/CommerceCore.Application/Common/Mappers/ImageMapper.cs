@@ -5,7 +5,7 @@ namespace CommerceCore.Application.Common.Mappers;
 
 public static class ImageMapper
 {
-    public static ImageResponse ToDto(this Image image)
+    public static ImageResponse ToDto(this AppImage image)
     {
         return new ImageResponse(
             image.Id,

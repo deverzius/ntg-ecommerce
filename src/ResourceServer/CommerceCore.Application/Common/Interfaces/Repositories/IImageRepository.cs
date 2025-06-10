@@ -4,5 +4,5 @@ namespace CommerceCore.Application.Common.Interfaces.Repositories;
 
 public interface IImageRepository
 {
-    Task AddAsync(Image item, CancellationToken cancellationToken);
+    Task AddAsync(AppImage item, CancellationToken cancellationToken);
 }
