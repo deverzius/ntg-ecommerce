@@ -1,15 +1,13 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace CommerceCore.Domain.Entities;
 
 public class OrderItem
 {
-    public Guid Id { get; init; }
     public required int Quantity { get; init; }
-    public required decimal Price { get; init; }
-    public required Guid ProductVariantId { get; init; }
-    public required Guid OrderId { get; init; }
+    public required decimal ProductPrice { get; init; }
+    public required string ProductName { get; init; }
+    public required string ProductVariantName { get; init; }
+    public required string ProductVariantValue { get; init; }
 
-    public virtual ProductVariant ProductVariant { get; init; } = null!;
+    public Product CurrentProduct { get; init; } = null!;
+    public ProductVariant CurrentProductVariant { get; init; } = null!;
 }
