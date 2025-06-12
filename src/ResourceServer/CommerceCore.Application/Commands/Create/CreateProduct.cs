@@ -21,7 +21,7 @@ public class CreateProductCommandHandler(
     )
     {
         var category = await categoryRepository.GetByIdAsync(command.Product.CategoryId, cancellationToken);
-        if (category is null) throw new AppException(404, "Category not found");
+        if (category is null) throw new AppException(404, "Category not found.");
 
         var product = new Product
         {

@@ -10,13 +10,13 @@ public static class ClaimsPrincipalExtensions
         var userId = user.FindFirst("sub")?.Value;
         if (userId is null)
         {
-            throw new AppException(400, "User ID claim not found in the token");
+            throw new AppException(400, "User ID claim not found in the token.");
         }
 
         var isValidGuid = Guid.TryParse(userId, out var parsedUserId);
         if (!isValidGuid)
         {
-            throw new AppException(400, "User ID claim is not a valid GUID");
+            throw new AppException(400, "User ID claim is not a valid GUID.");
         }
 
         return parsedUserId;

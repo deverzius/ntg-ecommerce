@@ -20,7 +20,7 @@ public class DeleteProductCommandHandler(IProductRepository productRepository, I
         );
         if (product == null)
         {
-            throw new AppException(404, $"Product with ID {request.Id} not found.");
+            throw new AppException(404, "Product not found.");
         }
 
         productRepository.Remove(product);

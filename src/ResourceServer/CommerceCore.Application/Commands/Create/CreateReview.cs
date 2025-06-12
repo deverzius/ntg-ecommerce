@@ -1,7 +1,6 @@
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Common.Mappers;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Shared.DTOs.Responses;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
 
 namespace CommerceCore.Application.Commands.Create;
@@ -16,27 +15,28 @@ public record CreateReviewCommand(
     string? Email
 ) : IRequest<ReviewResponse?>;
 
-public class CreateReviewCommandHandler(IAppDbContext context)
+public class CreateReviewCommandHandler(IReviewRepository reviewRepository, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateReviewCommand, ReviewResponse?>
 {
-    private readonly IAppDbContext _context = context;
-
     public async Task<ReviewResponse?> Handle(
         CreateReviewCommand request,
         CancellationToken cancellationToken
     )
     {
-        var isPhoneNumberExists = _context
-            .Reviews.Where(r =>
-                r.ProductId == request.ProductId && r.PhoneNumber == request.PhoneNumber
-            )
-            .Any();
+        var isPhoneNumberExists = await reviewRepository.AnyAsync(r =>
+            r.ProductId == request.ProductId && r.PhoneNumber == request.PhoneNumber,
+            cancellationToken
+        );
 
-        var isEmailExists = _context
-            .Reviews.Where(r => r.ProductId == request.ProductId && r.Email == request.Email)
-            .Any();
+        var isEmailExists = await reviewRepository.AnyAsync(r =>
+            r.ProductId == request.ProductId && r.Email == request.Email,
+            cancellationToken
+        );
 
-        if (isPhoneNumberExists || isEmailExists) return null;
+        if (isPhoneNumberExists || isEmailExists)
+        {
+            throw new AppException(400, "You have already submitted a review for this product with the same phone number or email.");
+        }
 
         var review = new Review
         {
@@ -50,8 +50,9 @@ public class CreateReviewCommandHandler(IAppDbContext context)
             Email = request.Email
         };
 
-        _context.Reviews.Add(review);
-        await _context.SaveChangesAsync(cancellationToken);
+        await reviewRepository.AddAsync(review, cancellationToken);
+
+        await unitOfWork.SaveAsync(cancellationToken);
 
         return review.ToDto();
     }

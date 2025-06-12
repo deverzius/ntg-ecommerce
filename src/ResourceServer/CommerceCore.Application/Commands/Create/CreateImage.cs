@@ -45,6 +45,6 @@ public class CreateImageCommandHandler(
             return image.ToDto();
         }
 
-        throw new AppException(400, "Data or url for image not found");
+        throw new AppException(400, "Data or url for image not found.");
     }
 }

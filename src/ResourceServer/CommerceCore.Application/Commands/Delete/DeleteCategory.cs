@@ -20,7 +20,7 @@ public class DeleteCategoryCommandHandler(ICategoryRepository categoryRepository
         );
         if (category == null)
         {
-            throw new AppException(404, $"Category with ID {request.Id} not found.");
+            throw new AppException(404, "Category not found.");
         }
 
         var isParentCategory = await categoryRepository.AnyAsync(

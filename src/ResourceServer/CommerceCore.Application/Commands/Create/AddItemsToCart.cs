@@ -30,7 +30,7 @@ public class AddItemsToCartCommandHandler(
             var productVariant = await variantRepository.GetByIdAsync(item.ProductVariantId, cancellationToken);
             if (productVariant is null)
             {
-                throw new AppException(404, $"Product variant with ID {item.ProductVariantId} not found.");
+                throw new AppException(404, "Product variant not found.");
             }
 
             var cartItem = new CartItem
