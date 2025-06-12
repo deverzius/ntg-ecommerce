@@ -1,8 +1,5 @@
-using System.Collections.Immutable;
 using CommerceCore.Application.Common.Interfaces.Repositories;
-using CommerceCore.Application.Common.Mappers;
 using CommerceCore.Shared.DTOs.Common;
-using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 
 namespace CommerceCore.Application.Queries.List;
@@ -23,7 +20,7 @@ public class GetProductsQueryHandler(IProductRepository repository)
         var result = await repository.GetPagedResultAsync(query, default);
 
         return new PagedResult<ProductResponse>(
-            result.Items.Select(p => p.ToDto()).ToImmutableArray(),
+            result.Items.Select(p => p.ToDto()).ToList(),
             result.PageNumber,
             result.PageSize,
             result.TotalPages

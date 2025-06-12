@@ -1,9 +1,5 @@
-using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Interfaces.Repositories;
-using CommerceCore.Application.Common.Mappers;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Shared.DTOs.Create;
-using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.Shared.Exceptions;
 using MediatR;
 
@@ -42,7 +38,7 @@ public class CreateProductCommandHandler(
         {
             Name = variantRequest.Name,
             Value = variantRequest.Value,
-            StockQuantity = variantRequest.StockQuantity,
+            DisplayValue = variantRequest.DisplayValue,
             Product = product
         }));
 

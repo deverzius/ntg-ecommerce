@@ -57,6 +57,19 @@ namespace CommerceCore.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VariantStock",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariantStock", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -115,7 +128,7 @@ namespace CommerceCore.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    StockQuantity = table.Column<int>(type: "int", nullable: false),
+                    DisplayValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -243,6 +256,30 @@ namespace CommerceCore.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductVariantVariantStock",
+                columns: table => new
+                {
+                    VariantStockId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VariantsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductVariantVariantStock", x => new { x.VariantStockId, x.VariantsId });
+                    table.ForeignKey(
+                        name: "FK_ProductVariantVariantStock_ProductVariants_VariantsId",
+                        column: x => x.VariantsId,
+                        principalTable: "ProductVariants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductVariantVariantStock_VariantStock_VariantStockId",
+                        column: x => x.VariantStockId,
+                        principalTable: "VariantStock",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AppImageProductVariant_ProductVariantId",
                 table: "AppImageProductVariant",
@@ -284,6 +321,11 @@ namespace CommerceCore.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductVariantVariantStock_VariantsId",
+                table: "ProductVariantVariantStock",
+                column: "VariantsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",
                 table: "Reviews",
                 column: "ProductId");
@@ -302,6 +344,9 @@ namespace CommerceCore.Infrastructure.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
+                name: "ProductVariantVariantStock");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
@@ -312,6 +357,9 @@ namespace CommerceCore.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductVariants");
+
+            migrationBuilder.DropTable(
+                name: "VariantStock");
 
             migrationBuilder.DropTable(
                 name: "Products");

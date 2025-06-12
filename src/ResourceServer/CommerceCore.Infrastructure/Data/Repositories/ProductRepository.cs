@@ -17,9 +17,10 @@ public class ProductRepository(IApplicationDbContext dbContext) : IProductReposi
         CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .AsNoTracking()
             .Include(p => p.Category)
             .Include(p => p.Variants)
+            .AsNoTracking()
+            .AsSplitQuery()
             .SortBy(query.Sort)
             .SearchBy(query.Search)
             .FilterBy(query.CategoryId)

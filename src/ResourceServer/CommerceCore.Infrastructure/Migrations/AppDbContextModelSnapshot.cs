@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommerceCore.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -211,6 +211,10 @@ namespace CommerceCore.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DisplayValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -218,9 +222,6 @@ namespace CommerceCore.Infrastructure.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("int");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -278,6 +279,38 @@ namespace CommerceCore.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("CommerceCore.Domain.Entities.VariantStock", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VariantStock");
+                });
+
+            modelBuilder.Entity("ProductVariantVariantStock", b =>
+                {
+                    b.Property<Guid>("VariantStockId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VariantsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("VariantStockId", "VariantsId");
+
+                    b.HasIndex("VariantsId");
+
+                    b.ToTable("ProductVariantVariantStock");
                 });
 
             modelBuilder.Entity("AppImageProductVariant", b =>
@@ -453,6 +486,21 @@ namespace CommerceCore.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductVariantVariantStock", b =>
+                {
+                    b.HasOne("CommerceCore.Domain.Entities.VariantStock", null)
+                        .WithMany()
+                        .HasForeignKey("VariantStockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CommerceCore.Domain.Entities.ProductVariant", null)
+                        .WithMany()
+                        .HasForeignKey("VariantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

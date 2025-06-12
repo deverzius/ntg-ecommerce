@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+public class AppDbContext(DbContextOptions<AppDbContext> options)
     : DbContext(options), IApplicationDbContext
 {
     public DbSet<Category> Categories { get; set; }

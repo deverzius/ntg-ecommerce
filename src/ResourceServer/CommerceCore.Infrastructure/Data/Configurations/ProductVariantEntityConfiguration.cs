@@ -1,7 +1,6 @@
 using CommerceCore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace CommerceCore.Infrastructure.Data.Configurations;
 
@@ -21,11 +20,11 @@ public class ProductVariantEntityConfiguration : IEntityTypeConfiguration<Produc
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(pv => pv.StockQuantity)
+        builder.Property(pv => pv.DisplayValue)
             .IsRequired();
 
         // Relationships
-        builder.HasMany(c => c.Images)
+        builder.HasMany(pv => pv.Images)
             .WithMany();
     }
 }

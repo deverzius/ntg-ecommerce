@@ -5,6 +5,6 @@ namespace CommerceCore.Shared.DTOs.Create;
 public record CreateProductVariantRequest(
     string Name,
     string Value,
-    int StockQuantity,
+    string DisplayValue,
     ICollection<Guid> ImageIds
 );
