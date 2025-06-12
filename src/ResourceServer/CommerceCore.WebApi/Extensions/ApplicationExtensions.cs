@@ -9,7 +9,12 @@ public static class ApplicationExtensions
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                options.OAuthClientId("ecommerce-client");
+                options.OAuthClientSecret("secret");
+                options.OAuth2RedirectUrl("https://localhost:7000/swagger/oauth2-redirect.html");
+            });
         }
 
         app.UseHttpsRedirection();
