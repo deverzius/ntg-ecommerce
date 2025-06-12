@@ -21,7 +21,7 @@ public static class DependencyInjection
 
         var connectionString = serviceProvider.GetRequiredService<IOptions<ConnectionStringsConfigurations>>().Value.DefaultConnection;
 
-        services.AddDbContext<IApplicationDbContext, AppDbContext>(options =>
+        services.AddDbContext<IAppDbContext, AppDbContext>(options =>
             options.UseSqlServer(connectionString)
         );
 

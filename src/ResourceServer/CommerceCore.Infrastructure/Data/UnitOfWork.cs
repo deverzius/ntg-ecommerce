@@ -2,7 +2,7 @@ using CommerceCore.Application.Common.Interfaces;
 
 namespace CommerceCore.Infrastructure.Data;
 
-public class UnitOfWork(IApplicationDbContext context) : IUnitOfWork
+public class UnitOfWork(IAppDbContext context) : IUnitOfWork
 {
     public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
     {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CommerceCore.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options)
-    : DbContext(options), IApplicationDbContext
+    : DbContext(options), IAppDbContext
 {
     public DbSet<Category> Categories { get; set; }
     public DbSet<Order> Orders { get; set; }

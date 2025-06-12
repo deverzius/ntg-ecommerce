@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data.Repositories;
 
-public class CartRepository(IApplicationDbContext dbContext) : ICartRepository
+public class CartRepository(IAppDbContext dbContext) : ICartRepository
 {
     private readonly DbSet<Cart> _dbSet = dbContext.Carts;
 

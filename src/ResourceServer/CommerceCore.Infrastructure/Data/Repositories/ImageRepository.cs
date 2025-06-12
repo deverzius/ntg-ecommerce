@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data.Repositories;
 
-public class ImageRepository(IApplicationDbContext dbContext) : IImageRepository
+public class ImageRepository(IAppDbContext dbContext) : IImageRepository
 {
     private readonly DbSet<AppImage> _dbSet = dbContext.Images;
 

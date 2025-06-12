@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data.Repositories;
 
-public class CategoryRepository(IApplicationDbContext dbContext) : ICategoryRepository
+public class CategoryRepository(IAppDbContext dbContext) : ICategoryRepository
 {
     private readonly DbSet<Category> _dbSet = dbContext.Categories;
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Common.Interfaces;
 
-public interface IApplicationDbContext
+public interface IAppDbContext
 {
     DbSet<Category> Categories { get; set; }
     DbSet<AppImage> Images { get; set; }

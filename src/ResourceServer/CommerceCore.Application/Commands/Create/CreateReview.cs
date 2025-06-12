@@ -16,10 +16,10 @@ public record CreateReviewCommand(
     string? Email
 ) : IRequest<ReviewResponse?>;
 
-public class CreateReviewCommandHandler(IApplicationDbContext context)
+public class CreateReviewCommandHandler(IAppDbContext context)
     : IRequestHandler<CreateReviewCommand, ReviewResponse?>
 {
-    private readonly IApplicationDbContext _context = context;
+    private readonly IAppDbContext _context = context;
 
     public async Task<ReviewResponse?> Handle(
         CreateReviewCommand request,

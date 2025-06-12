@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data.Repositories;
 
-public class ProductVariantRepository(IApplicationDbContext dbContext) : IProductVariantRepository
+public class ProductVariantRepository(IAppDbContext dbContext) : IProductVariantRepository
 {
     private readonly DbSet<ProductVariant> _dbSet = dbContext.ProductVariants;
 

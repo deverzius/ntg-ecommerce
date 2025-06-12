@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Infrastructure.Data.Repositories;
 
-public class ProductRepository(IApplicationDbContext dbContext) : IProductRepository
+public class ProductRepository(IAppDbContext dbContext) : IProductRepository
 {
     private readonly DbSet<Product> _dbSet = dbContext.Products;
 
