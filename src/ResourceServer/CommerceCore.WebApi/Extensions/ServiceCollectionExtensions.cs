@@ -1,13 +1,13 @@
 using System.Text.Json.Serialization;
 using CommerceCore.Application.Common.Configurations;
-using CommerceCore.WebApi.Filters;
+using CommerceCore.WebAPI.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 
-namespace CommerceCore.WebApi.Extensions;
+namespace CommerceCore.WebAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.Configure<IdentityServerConfigurations>(configurationManager.GetSection("IdentityServer"));
         services.Configure<CorsConfigurations>(configurationManager.GetSection("Cors"));
         services.Configure<SupabaseStorageConfigurations>(configurationManager.GetSection("SupabaseStorage"));
+        services.Configure<SwaggerConfigurations>(configurationManager.GetSection("Swagger"));
 
         return services;
     }
@@ -68,7 +69,6 @@ public static class ServiceCollectionExtensions
                 options.UseAspNetCore();
             });
 
-
         // Authentication and Authorization
         services.AddAuthentication(options =>
         {
@@ -84,8 +84,20 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddAppSwagger(this IServiceCollection services)
     {
+        using var scope = services.BuildServiceProvider().CreateScope();
+        var serviceProvider = scope.ServiceProvider;
+
+        var swaggerConfigurations = serviceProvider.GetRequiredService<IOptions<SwaggerConfigurations>>().Value;
+
         services.AddSwaggerGen(options =>
         {
+            options.SwaggerDoc(swaggerConfigurations.Version, new OpenApiInfo
+            {
+                Title = swaggerConfigurations.Title,
+                Version = swaggerConfigurations.Version,
+                Description = swaggerConfigurations.Description
+            });
+
             options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.OAuth2,
@@ -93,13 +105,11 @@ public static class ServiceCollectionExtensions
                 {
                     AuthorizationCode = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri("https://localhost:7001/connect/authorize"),
-                        TokenUrl = new Uri("https://localhost:7001/connect/token"),
-                        Scopes = new Dictionary<string, string>
-                        {
-                    { "openid", "OpenId" },
-                    { "offline_access", "Offline Access" }
-                        }
+                        AuthorizationUrl = new Uri(swaggerConfigurations.OAuth2.AuthorizationUrl),
+                        TokenUrl = new Uri(swaggerConfigurations.OAuth2.TokenUrl),
+                        Scopes = swaggerConfigurations.OAuth2.Scopes
+                            .Select(scope => new KeyValuePair<string, string>(scope[0], scope[1]))
+                            .ToDictionary()
                     }
                 }
             });

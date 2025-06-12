@@ -16,7 +16,7 @@ public class Program
             .AddWorkers();
 
         var app = builder.Build();
-        app.Configure();
+        app.UseMiddlewares();
         app.Run();
     }
 }

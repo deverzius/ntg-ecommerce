@@ -6,21 +6,21 @@ To create new migration.
 
 ```bash
 cd .\src\ResourceServer\CommerceCore.Infrastructure
-dotnet ef migrations add InitDatabase --project . --startup-project ../CommerceCore.WebApi/CommerceCore.WebApi.csproj
+dotnet ef migrations add InitDatabase --project . --startup-project ../CommerceCore.WebAPI/CommerceCore.WebAPI.csproj
 ```
 
 To update the database using migration files.
 
 ```bash
 cd .\src\ResourceServer\CommerceCore.Infrastructure
-dotnet ef database update --project . --startup-project ../CommerceCore.WebApi/CommerceCore.WebApi.csproj
+dotnet ef database update --project . --startup-project ../CommerceCore.WebAPI/CommerceCore.WebAPI.csproj
 ```
 
 To drop the database.
 
 ```bash
 cd .\src\ResourceServer\CommerceCore.Infrastructure
-dotnet ef database drop --project . --startup-project ../CommerceCore.WebApi/CommerceCore.WebApi.csproj
+dotnet ef database drop --project . --startup-project ../CommerceCore.WebAPI/CommerceCore.WebAPI.csproj
 ```
 
 ## How To Run
@@ -35,7 +35,7 @@ dotnet run
 Start the Web API:
 
 ```bash
-cd src\ResourceServer\CommerceCore.WebApi
+cd src\ResourceServer\CommerceCore.WebAPI
 dotnet run
 ```
 

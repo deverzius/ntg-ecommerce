@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Domain", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Infrastructure", "src\ResourceServer\CommerceCore.Infrastructure\CommerceCore.Infrastructure.csproj", "{E9642F35-F21F-51CE-569A-EED1854AFD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi", "src\ResourceServer\CommerceCore.WebApi\CommerceCore.WebApi.csproj", "{0602FAA7-6D5F-9876-20F9-32F502C70791}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebAPI", "src\ResourceServer\CommerceCore.WebAPI\CommerceCore.WebAPI.csproj", "{0602FAA7-6D5F-9876-20F9-32F502C70791}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.Web.CustomersSite", "src\WebApp\CommerceCore.Web.CustomersSite\CommerceCore.Web.CustomersSite.csproj", "{8797FE7A-FFA6-4DE5-F20F-5149DD9CEC85}"
 EndProject
@@ -23,12 +23,6 @@ EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CommerceCore.Web.AdminSite", "src\WebApp\CommerceCore.Web.AdminSite\CommerceCore.Web.AdminSite.esproj", "{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D785781F-DC3B-4C96-B36F-A480DD12361C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5C723F72-397D-4FB1-9964-A0B62A832328}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceServer", "ResourceServer", "{615C8BB9-489F-4D6A-B498-FC8B342A88E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceCore.WebApi.UnitTests", "tests\ResourceServer\CommerceCore.WebApi.UnitTests\CommerceCore.WebApi.UnitTests.csproj", "{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{7432D50A-5418-4052-9011-0A6EC2A78A4A}"
 	ProjectSection(SolutionItems) = preProject
@@ -75,10 +69,6 @@ Global
 		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,8 +84,6 @@ Global
 		{8797FE7A-FFA6-4DE5-F20F-5149DD9CEC85} = {D889AC62-EE7C-43E0-8585-9260B2F11AF4}
 		{3814A089-D17B-CDED-A3F2-889B3BC87F4F} = {D785781F-DC3B-4C96-B36F-A480DD12361C}
 		{1A2EC9FF-007D-B46A-DE4D-A2F318E726F9} = {D889AC62-EE7C-43E0-8585-9260B2F11AF4}
-		{615C8BB9-489F-4D6A-B498-FC8B342A88E1} = {5C723F72-397D-4FB1-9964-A0B62A832328}
-		{45EA665A-0501-4344-8F4C-CA1C9CAAC2E2} = {615C8BB9-489F-4D6A-B498-FC8B342A88E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC4CBECC-571E-4B1B-ADD3-B38252E54449}

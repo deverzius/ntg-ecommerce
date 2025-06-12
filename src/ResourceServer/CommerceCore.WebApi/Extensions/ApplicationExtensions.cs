@@ -1,19 +1,23 @@
-using CommerceCore.WebApi.Middlewares;
+using CommerceCore.Application.Common.Configurations;
+using CommerceCore.WebAPI.Middlewares;
+using Microsoft.Extensions.Options;
 
-namespace CommerceCore.WebApi.Extensions;
+namespace CommerceCore.WebAPI.Extensions;
 
 public static class ApplicationExtensions
 {
-    public static void ConfigureMiddlewares(this WebApplication app)
+    public static void UseMiddlewares(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {
+            var configuration = app.Services.GetRequiredService<IOptions<SwaggerConfigurations>>().Value;
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.OAuthClientId("ecommerce-client");
-                options.OAuthClientSecret("secret");
-                options.OAuth2RedirectUrl("https://localhost:7000/swagger/oauth2-redirect.html");
+                options.OAuthClientId(configuration.OAuth2.ClientId);
+                options.OAuthClientSecret(configuration.OAuth2.ClientSecret);
+                options.OAuth2RedirectUrl(configuration.OAuth2.RedirectUrl);
             });
         }
 

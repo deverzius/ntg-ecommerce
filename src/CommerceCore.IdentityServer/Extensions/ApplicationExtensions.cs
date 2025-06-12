@@ -4,7 +4,7 @@ namespace CommerceCore.IdentityServer.Extensions;
 
 public static class ApplicationExtensions
 {
-    public static void Configure(this WebApplication app)
+    public static void UseMiddlewares(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {

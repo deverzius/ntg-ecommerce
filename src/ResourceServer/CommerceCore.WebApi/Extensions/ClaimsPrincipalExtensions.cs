@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using CommerceCore.Shared.Exceptions;
 
-namespace CommerceCore.WebApi.Extensions;
+namespace CommerceCore.WebAPI.Extensions;
 
 public static class ClaimsPrincipalExtensions
 {

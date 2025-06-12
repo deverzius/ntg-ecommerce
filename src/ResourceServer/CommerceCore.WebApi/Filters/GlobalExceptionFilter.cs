@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
 
-namespace CommerceCore.WebApi.Filters;
+namespace CommerceCore.WebAPI.Filters;
 
 public class GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IWebHostEnvironment environment) : IExceptionFilter
 {

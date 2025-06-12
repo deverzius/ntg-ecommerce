@@ -1,4 +1,4 @@
-namespace CommerceCore.WebApi.Middlewares;
+namespace CommerceCore.WebAPI.Middlewares;
 
 public class CookieTokenMiddleware(RequestDelegate next)
 {

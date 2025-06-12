@@ -1,4 +1,4 @@
-namespace CommerceCore.WebApi.Extensions;
+namespace CommerceCore.WebAPI.Extensions;
 
 public static class MapperExtensions
 {

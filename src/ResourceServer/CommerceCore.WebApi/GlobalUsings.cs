@@ -1,1 +1,1 @@
-global using CommerceCore.WebApi.Extensions;
+global using CommerceCore.WebAPI.Extensions;

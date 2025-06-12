@@ -1,7 +1,7 @@
 using CommerceCore.Application;
 using CommerceCore.Infrastructure;
 
-namespace CommerceCore.WebApi;
+namespace CommerceCore.WebAPI;
 
 public class Program
 {
@@ -19,7 +19,7 @@ public class Program
             .AddInfrastructureServices();
 
         var app = builder.Build();
-        app.ConfigureMiddlewares();
+        app.UseMiddlewares();
         app.Run();
     }
 }
