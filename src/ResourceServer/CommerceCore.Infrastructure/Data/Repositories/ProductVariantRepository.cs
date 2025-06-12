@@ -9,6 +9,13 @@ public class ProductVariantRepository(IApplicationDbContext dbContext) : IProduc
 {
     private readonly DbSet<ProductVariant> _dbSet = dbContext.ProductVariants;
 
+    public async Task<ProductVariant?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Include(pv => pv.Product)
+            .FirstOrDefaultAsync(pv => pv.Id == id, cancellationToken);
+    }
+
     public async Task AddAsync(ProductVariant item, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(item, cancellationToken);

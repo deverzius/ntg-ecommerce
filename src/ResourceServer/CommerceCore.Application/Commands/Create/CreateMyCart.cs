@@ -1,7 +1,5 @@
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Common.Mappers;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 
 namespace CommerceCore.Application.Commands.Create;
@@ -9,11 +7,9 @@ namespace CommerceCore.Application.Commands.Create;
 public record CreateMyCartCommand(Guid UserId)
     : IRequest<CartResponse>;
 
-public class CreateMyCartCommandHandler(IApplicationDbContext context)
+public class CreateMyCartCommandHandler(ICartRepository cartRepository, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateMyCartCommand, CartResponse>
 {
-    private readonly IApplicationDbContext _context = context;
-
     public async Task<CartResponse> Handle(
         CreateMyCartCommand request,
         CancellationToken cancellationToken
@@ -24,8 +20,8 @@ public class CreateMyCartCommandHandler(IApplicationDbContext context)
             UserId = request.UserId
         };
 
-        _context.Carts.Add(cart);
-        await _context.SaveChangesAsync(cancellationToken);
+        await cartRepository.AddAsync(cart, cancellationToken);
+        await unitOfWork.SaveAsync(cancellationToken);
 
         return cart.ToDto();
     }

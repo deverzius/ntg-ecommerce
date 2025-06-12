@@ -1,24 +1,19 @@
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Queries.Get;
 
 public record GetMyCartQuery(Guid UserId) : IRequest<CartResponse?>;
 
-public class GetMyCartQueryHandler(IApplicationDbContext context)
+public class GetMyCartQueryHandler(ICartRepository repository)
     : IRequestHandler<GetMyCartQuery, CartResponse?>
 {
-    private readonly IApplicationDbContext _context = context;
-
     public async Task<CartResponse?> Handle(
-        GetMyCartQuery request,
+        GetMyCartQuery query,
         CancellationToken cancellationToken
     )
     {
-        var result = await _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.ProductVariant).FirstOrDefaultAsync(
-            c => c.UserId == request.UserId,
-            cancellationToken
-        );
+        var result = await repository.GetCartByUserId(query.UserId, cancellationToken);
 
         return result?.ToDto();
     }
