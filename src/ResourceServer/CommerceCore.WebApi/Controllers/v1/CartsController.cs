@@ -32,4 +32,19 @@ public class CartsController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost("my-cart/Items")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> PostCartItems(
+        ISender sender,
+        AddItemsToCartCommand command
+    )
+    {
+        var userId = User.ExtractUserId();
+
+        var result = await sender.Send(command);
+
+        return Created();
+    }
 }
