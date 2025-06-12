@@ -2,9 +2,9 @@ using CommerceCore.Domain.Entities;
 
 namespace CommerceCore.Infrastructure.Extensions;
 
-public static class ProductQueryExtensions
+public static class CategoryQueryExtensions
 {
-    public static IQueryable<Product> SortBy(this IQueryable<Product> source, string? sortBy)
+    public static IQueryable<Category> SortBy(this IQueryable<Category> source, string? sortBy)
     {
         source = sortBy?.ToLower() switch
         {
@@ -14,7 +14,7 @@ public static class ProductQueryExtensions
         return source;
     }
 
-    public static IQueryable<Product> SearchBy(this IQueryable<Product> source, string? searchPhrase)
+    public static IQueryable<Category> SearchBy(this IQueryable<Category> source, string? searchPhrase)
     {
         if (string.IsNullOrEmpty(searchPhrase)) return source;
 
@@ -24,10 +24,8 @@ public static class ProductQueryExtensions
         );
     }
 
-    public static IQueryable<Product> FilterBy(this IQueryable<Product> source, Guid? categoryId)
+    public static IQueryable<Category> FilterBy(this IQueryable<Category> source, Guid? categoryId)
     {
-        if (categoryId != null) source = source.Where(p => p.Category.Id == categoryId);
-
         return source;
     }
 }

@@ -1,36 +1,48 @@
-using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Interfaces.Repositories;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Commands.Delete;
 
-public record DeleteCategoryCommand(Guid Id) : IRequest<bool>;
+public record DeleteCategoryCommand(Guid Id) : IRequest;
 
-public class DeleteCategoryCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<DeleteCategoryCommand, bool>
+public class DeleteCategoryCommandHandler(ICategoryRepository categoryRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
+    : IRequestHandler<DeleteCategoryCommand>
 {
-    private readonly IApplicationDbContext _context = context;
-
-    public async Task<bool> Handle(
+    public async Task Handle(
         DeleteCategoryCommand request,
         CancellationToken cancellationToken
     )
     {
-        var category = await _context.Categories.FindAsync([request.Id], cancellationToken);
-        if (category == null) return false;
+        var category = await categoryRepository.GetByIdAsync(
+            request.Id,
+            cancellationToken
+        );
+        if (category == null)
+        {
+            throw new AppException(404, $"Category with ID {request.Id} not found.");
+        }
 
-        var isParentCategory = await _context.Categories.AnyAsync(
+        var isParentCategory = await categoryRepository.AnyAsync(
             c => c.ParentCategoryId == category.Id,
             cancellationToken
         );
-        if (isParentCategory) return false;
+        if (isParentCategory)
+        {
+            throw new AppException(400, "Cannot delete a category that has subcategories.");
+        }
 
-        var areSomeProductsInCategory = _context.Products.Any(p => p.Category.Id == request.Id);
-        if (areSomeProductsInCategory) return false;
+        var areSomeProductsInCategory = await productRepository.AnyAsync(
+            p => p.Category.Id == request.Id,
+            cancellationToken
+        );
+        if (areSomeProductsInCategory)
+        {
+            throw new AppException(400, "Cannot delete a category that has products.");
+        }
 
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync(cancellationToken);
+        categoryRepository.Remove(category);
 
-        return true;
+        await unitOfWork.SaveAsync(cancellationToken);
     }
 }

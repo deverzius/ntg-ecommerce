@@ -30,15 +30,18 @@ public class CategoriesController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCategory(
         ISender sender,
         Guid id
     )
     {
         var result = await sender.Send(new GetCategoryQuery(id));
+        if (result == null)
+        {
+            return NotFound();
+        }
 
-        return result == null ? NotFound() : Ok(result);
+        return Ok(result);
     }
 
     [HttpPost]
@@ -51,13 +54,12 @@ public class CategoriesController : ControllerBase
     {
         var result = await sender.Send(command);
 
-        return Created(nameof(GetCategory), result);
+        return CreatedAtAction(nameof(GetCategory), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
     [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutCategory(
         ISender sender,
         Guid id,
@@ -65,24 +67,27 @@ public class CategoriesController : ControllerBase
     )
     {
         if (id != command.Id)
+        {
             return BadRequest();
+        }
 
         if (id == command.ParentCategoryId)
+        {
             return BadRequest();
+        }
 
-        var result = await sender.Send(command);
+        await sender.Send(command);
 
-        return result ? NoContent() : BadRequest();
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "RequireAdminRole")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeleteCategory(ISender sender, Guid id)
     {
-        var result = await sender.Send(new DeleteCategoryCommand(id));
+        await sender.Send(new DeleteCategoryCommand(id));
 
-        return result ? NoContent() : BadRequest();
+        return NoContent();
     }
 }

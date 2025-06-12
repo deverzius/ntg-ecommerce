@@ -1,7 +1,7 @@
-using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Commands.Update;
 
@@ -10,45 +10,36 @@ public record UpdateCategoryCommand(
     string Name,
     string Description,
     Guid? ParentCategoryId
-) : IRequest<bool>;
+) : IRequest;
 
-public class UpdateCategoryCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<UpdateCategoryCommand, bool>
+public class UpdateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+    : IRequestHandler<UpdateCategoryCommand>
 {
-    private readonly IApplicationDbContext _context = context;
-
-    public async Task<bool> Handle(
-        UpdateCategoryCommand request,
+    public async Task Handle(
+        UpdateCategoryCommand command,
         CancellationToken cancellationToken
     )
     {
-        // Avoid circular dependency
-        var circularCategories = await _context
-            .Categories.Where(c =>
-                c.ParentCategoryId == request.Id && c.Id == request.ParentCategoryId
-            )
-            .ToListAsync(cancellationToken);
-        if (circularCategories.Count > 0) return false;
+        var canCauseCircularCategories = await categoryRepository.AnyAsync(
+            c => c.ParentCategoryId == command.Id && c.Id == command.ParentCategoryId,
+            cancellationToken
+        );
+
+        if (canCauseCircularCategories)
+        {
+            throw new AppException(400, "Circular dependency detected in category hierarchy.");
+        }
 
         var category = new Category
         {
-            Id = request.Id,
-            Name = request.Name,
-            Description = request.Description,
-            ParentCategoryId = request.ParentCategoryId
+            Id = command.Id,
+            Name = command.Name,
+            Description = command.Description,
+            ParentCategoryId = command.ParentCategoryId
         };
-        var categoryEntry = _context.Categories.Entry(category);
-        categoryEntry.State = EntityState.Modified;
 
-        try
-        {
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            return false;
-        }
+        categoryRepository.Update(category);
 
-        return true;
+        await unitOfWork.SaveAsync(cancellationToken);
     }
 }

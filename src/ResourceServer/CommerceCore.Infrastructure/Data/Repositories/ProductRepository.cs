@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Application.Common.Mappers;
@@ -48,5 +49,10 @@ public class ProductRepository(IApplicationDbContext dbContext) : IProductReposi
     public void Remove(Product item)
     {
         _dbSet.Remove(item);
+    }
+
+    public async Task<bool> AnyAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await _dbSet.AnyAsync(predicate, cancellationToken);
     }
 }

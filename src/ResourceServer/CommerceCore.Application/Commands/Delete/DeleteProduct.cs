@@ -1,26 +1,30 @@
-using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Interfaces.Repositories;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
 
 namespace CommerceCore.Application.Commands.Delete;
 
-public record DeleteProductCommand(Guid Id) : IRequest<bool>;
+public record DeleteProductCommand(Guid Id) : IRequest;
 
-public class DeleteProductCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<DeleteProductCommand, bool>
+public class DeleteProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+    : IRequestHandler<DeleteProductCommand>
 {
-    private readonly IApplicationDbContext _context = context;
-
-    public async Task<bool> Handle(
+    public async Task Handle(
         DeleteProductCommand request,
         CancellationToken cancellationToken
     )
     {
-        var product = await _context.Products.FindAsync([request.Id], cancellationToken);
-        if (product == null) return false;
+        var product = await productRepository.GetByIdAsync(
+            request.Id,
+            cancellationToken
+        );
+        if (product == null)
+        {
+            throw new AppException(404, $"Product with ID {request.Id} not found.");
+        }
 
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync(cancellationToken);
+        productRepository.Remove(product);
 
-        return true;
+        await unitOfWork.SaveAsync(cancellationToken);
     }
 }

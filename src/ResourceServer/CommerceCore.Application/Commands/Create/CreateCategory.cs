@@ -1,7 +1,5 @@
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Application.Common.Mappers;
+using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 
 namespace CommerceCore.Application.Commands.Create;
@@ -9,11 +7,9 @@ namespace CommerceCore.Application.Commands.Create;
 public record CreateCategoryCommand(string Name, string Description, Guid? ParentCategoryId)
     : IRequest<CategoryResponse>;
 
-public class CreateCategoryCommandHandler(IApplicationDbContext context)
+public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateCategoryCommand, CategoryResponse>
 {
-    private readonly IApplicationDbContext _context = context;
-
     public async Task<CategoryResponse> Handle(
         CreateCategoryCommand request,
         CancellationToken cancellationToken
@@ -26,8 +22,8 @@ public class CreateCategoryCommandHandler(IApplicationDbContext context)
             ParentCategoryId = request.ParentCategoryId
         };
 
-        _context.Categories.Add(category);
-        await _context.SaveChangesAsync(cancellationToken);
+        await categoryRepository.AddAsync(category, cancellationToken);
+        await unitOfWork.SaveAsync(cancellationToken);
 
         return category.ToDto();
     }
