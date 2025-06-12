@@ -5,6 +5,6 @@ public record ProductVariantResponse(
     string Name,
     string Value,
     int StockQuantity,
-    Guid ProductId,
+    ProductResponse Product,
     ICollection<ImageResponse> Images
 );

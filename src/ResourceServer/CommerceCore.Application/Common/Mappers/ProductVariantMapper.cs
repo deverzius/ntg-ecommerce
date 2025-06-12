@@ -5,15 +5,15 @@ namespace CommerceCore.Application.Common.Mappers;
 
 public static class ProductVariantMapper
 {
-    public static ProductVariantResponse ToDto(this ProductVariant productVariant)
+    public static ProductVariantResponse ToDto(this ProductVariant variant)
     {
         return new ProductVariantResponse(
-            productVariant.Id,
-            productVariant.Name,
-            productVariant.Value,
-            productVariant.StockQuantity,
-            productVariant.Product.Id,
-            productVariant.Images.Select(i => i.ToDto()).ToList()
+            variant.Id,
+            variant.Name,
+            variant.Value,
+            variant.StockQuantity,
+            variant.Product.ToDto(),
+            variant.Images.Select(i => i.ToDto()).ToList()
         );
     }
 }
