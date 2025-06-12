@@ -1,28 +1,25 @@
-using Ardalis.GuardClauses;
+using CommerceCore.Application.Common.Configurations;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Infrastructure.Data;
 using CommerceCore.Infrastructure.Data.Repositories;
 using CommerceCore.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace CommerceCore.Infrastructure;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(
-        this IServiceCollection services,
-        ConfigurationManager configurationManager
+        this IServiceCollection services
     )
     {
-        var connectionString = configurationManager.GetConnectionString("DefaultConnection");
+        using var scope = services.BuildServiceProvider().CreateScope();
+        var serviceProvider = scope.ServiceProvider;
 
-        Guard.Against.NullOrWhiteSpace(
-            connectionString,
-            message: "Connection string is not found or is white space."
-        );
+        var connectionString = serviceProvider.GetRequiredService<IOptions<ConnectionStringsConfigurations>>().Value.DefaultConnection;
 
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString)

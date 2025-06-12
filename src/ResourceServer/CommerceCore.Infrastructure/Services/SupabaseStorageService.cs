@@ -3,33 +3,27 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Web;
-using Ardalis.GuardClauses;
+using CommerceCore.Application.Common.Configurations;
 using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Files.Dtos;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
 namespace CommerceCore.Infrastructure.Services;
 
 public class SupabaseStorageService(
     HttpClient httpClient,
-    IConfiguration config,
+    IOptions<SupabaseStorageConfigurations> configuration,
     ILogger<SupabaseStorageService> logger
 ) : IStorageService
 {
-    private readonly string _apiKey =
-        config["Supabase:ApiKey"] ?? Guard.Against.NullOrEmpty(config["Supabase:ApiKey"]);
-
-    private readonly string _bucketName =
-        config["Supabase:BucketName"] ?? Guard.Against.NullOrEmpty(config["Supabase:BucketName"]);
+    private readonly string _apiKey = configuration.Value.ApiKey;
+    private readonly string _storageBaseUrl = configuration.Value.StorageBaseUrl;
+    private readonly string _bucketName = configuration.Value.BucketName;
 
     private readonly HttpClient _httpClient = httpClient;
     private readonly ILogger<SupabaseStorageService> _logger = logger;
-
-    private readonly string _storageBaseUrl =
-        config["Supabase:StorageBaseUrl"]
-        ?? Guard.Against.NullOrEmpty(config["Supabase:StorageBaseUrl"]);
 
     public async Task<FileUrlDto?> UploadFileAsync(
         string fileName,

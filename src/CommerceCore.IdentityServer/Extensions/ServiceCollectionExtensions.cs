@@ -9,7 +9,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace CommerceCore.IdentityServer.Extensions;
 
-public static class BuilderExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAppConfigurations(
        this IServiceCollection services,
