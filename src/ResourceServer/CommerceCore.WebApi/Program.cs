@@ -12,6 +12,7 @@ public class Program
             .AddAppConfigurations(builder.Configuration)
             .AddAppSecurity()
             .AddAppSwagger()
+            .AddWorkers()
             .AddAppRequiredServices();
 
         builder.Services

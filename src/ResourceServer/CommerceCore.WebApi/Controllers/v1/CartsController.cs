@@ -1,4 +1,5 @@
 using CommerceCore.Application.Commands.Create;
+using CommerceCore.Application.Common.DTOs;
 using CommerceCore.Application.Queries.Get;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
@@ -38,12 +39,13 @@ public class CartsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> PostCartItems(
         ISender sender,
-        AddItemsToCartCommand command
+        List<CreateCartItemDTO> Items
     )
     {
         var userId = User.ExtractUserId();
 
-        var result = await sender.Send(command);
+        var command = new AddItemsToCartCommand(userId, Items);
+        await sender.Send(command);
 
         return Created();
     }
