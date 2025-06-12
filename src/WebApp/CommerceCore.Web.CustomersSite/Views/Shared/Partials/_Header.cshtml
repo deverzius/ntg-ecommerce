@@ -2,7 +2,7 @@
     <nav class="h-20 border-b border-gray-200">
         <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
             <a href="/" class="flex items-center col-span-2 h-full ">
-                <img src="~/images/logo.svg" alt="logo"/>
+                <img src="~/images/logo.svg" alt="logo" />
             </a>
 
             <div class="col-span-4">
@@ -21,7 +21,7 @@
                     <div class="flex flex-row flex-1 justify-end">
                         <input
                             class="w-full text-xs py-2 px-4 border border-r-0 border-gray-300 rounded-l-md max-w-[300px] focus:outline-none placeholder-gray-400"
-                            type="text" placeholder="Search for items..."/>
+                            type="text" placeholder="Search for items..." />
                         <button class="w-12 bg-gray-900 text-white rounded-r-md hover:bg-gray-800">
                             <i class="ti ti-search"></i>
                         </button>
@@ -32,7 +32,7 @@
                     @await Component.InvokeAsync("SvgIcon", new { name = "shopping-bag", size = 28 })
 
                     <button id="mega-menu-dropdown-button" data-dropdown-toggle="mega-menu-dropdown"
-                            class="flex items-center justify-between font-medium w-auto hover:cursor-pointer">
+                        class="flex items-center justify-between font-medium w-auto hover:cursor-pointer">
                         <div id="user-menu" class="hidden flex items-center gap-1">
                             <span class="font-semibold" id="user-email">
                             </span>
@@ -41,7 +41,7 @@
                     </button>
 
                     <div id="mega-menu-dropdown"
-                         class="absolute z-[9999] hidden w-[200px] overflow-hidden text-sm bg-white border border-gray-200 rounded-lg shadow-md">
+                        class="absolute z-[9999] hidden w-[200px] overflow-hidden text-sm bg-white border border-gray-200 rounded-lg shadow-md">
                         <div class="p-4 pb-0 text-gray-500 md:pb-4 hover:bg-gray-100">
                             <ul class="space-y-4" aria-labelledby="mega-menu-dropdown-button">
                                 <li class="w-full">
@@ -54,7 +54,7 @@
                     </div>
 
                     <a id="login-btn" class="font-semibold hover:cursor-pointer" asp-controller="Auth"
-                       asp-action="Login">
+                        asp-action="Login">
                         Login
                     </a>
                 </div>
@@ -64,7 +64,7 @@
 </header>
 
 <script>
-    fetch("https://localhost:7268/connect/userinfo", {
+    fetch("https://localhost:7002/connect/userinfo", {
         method: "GET",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",

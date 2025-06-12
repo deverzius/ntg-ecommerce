@@ -1,9 +1,11 @@
 @model ProductResponse?
 
-
 @{
-    var images = Model?.Images.ToList() ?? [];
+    var images = new List<string>();
     var firstImageUrl = images.Count > 0 ? images[0] : "#";
+
+    var productName = Model?.Name ?? "Product Name";
+    var productPrice = Model?.Price ?? 0.0m;
 }
 
 <div class="grid grid-cols-12 gap-6 h-full items-center px-3 w-6xl mx-auto">
@@ -26,8 +28,8 @@
 
     <div class="col-span-6 grid grid-cols-6 gap-6">
         <div class="col-span-6 space-y-2">
-            <h3 class="text-3xl font-semibold">@Model.Name</h3>
-            <p class="text-lg">@Model.Price $</p>
+            <h3 class="text-3xl font-semibold">@productName</h3>
+            <p class="text-lg">@productPrice $</p>
         </div>
 
         <div class="col-span-6 space-x-2 space-y-2">

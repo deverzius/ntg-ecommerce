@@ -3,6 +3,7 @@ using Ardalis.GuardClauses;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.Web.CustomersSite.Shared.Helpers;
+using CommerceCore.Web.CustomersSite.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -27,7 +28,11 @@ public class CategoryController(
         var products = await FetchProducts(CategoryId);
         var category = await FetchCategoryById(CategoryId);
 
-        Console.WriteLine(JsonSerializer.Serialize(products));
+        if (category == null)
+        {
+            // TODO: redirect to a shared error view
+            return NotFound("Category not found.");
+        }
 
         return View(new CategoryPageViewModel { Category = category, Products = products });
     }
@@ -37,7 +42,7 @@ public class CategoryController(
         try
         {
             var url = _apiUrl + "/v1/products";
-            var queryParams = new Dictionary<string, string>
+            var queryParams = new Dictionary<string, string?>
             {
                 { "PageNumber", "1" },
                 { "PageSize", "8" },

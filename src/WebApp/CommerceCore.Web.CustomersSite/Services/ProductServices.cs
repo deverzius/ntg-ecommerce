@@ -15,7 +15,7 @@ public class ProductServices(HttpClient client, IConfiguration config) : IProduc
         try
         {
             var url = _apiUrl + "/v1/products";
-            var queryParams = new Dictionary<string, string>
+            var queryParams = new Dictionary<string, string?>
             {
                 { "PageNumber", "1" },
                 { "PageSize", "16" }

@@ -5,8 +5,8 @@ namespace CommerceCore.Web.CustomersSite.ViewComponents;
 
 public class CategoryViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(ProductResponse product)
+    public IViewComponentResult Invoke(CategoryResponse category)
     {
-        return View(product);
+        return View(category);
     }
 }

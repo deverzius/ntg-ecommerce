@@ -8,8 +8,6 @@ namespace CommerceCore.Web.CustomersSite.Controllers;
 
 [Route("[controller]/[action]")]
 public class AuthController(
-    ILogger<AuthController> logger,
-    HttpClient httpClient,
     IConfiguration config
 ) : Controller
 {
@@ -17,7 +15,7 @@ public class AuthController(
         config["Client:BaseUrl"] ?? Guard.Against.NullOrEmpty(config["Client:BaseUrl"]);
 
     [HttpGet]
-    public async Task<IActionResult> Login()
+    public IActionResult Login()
     {
         return Challenge(
             new AuthenticationProperties { RedirectUri = _clientUrl + "/callback" },
@@ -27,20 +25,20 @@ public class AuthController(
 
     [HttpGet]
     [Route("~/callback")]
-    public async Task<IActionResult> Callback()
+    public IActionResult Callback()
     {
         return View();
     }
 
     [HttpGet]
     [Route("~/SignoutCallback")]
-    public async Task<IActionResult> SignoutCallback()
+    public IActionResult SignoutCallback()
     {
         return Redirect("/");
     }
 
     [HttpGet]
-    public async Task<IActionResult> Logout()
+    public IActionResult Logout()
     {
         return SignOut(
             OpenIdConnectDefaults.AuthenticationScheme,
