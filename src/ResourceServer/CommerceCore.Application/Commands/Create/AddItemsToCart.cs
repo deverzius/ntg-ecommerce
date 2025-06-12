@@ -1,29 +1,47 @@
 using CommerceCore.Domain.Entities;
+using CommerceCore.Shared.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommerceCore.Application.Commands.Create;
 
-public record AddItemsToCartCommand(Guid Id, List<CreateCartItemDTO> Items)
-    : IRequest<CartResponse>;
+public record AddItemsToCartCommand(Guid UserId, List<CreateCartItemDTO> Items)
+    : IRequest;
 
 public class AddItemsToCartCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<AddItemsToCartCommand, CartResponse>
+    : IRequestHandler<AddItemsToCartCommand>
 {
-    private readonly IApplicationDbContext _context = context;
-
-    public async Task<CartResponse> Handle(
-        AddItemsToCartCommand request,
+    public async Task Handle(
+        AddItemsToCartCommand command,
         CancellationToken cancellationToken
     )
     {
-        var cart = new Cart
+        var cart = context.Carts.FirstOrDefault(c => c.UserId == command.UserId);
+        if (cart is null)
         {
-            UserId = request.Id
-        };
+            throw new AppException(404, "Cart not found for user.");
+        }
 
-        _context.Carts.Add(cart);
-        await _context.SaveChangesAsync(cancellationToken);
+        foreach (var item in command.Items)
+        {
+            var productVariant = await context.ProductVariants
+                .Include(pv => pv.Product)
+                .FirstOrDefaultAsync(pv => pv.Id == item.ProductVariantId, cancellationToken);
 
-        return cart.ToDto();
+            if (productVariant is null)
+            {
+                throw new AppException(404, $"Product variant with ID {item.ProductVariantId} not found.");
+            }
+
+            var cartItem = new CartItem
+            {
+                Quantity = item.Quantity,
+                ProductVariant = productVariant
+            };
+
+            cart.CartItems.Add(cartItem);
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

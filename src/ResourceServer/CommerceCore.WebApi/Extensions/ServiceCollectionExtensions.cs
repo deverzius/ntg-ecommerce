@@ -133,6 +133,15 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddWorkers(
+       this IServiceCollection services
+    )
+    {
+        services.AddHostedService<Worker>();
+
+        return services;
+    }
+
     public static IServiceCollection AddAppRequiredServices(this IServiceCollection services)
     {
         services.AddControllers(options =>

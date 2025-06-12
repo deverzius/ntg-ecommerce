@@ -1,5 +1,3 @@
-using CommerceCore.Application.Common.Interfaces;
-using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +15,7 @@ public class GetMyCartQueryHandler(IApplicationDbContext context)
         CancellationToken cancellationToken
     )
     {
-        var result = await _context.Carts.FirstOrDefaultAsync(
+        var result = await _context.Carts.Include(c => c.CartItems).ThenInclude(ci => ci.ProductVariant).FirstOrDefaultAsync(
             c => c.UserId == request.UserId,
             cancellationToken
         );
