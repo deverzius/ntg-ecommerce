@@ -49,6 +49,25 @@ public class OrdersController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("my-orders/{id:Guid}")]
+    [Authorize]
+    [ProducesResponseType(typeof(PagedResult<OrderResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMyOrder(
+        ISender sender,
+        Guid id
+    )
+    {
+        var query = new GetMyOrderQuery(User.ExtractUserId(), id);
+        var result = await sender.Send(query);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
     [HttpPost("my-orders")]
     [Authorize]
     [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status201Created)]
@@ -60,7 +79,6 @@ public class OrdersController : ControllerBase
         var command = new CreateOrderCommand(User.ExtractUserId(), order);
         var result = await sender.Send(command);
 
-        // TODO: GetMyOrder endpoint
-        return CreatedAtAction(nameof(GetMyOrders), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetMyOrder), new { id = result.Id }, result);
     }
 }

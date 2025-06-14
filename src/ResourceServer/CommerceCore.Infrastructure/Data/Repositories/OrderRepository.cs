@@ -38,6 +38,16 @@ public class OrderRepository(IAppDbContext dbContext) : IOrderRepository
             .PaginateAsync(query.PageNumber, query.PageSize, cancellationToken);
     }
 
+    public async Task<Order?> GetMyOrder(GetMyOrderQuery query, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Where(o => o.UserId == query.UserId)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.CurrentProductVariant)
+            .FirstOrDefaultAsync(oi => oi.Id == query.OrderId, cancellationToken);
+    }
+
+
     public async Task AddAsync(Order item, CancellationToken cancellationToken)
     {
         await _dbSet.AddAsync(item, cancellationToken);
