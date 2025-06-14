@@ -1,0 +1,41 @@
+using CommerceCore.Application.Common.Interfaces;
+using CommerceCore.Application.Common.Interfaces.Repositories;
+using CommerceCore.Application.Queries.List;
+using CommerceCore.Domain.Entities;
+using CommerceCore.Shared.DTOs.Common;
+using Microsoft.EntityFrameworkCore;
+
+namespace CommerceCore.Infrastructure.Data.Repositories;
+
+public class OrderRepository(IAppDbContext dbContext) : IOrderRepository
+{
+    private readonly DbSet<Order> _dbSet = dbContext.Orders;
+
+    public async Task<PagedResult<Order>> GetPagedResultAsync(GetMyOrdersQuery query, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Where(o => o.UserId == query.UserId)
+            .AsNoTracking()
+            .AsSplitQuery()
+            .SortBy(query.Sort)
+            .SearchBy(query.Search)
+            .FilterBy()
+            .PaginateAsync(query.PageNumber, query.PageSize, cancellationToken);
+    }
+
+    public async Task<PagedResult<Order>> GetPagedResultAsync(GetOrdersQuery query, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .AsSplitQuery()
+            .SortBy(query.Sort)
+            .SearchBy(query.Search)
+            .FilterBy()
+            .PaginateAsync(query.PageNumber, query.PageSize, cancellationToken);
+    }
+
+    public async Task AddAsync(Order item, CancellationToken cancellationToken)
+    {
+        await _dbSet.AddAsync(item, cancellationToken);
+    }
+}

@@ -1,6 +1,6 @@
 using CommerceCore.Domain.Entities;
 
-namespace CommerceCore.Infrastructure.Extensions;
+namespace CommerceCore.Infrastructure.Data.Extensions;
 
 public static class CategoryQueryExtensions
 {
