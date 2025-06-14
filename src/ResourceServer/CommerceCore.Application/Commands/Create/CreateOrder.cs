@@ -11,7 +11,7 @@ public record CreateOrderCommand(
     CreateOrderDTO Order
 ) : IRequest<OrderResponse>;
 
-public class CreateOrderCommandHandler(IOrderRepository orderRepository, IProductVariantRepository variantRepository, ICartRepository cartRepository, IUnitOfWork unitOfWork)
+public class CreateOrderCommandHandler(IOrderRepository orderRepository, ICartRepository cartRepository, IUnitOfWork unitOfWork)
     : IRequestHandler<CreateOrderCommand, OrderResponse>
 {
     public async Task<OrderResponse> Handle(
