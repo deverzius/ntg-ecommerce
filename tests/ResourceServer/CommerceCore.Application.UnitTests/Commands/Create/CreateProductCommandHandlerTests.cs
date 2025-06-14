@@ -6,6 +6,8 @@ using CommerceCore.Domain.Entities;
 using CommerceCore.Shared.Exceptions;
 using Moq;
 
+namespace CommerceCore.Application.UnitTests.Commands.Create;
+
 public class CreateProductCommandHandlerTests
 {
     private readonly Mock<IProductRepository> _productRepositoryMock = new();
@@ -44,10 +46,10 @@ public class CreateProductCommandHandlerTests
         var categoryId = Guid.NewGuid();
         var category = new Category { Id = categoryId, Name = "Cat", Description = "Desc" };
         var variants = new List<CreateProductVariantDTO>
-        {
-            new("Color", "Red", "Red", new List<Guid>()),
-            new("Size", "M", "Medium", new List<Guid>())
-        };
+    {
+        new("Color", "Red", "Red", new List<Guid>()),
+        new("Size", "M", "Medium", new List<Guid>())
+    };
         var command = new CreateProductCommand(
             new CreateProductDTO(
             "Test Product",
