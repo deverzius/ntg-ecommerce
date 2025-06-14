@@ -71,7 +71,7 @@ public class AddItemsToCartCommandHandlerTests
         _variantRepositoryMock.Setup(r => r.GetByIdAsync(variantId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(productVariant);
         _unitOfWorkMock.Setup(u => u.SaveAsync(It.IsAny<CancellationToken>()))
-            .Returns(Task.FromResult(2));
+            .Returns(Task.FromResult(1));
 
         var handler = CreateHandler();
 

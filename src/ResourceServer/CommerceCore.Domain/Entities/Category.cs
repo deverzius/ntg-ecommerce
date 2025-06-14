@@ -2,7 +2,7 @@ namespace CommerceCore.Domain.Entities;
 
 public class Category
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; set; }
     public required string Name { get; init; }
     public required string Description { get; init; }
     public Guid? ParentCategoryId { get; init; }
