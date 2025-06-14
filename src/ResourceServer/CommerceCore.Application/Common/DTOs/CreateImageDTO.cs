@@ -1,6 +1,6 @@
-namespace CommerceCore.Shared.DTOs.Create;
+namespace CommerceCore.Application.Common.DTOs;
 
-public record CreateImageRequest(
+public record CreateImageDTO(
     string Name,
     string? Url,
     string Type,

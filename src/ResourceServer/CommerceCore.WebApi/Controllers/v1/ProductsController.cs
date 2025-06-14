@@ -1,10 +1,10 @@
 ﻿using CommerceCore.Application.Commands.Create;
 using CommerceCore.Application.Commands.Delete;
 using CommerceCore.Application.Commands.Update;
+using CommerceCore.Application.Common.DTOs;
 using CommerceCore.Application.Queries.Get;
 using CommerceCore.Application.Queries.List;
 using CommerceCore.Shared.DTOs.Common;
-using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -68,7 +68,7 @@ public class ProductsController() : ControllerBase
     [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> PostProduct(
         ISender sender,
-        CreateProductRequest productRequest
+        CreateProductDTO productRequest
     )
     {
         var command = new CreateProductCommand(productRequest);

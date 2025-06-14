@@ -1,5 +1,5 @@
 using CommerceCore.Application.Commands.Create;
-using CommerceCore.Shared.DTOs.Create;
+using CommerceCore.Application.Common.DTOs;
 using CommerceCore.Shared.DTOs.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,7 @@ public class ImagesController : ControllerBase
     [ProducesResponseType(typeof(ImageResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> PostImage(
         ISender sender,
-        [FromForm] CreateImageRequest request,
+        [FromForm] CreateImageDTO request,
         IFormFile? file
     )
     {

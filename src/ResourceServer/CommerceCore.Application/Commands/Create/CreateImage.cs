@@ -2,7 +2,6 @@ using CommerceCore.Application.Common.Interfaces;
 using CommerceCore.Application.Common.Interfaces.Repositories;
 using CommerceCore.Application.Common.Mappers;
 using CommerceCore.Domain.Entities;
-using CommerceCore.Shared.DTOs.Create;
 using CommerceCore.Shared.DTOs.Responses;
 using CommerceCore.Shared.Exceptions;
 using MediatR;
@@ -10,7 +9,7 @@ using MediatR;
 namespace CommerceCore.Application.Commands.Create;
 
 public record CreateImageCommand(
-    CreateImageRequest Image,
+    CreateImageDTO Image,
     byte[] FileData
 ) : IRequest<ImageResponse>;
 

@@ -6,7 +6,7 @@ using MediatR;
 namespace CommerceCore.Application.Commands.Create;
 
 public record CreateProductCommand(
-    CreateProductRequest Product
+    CreateProductDTO Product
 ) : IRequest<ProductResponse>;
 
 public class CreateProductCommandHandler(
