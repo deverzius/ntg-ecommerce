@@ -16,6 +16,17 @@ public class ProductVariantRepository(IAppDbContext dbContext) : IProductVariant
             .FirstOrDefaultAsync(pv => pv.Id == id, cancellationToken);
     }
 
+    public async Task<ICollection<ProductVariant>> GetByIdsAsync(
+        ICollection<Guid> ids,
+        CancellationToken cancellationToken
+    )
+    {
+        return await _dbSet
+            .Include(pv => pv.Product)
+            .Where(pv => ids.Contains(pv.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(ProductVariant item, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(item, cancellationToken);

@@ -8,6 +8,5 @@ public class OrderItem
     public required string ProductVariantName { get; init; }
     public required string ProductVariantValue { get; init; }
 
-    public Product CurrentProduct { get; init; } = null!;
-    public ProductVariant CurrentProductVariant { get; init; } = null!;
+    public required ProductVariant CurrentProductVariant { get; init; } = null!;
 }

@@ -9,11 +9,13 @@ public class CartRepository(IAppDbContext dbContext) : ICartRepository
 {
     private readonly DbSet<Cart> _dbSet = dbContext.Carts;
 
-    public async Task<Cart?> GetCartByUserId(Guid UserId, CancellationToken cancellationToken)
+    public async Task<Cart?> GetCartByUserIdAsync(Guid UserId, CancellationToken cancellationToken)
     {
         return await _dbSet
             .Include(c => c.CartItems)
             .ThenInclude(ci => ci.ProductVariant)
+            .ThenInclude(pv => pv.Product)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(
                 c => c.UserId == UserId,
                 cancellationToken

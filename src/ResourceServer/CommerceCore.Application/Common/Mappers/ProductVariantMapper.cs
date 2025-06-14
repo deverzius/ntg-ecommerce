@@ -11,6 +11,7 @@ public static class ProductVariantMapper
             variant.Name,
             variant.Value,
             variant.DisplayValue,
+            variant.Product.Id,
             variant.Images.Select(i => i.ToDto()).ToList()
         );
     }

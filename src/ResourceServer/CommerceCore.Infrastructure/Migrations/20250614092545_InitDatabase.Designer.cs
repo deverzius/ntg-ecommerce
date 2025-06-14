@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceCore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250612102029_InitDatabase")]
+    [Migration("20250614092545_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -403,9 +403,6 @@ namespace CommerceCore.Infrastructure.Migrations
 
                             SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
 
-                            b1.Property<Guid>("CurrentProductId")
-                                .HasColumnType("uniqueidentifier");
-
                             b1.Property<Guid>("CurrentProductVariantId")
                                 .HasColumnType("uniqueidentifier");
 
@@ -432,17 +429,9 @@ namespace CommerceCore.Infrastructure.Migrations
 
                             b1.HasKey("OrderId", "Id");
 
-                            b1.HasIndex("CurrentProductId");
-
                             b1.HasIndex("CurrentProductVariantId");
 
                             b1.ToTable("OrderItems");
-
-                            b1.HasOne("CommerceCore.Domain.Entities.Product", "CurrentProduct")
-                                .WithMany()
-                                .HasForeignKey("CurrentProductId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
 
                             b1.HasOne("CommerceCore.Domain.Entities.ProductVariant", "CurrentProductVariant")
                                 .WithMany()
@@ -452,8 +441,6 @@ namespace CommerceCore.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
-
-                            b1.Navigation("CurrentProduct");
 
                             b1.Navigation("CurrentProductVariant");
                         });

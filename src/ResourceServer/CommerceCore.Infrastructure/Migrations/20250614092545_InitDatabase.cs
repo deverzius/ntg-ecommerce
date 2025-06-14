@@ -230,7 +230,6 @@ namespace CommerceCore.Infrastructure.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ProductVariantName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ProductVariantValue = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CurrentProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CurrentProductVariantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -246,12 +245,6 @@ namespace CommerceCore.Infrastructure.Migrations
                         name: "FK_OrderItems_ProductVariants_CurrentProductVariantId",
                         column: x => x.CurrentProductVariantId,
                         principalTable: "ProductVariants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Products_CurrentProductId",
-                        column: x => x.CurrentProductId,
-                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -299,11 +292,6 @@ namespace CommerceCore.Infrastructure.Migrations
                 name: "IX_Categories_ParentCategoryId",
                 table: "Categories",
                 column: "ParentCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_CurrentProductId",
-                table: "OrderItems",
-                column: "CurrentProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_CurrentProductVariantId",

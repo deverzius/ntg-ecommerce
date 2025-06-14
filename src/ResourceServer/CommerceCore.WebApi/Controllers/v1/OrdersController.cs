@@ -1,3 +1,5 @@
+using CommerceCore.Application.Commands.Create;
+using CommerceCore.Application.Common.DTOs;
 using CommerceCore.Application.Queries.List;
 using CommerceCore.Shared.DTOs.Common;
 using CommerceCore.Shared.DTOs.Responses;
@@ -45,5 +47,20 @@ public class OrdersController : ControllerBase
         var result = await sender.Send(myOrdersQuery);
 
         return Ok(result);
+    }
+
+    [HttpPost("my-orders")]
+    [Authorize]
+    [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status201Created)]
+    public async Task<IActionResult> PostOrder(
+        ISender sender,
+        CreateOrderDTO order
+    )
+    {
+        var command = new CreateOrderCommand(User.ExtractUserId(), order);
+        var result = await sender.Send(command);
+
+        // TODO: GetMyOrder endpoint
+        return CreatedAtAction(nameof(GetMyOrders), new { id = result.Id }, result);
     }
 }

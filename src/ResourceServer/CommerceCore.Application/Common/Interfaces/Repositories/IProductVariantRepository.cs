@@ -4,6 +4,6 @@ namespace CommerceCore.Application.Common.Interfaces.Repositories;
 
 public interface IProductVariantRepository : IWriteRepository<ProductVariant>
 {
-    // Task<PagedResult<Product>> GetPagedResultAsync(GetProductsQuery query, CancellationToken cancellationToken);
     Task<ProductVariant?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<ICollection<ProductVariant>> GetByIdsAsync(ICollection<Guid> id, CancellationToken cancellationToken);
 }

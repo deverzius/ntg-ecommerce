@@ -6,6 +6,5 @@ public record OrderItemResponse(
     string ProductName,
     string ProductVariantName,
     string ProductVariantValue,
-    ProductResponse CurrentProduct,
-    ProductVariantResponse CurrentProductVariant
+    Guid ProductVariantId
 );

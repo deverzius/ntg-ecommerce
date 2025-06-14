@@ -61,10 +61,6 @@ public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
                 .IsRequired()
                 .HasMaxLength(100);
 
-            oi.HasOne(oi => oi.CurrentProduct)
-                .WithMany()
-                .IsRequired();
-
             oi.HasOne(oi => oi.CurrentProductVariant)
                 .WithMany()
                 .IsRequired();

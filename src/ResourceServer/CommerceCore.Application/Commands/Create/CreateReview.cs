@@ -43,7 +43,7 @@ public class CreateReviewCommandHandler(IReviewRepository reviewRepository, IUni
             Rating = request.Rating,
             Title = request.Title,
             Comment = request.Comment,
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTime.UtcNow,
             ProductId = request.ProductId,
             FullName = request.FullName,
             PhoneNumber = request.PhoneNumber,

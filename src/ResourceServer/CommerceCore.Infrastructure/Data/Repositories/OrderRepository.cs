@@ -15,6 +15,8 @@ public class OrderRepository(IAppDbContext dbContext) : IOrderRepository
     {
         return await _dbSet
             .Where(o => o.UserId == query.UserId)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.CurrentProductVariant)
             .AsNoTracking()
             .AsSplitQuery()
             .SortBy(query.Sort)
@@ -26,6 +28,8 @@ public class OrderRepository(IAppDbContext dbContext) : IOrderRepository
     public async Task<PagedResult<Order>> GetPagedResultAsync(GetOrdersQuery query, CancellationToken cancellationToken)
     {
         return await _dbSet
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.CurrentProductVariant)
             .AsNoTracking()
             .AsSplitQuery()
             .SortBy(query.Sort)

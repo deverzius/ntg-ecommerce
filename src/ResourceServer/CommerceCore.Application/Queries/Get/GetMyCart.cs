@@ -13,7 +13,7 @@ public class GetMyCartQueryHandler(ICartRepository repository)
         CancellationToken cancellationToken
     )
     {
-        var result = await repository.GetCartByUserId(query.UserId, cancellationToken);
+        var result = await repository.GetCartByUserIdAsync(query.UserId, cancellationToken);
 
         return result?.ToDto();
     }

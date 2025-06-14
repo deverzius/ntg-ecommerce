@@ -27,8 +27,7 @@ public static class OrderMapper
             orderItem.ProductName,
             orderItem.ProductVariantName,
             orderItem.ProductVariantValue,
-            orderItem.CurrentProduct.ToDto(),
-            orderItem.CurrentProductVariant.ToDto()
+            orderItem.CurrentProductVariant.Id
         );
     }
 }

@@ -19,7 +19,7 @@ public class AddItemsToCartCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var cart = await cartRepository.GetCartByUserId(command.UserId, cancellationToken);
+        var cart = await cartRepository.GetCartByUserIdAsync(command.UserId, cancellationToken);
         if (cart is null)
         {
             throw new AppException(404, "Cart not found for user.");
